@@ -23,8 +23,6 @@ class ApacheArrow < Formula
   def install
     ENV.cxx11
     args = %W[
-      -DARROW_MIMALLOC=OFF
-      -DARROW_JEMALLOC=OFF
       -DARROW_COMPUTE=ON
       -DARROW_CSV=ON
       -DARROW_DATASET=ON
@@ -33,6 +31,7 @@ class ApacheArrow < Formula
       -DARROW_JSON=ON
       -DARROW_PARQUET=ON
       -DARROW_BUILD_SHARED=OFF
+      -DARROW_JEMALLOC=ON
       -DARROW_USE_GLOG=OFF
       -DARROW_PYTHON=OFF
       -DARROW_S3=ON
@@ -64,7 +63,7 @@ class ApacheArrow < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-std=c++11", "-I#{include}", "-L#{lib}", "-larrow", "-o", "test"
+    system ENV.cxx, "test.cpp", "-std=c++11", "-I#{include}", "-L#{lib}", "-larrow", "-larrow_bundled_dependencies", "-o", "test"
     system "./test"
   end
 end
