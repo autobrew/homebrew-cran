@@ -93,12 +93,12 @@ class V8Static < Formula
     # setup gn args
     gn_args = {
       v8_enable_reverse_jsargs:     false,
-      v8_monolithic:		    true,
-      v8_static_library:	    true,
+      v8_monolithic:                true,
+      v8_static_library:            true,
       is_debug:                     false,
       is_asan:                      false,
-      is_official_build: 	    false,
-      use_gold:		 	    false,
+      is_official_build:            false,
+      use_gold:                     false,
       v8_use_external_startup_data: false,
       v8_enable_i18n_support:       false, # enables i18n support with icu
       clang_base_path:              "\"/usr/\"", # uses system clang instead of Google clang
@@ -135,8 +135,6 @@ class V8Static < Formula
 
   test do
     assert_equal "Hello World!", shell_output("#{bin}/d8 -e 'print(\"Hello World!\");'").chomp
-    t = "#{bin}/d8 -e 'print(new Intl.DateTimeFormat(\"en-US\").format(new Date(\"2012-12-20T03:00:00\")));'"
-    assert_match %r{12/\d{2}/2012}, shell_output(t).chomp
 
     (testpath/"test.cpp").write <<~EOS
       #include <libplatform/libplatform.h>
