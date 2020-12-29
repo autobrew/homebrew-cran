@@ -5,6 +5,13 @@ class AwsSdkCppStatic < Formula
   sha256 "5448a7c99d385a83783d4b0243a2f2ba29c5d6f8534f103c781e844be8824778"
   license "Apache-2.0"
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/aws-sdk-cpp-static-1.8.110"
+    cellar :any_skip_relocation
+    sha256 "4a3ef7ce846997ecbdbba9542a5f53246430d7b76935c6be0ff4f400a5a7232d" => :big_sur
+    sha256 "ee5afee9ccc9c2dd2c94817a27a9e310fc82d497f3543a7436cddc7d6c4914a7" => :catalina
+  end
+
   depends_on "cmake" => :build
 
   uses_from_macos "curl"
