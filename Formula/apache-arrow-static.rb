@@ -10,6 +10,7 @@ class ApacheArrowStatic < Formula
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-2.0.0"
     cellar :any
+    sha256 "3783c16c7f4168bc53fe0ec8dae9274f83fa4e03360ef8849b5a283e372f2c9e" => :arm64_big_sur
     sha256 "d751dba6846b3f3e092914a684e5ed7d5a33a13711d370fa724bc3b3bc5ece05" => :big_sur
     sha256 "ff3f4d7d8e99e71b09740ac478d32f7c4ef05ebc6252058b69c57b4604b11912" => :catalina
   end
@@ -21,6 +22,8 @@ class ApacheArrowStatic < Formula
   depends_on "snappy"
   depends_on "thrift"
   depends_on "zstd"
+
+  conflicts_with "apache-arrow", because: "both install Arrow"
 
   patch do
     # Fix ARM detection, remove for 3.0.0
