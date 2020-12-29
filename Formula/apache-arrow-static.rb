@@ -1,4 +1,4 @@
-class ApacheArrow < Formula
+class ApacheArrowStatic < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
   url "https://downloads.apache.org/arrow/arrow-2.0.0/apache-arrow-2.0.0.tar.gz"
