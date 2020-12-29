@@ -1,0 +1,30 @@
+name: Building
+
+on:
+  pull_request:
+    paths:
+      - 'Formula/*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-16.04
+          - macos-10.15
+          - macos-11.0
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+      - name: Build bottles
+        run: |
+          brew test-bot --only-cleanup-before
+          brew test-bot --only-formulae --skip-recursive-dependents
+      - name: Upload bottles
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: bottles
+          path: '*.bottle.*'
