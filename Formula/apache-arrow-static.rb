@@ -7,6 +7,13 @@ class ApacheArrowStatic < Formula
   sha256 "be0342cc847bb340d86aeaef43596a0b6c1dbf1ede9c789a503d939e01c71fbe"
   head "https://github.com/apache/arrow.git"
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-2.0.0"
+    cellar :any
+    sha256 "d751dba6846b3f3e092914a684e5ed7d5a33a13711d370fa724bc3b3bc5ece05" => :big_sur
+    sha256 "ff3f4d7d8e99e71b09740ac478d32f7c4ef05ebc6252058b69c57b4604b11912" => :catalina
+  end
+
   depends_on "boost" => :build
   depends_on "cmake" => :build
   depends_on "aws-sdk-cpp-static"
