@@ -12,10 +12,10 @@ class V8Static < Formula
   end
 
   bottle do
-    cellar :any
-    sha256 "50f51a34a06ca28c52401df43275755396b7fdee7e8f18356cedf026884783eb" => :big_sur
-    sha256 "19550a7952ac8e8882e746ec5c9cd17f8903a6e1e3859bd10c3255f373af4e13" => :catalina
-    sha256 "b8222edfa40c8838b910eefe67b17c5b278447e94dc4d365ae9cb55d0e35d7e9" => :mojave
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-8.7.220.29"
+    cellar :any_skip_relocation
+    sha256 "6f3dd872f4d7407b811c853b730581b71859e55563e7aceaf5a303e42f4cd0fc" => :big_sur
+    sha256 "c3be4811ff02c2eef39790ce1208996c3a76323556d1ed947814eb38f437acef" => :catalina
   end
 
   depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1200
