@@ -1,4 +1,4 @@
-class FfmpegStatic < Formula
+class FfmpegLite < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
   # None of these parts are used by default, you have to explicitly pass `--enable-gpl`
