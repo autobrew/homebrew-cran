@@ -13,6 +13,7 @@ class PopplerLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/poppler-lite-20.12.1"
+    sha256 "0b1684e32c452b4c14e31e73f91556934a1bde32b67d6261bc667e4c07a7a8e2" => :arm64_big_sur
     sha256 "8af99da35054c0992e32b9b022acc7f0ca2e6909d27f96cb840dd709a240353a" => :big_sur
     sha256 "a9095e265a0e38dfcdae67949677b1e704d3e225b8ee571b42dc35f84be31508" => :catalina
   end
