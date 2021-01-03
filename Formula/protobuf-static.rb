@@ -10,6 +10,13 @@ class ProtobufStatic < Formula
     strategy :github_latest
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/protobuf-static-3.14.0"
+    cellar :any_skip_relocation
+    sha256 "5a97fdb4781619f2fda43bf42eae50102260caedba79a7c5e9f31452efce214c" => :big_sur
+    sha256 "ea15bcdb4b2f9ce2d3219ba9a2068cd6bf217bcd14913e1a48c3a1fccd2a3292" => :catalina
+  end
+
   head do
     url "https://github.com/protocolbuffers/protobuf.git"
 
