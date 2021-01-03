@@ -14,6 +14,7 @@ class MariadbConnectorCStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/mariadb-connector-c-static-3.1.11"
+    sha256 "62842fe5c03658fddbf050aba71b95fa7f43401c91d20e94292e28a9fb22bab0" => :arm64_big_sur
     sha256 "1ea703722e4835ffe1eba3957c50ca12ddd601670d038af50f84c2b2cff2131f" => :big_sur
     sha256 "ec1a9f9bab66c33e964fe44cecfe9593d1f27f0ff177d77ca8104149a3397025" => :catalina
   end
