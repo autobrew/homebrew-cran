@@ -12,6 +12,12 @@ class MariadbConnectorCStatic < Formula
     regex(%r{href=.*?connector-c/v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/mariadb-connector-c-static-3.1.11"
+    sha256 "1ea703722e4835ffe1eba3957c50ca12ddd601670d038af50f84c2b2cff2131f" => :big_sur
+    sha256 "ec1a9f9bab66c33e964fe44cecfe9593d1f27f0ff177d77ca8104149a3397025" => :catalina
+  end
+
   depends_on "cmake" => :build
   depends_on "openssl@1.1"
 
