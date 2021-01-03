@@ -1,8 +1,8 @@
 class HarfbuzzLite < Formula
   desc "OpenType text shaping engine"
   homepage "https://github.com/harfbuzz/harfbuzz"
-  url "https://github.com/harfbuzz/harfbuzz/archive/2.7.4.tar.gz"
-  sha256 "daff8a4003ac420a8550760ed303ce33b310c8ea17b7f15b307d1969cabcebcb"
+  url "https://github.com/harfbuzz/harfbuzz/releases/download/2.6.8/harfbuzz-2.6.8.tar.xz"
+  sha256 "6648a571a27f186e47094121f0095e1b809e918b3037c630c7f38ffad86e3035"
   license "MIT"
   head "https://github.com/harfbuzz/harfbuzz.git"
 
@@ -15,8 +15,6 @@ class HarfbuzzLite < Formula
   end
 
   depends_on "glib" => :build
-  depends_on "meson" => :build
-  depends_on "ninja" => :build
   depends_on "pkgconfig" => :build
   depends_on "cairo"
   depends_on "freetype"
@@ -27,23 +25,23 @@ class HarfbuzzLite < Formula
   end
 
   def install
-    args = %w[
-      --default-library=both
-      -Dcairo=enabled
-      -Dcoretext=enabled
-      -Dfreetype=enabled
-      -Dglib=enabled
-      -Dgobject=disabled
-      -Dgraphite=disabled
-      -Dicu=disabled
-      -Dintrospection=disabled
+    args = %W[
+      --disable-dependency-tracking
+      --prefix=#{prefix}
+      --enable-introspection=no
+      --enable-static
+      --with-cairo=yes
+      --with-coretext=yes
+      --with-freetype=yes
+      --with-glib=yes
+      --with-gobject=no
+      --with-graphite2=no
+      --with-icu=no
     ]
 
-    mkdir "build" do
-      system "meson", *std_meson_args, *args, ".."
-      system "ninja"
-      system "ninja", "install"
-    end
+    system "./autogen.sh" if build.head?
+    system "./configure", *args
+    system "make", "install"
   end
 
   test do
