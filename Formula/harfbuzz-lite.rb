@@ -9,6 +9,7 @@ class HarfbuzzLite < Formula
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/harfbuzz-lite-2.6.8"
     cellar :any
+    sha256 "fdf58f8aa463f731859d7922a58dfa58aefcfba82f8a2797daab5cbca945897f" => :arm64_big_sur
     sha256 "1cfa33549d9d284455b6820af97ea60a0408538a825452c5c36191ef60e02f40" => :big_sur
     sha256 "bdfda0669e73b409b0ffaa19ee4b3fd4e8112fd5b84aeeb3a32a45445549803e" => :catalina
   end
