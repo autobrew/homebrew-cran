@@ -43,7 +43,8 @@ class MariadbConnectorCStatic < Formula
     args << "-DOPENSSL_INCLUDE_DIR=#{Formula["openssl@1.1"].opt_include}"
     args << "-DCOMPILATION_COMMENT=Homebrew"
 
-    ENV["CFLAGS"] = "-DMYSQL_CLIENT=1" #hack to fix static plugin build
+    # Fixes static plugin build
+    ENV["CFLAGS"] = "-DMYSQL_CLIENT=1"
 
     system "cmake", ".", *args
     system "make", "install"
