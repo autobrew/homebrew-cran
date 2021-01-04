@@ -15,6 +15,12 @@ class ImagemagickStatic < Formula
     regex(/href=.*?ImageMagick[._-]v?(6(?:\.\d+)+(?:-\d+)?)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/imagemagick-static-6.9.11-54"
+    sha256 "5c5d7c4115df2da74c0133605a14110ea1b061cd4fc00ecbcb8aa6e58a9b682a" => :big_sur
+    sha256 "f6ba3d9fc4fb90827317e49b40824720c0bd368bd72863c543a4b86f0cd0683d" => :catalina
+  end
+
   depends_on "pkg-config" => :build
   depends_on "gettext" => :test
   depends_on "fontconfig"
