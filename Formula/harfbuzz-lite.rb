@@ -1,20 +1,22 @@
 class HarfbuzzLite < Formula
   desc "OpenType text shaping engine"
   homepage "https://github.com/harfbuzz/harfbuzz"
-  url "https://github.com/harfbuzz/harfbuzz/releases/download/2.6.8/harfbuzz-2.6.8.tar.xz"
-  sha256 "6648a571a27f186e47094121f0095e1b809e918b3037c630c7f38ffad86e3035"
+  url "https://github.com/harfbuzz/harfbuzz/archive/2.7.4.tar.gz"
+  sha256 "daff8a4003ac420a8550760ed303ce33b310c8ea17b7f15b307d1969cabcebcb"
   license "MIT"
   head "https://github.com/harfbuzz/harfbuzz.git"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/harfbuzz-lite-2.6.8"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/harfbuzz-lite-2.7.4"
     cellar :any
-    sha256 "fdf58f8aa463f731859d7922a58dfa58aefcfba82f8a2797daab5cbca945897f" => :arm64_big_sur
-    sha256 "1cfa33549d9d284455b6820af97ea60a0408538a825452c5c36191ef60e02f40" => :big_sur
-    sha256 "bdfda0669e73b409b0ffaa19ee4b3fd4e8112fd5b84aeeb3a32a45445549803e" => :catalina
+    sha256 "69976500f28a36e1d2377b3854adacbc0bc5aec750bdc404cc9f64f6f62424b4" => :arm64_big_sur
+    sha256 "28ed4df908d4b019db13e75f0c2732e274ccd64ae93844f27443f78b9faedd60" => :big_sur
+    sha256 "72672e648846753c8d22f2903c17063ec6e2f3e850866f2bc2f69d7400b319c0" => :catalina
   end
 
   depends_on "glib" => :build
+  depends_on "meson" => :build
+  depends_on "ninja" => :build
   depends_on "pkgconfig" => :build
   depends_on "cairo"
   depends_on "freetype"
@@ -25,23 +27,23 @@ class HarfbuzzLite < Formula
   end
 
   def install
-    args = %W[
-      --disable-dependency-tracking
-      --prefix=#{prefix}
-      --enable-introspection=no
-      --enable-static
-      --with-cairo=yes
-      --with-coretext=yes
-      --with-freetype=yes
-      --with-glib=yes
-      --with-gobject=no
-      --with-graphite2=no
-      --with-icu=no
+    args = %w[
+      --default-library=both
+      -Dcairo=enabled
+      -Dcoretext=enabled
+      -Dfreetype=enabled
+      -Dglib=enabled
+      -Dgobject=disabled
+      -Dgraphite=disabled
+      -Dicu=disabled
+      -Dintrospection=disabled
     ]
 
-    system "./autogen.sh" if build.head?
-    system "./configure", *args
-    system "make", "install"
+    mkdir "build" do
+      system "meson", *std_meson_args, *args, ".."
+      system "ninja"
+      system "ninja", "install"
+    end
   end
 
   test do
