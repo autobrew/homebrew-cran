@@ -10,6 +10,12 @@ class OpencvStatic < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/opencv-static-4.5.0"
+    sha256 "3c8bbddb950f1b43f4e8c811e77b09ded14f9a016eb705a786f80e96c9db3c7c" => :big_sur
+    sha256 "3bd83058071da2791f2616e9013b948707328fcb6565bcfa4a692d6286e45bc3" => :catalina
+  end
+
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "eigen"
