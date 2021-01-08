@@ -11,6 +11,12 @@ class GlibLite < Formula
     url :stable
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/glib-lite-2.66.4"
+    sha256 "36358586fa7435f04864f8e4b198e70b592758ade611159aca95db72ff3d7cd4" => :big_sur
+    sha256 "bf75e06dc2472043c585f9df519c0f5b4506f5629436978ba22245b517ca2869" => :catalina
+  end
+
   # All this formula does is disable COCOA which leads to:
   # Class GNotificationCenterDelegate is implemented in both rsvg, magick
 
