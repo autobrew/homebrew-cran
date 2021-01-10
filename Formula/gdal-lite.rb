@@ -10,6 +10,12 @@ class GdalLite < Formula
     regex(/href=.*?gdal[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdal-lite-3.2.0"
+    sha256 "59c3d14da4111d53d4cf35c4dcceb8f5f58c46e14e45d7c403db62beece18887" => :big_sur
+    sha256 "0c7d4f602c8ac49518141df67acad577a1d4701663a937a781a4569ccb761af5" => :catalina
+  end
+
   head do
     url "https://github.com/OSGeo/gdal.git"
     depends_on "doxygen" => :build
