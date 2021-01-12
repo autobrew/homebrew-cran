@@ -4,9 +4,9 @@ class ImagemagickStatic < Formula
   # Please always keep the Homebrew mirror as the primary URL as the
   # ImageMagick site removes tarballs regularly which means we get issues
   # unnecessarily and older versions of the formula are broken.
-  url "https://dl.bintray.com/homebrew/mirror/imagemagick%406-6.9.11-55.tar.xz"
-  mirror "https://www.imagemagick.org/download/releases/ImageMagick-6.9.11-55.tar.xz"
-  sha256 "f6d9ae928b690e0e5cf63c728745429ab36d7a92e64ecb021e484fe564b6fbe0"
+  url "https://dl.bintray.com/homebrew/mirror/imagemagick%406-6.9.11-57.tar.xz"
+  mirror "https://www.imagemagick.org/download/releases/ImageMagick-6.9.11-57.tar.xz"
+  sha256 "1a1d35a6e702a498d34b4a4f9fbf5aab228ee233d18b83f742163071fc6b7e05"
   license "ImageMagick"
   head "https://github.com/imagemagick/imagemagick6.git"
 
@@ -27,7 +27,9 @@ class ImagemagickStatic < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "jpeg"
+  depends_on "libheif"
   depends_on "libpng"
+  depends_on "libraw"
   depends_on "librsvg"
   depends_on "libtiff"
   depends_on "libtool"
@@ -60,6 +62,8 @@ class ImagemagickStatic < Formula
       --with-openjp2
       --with-pango
       --with-rsvg
+      --with-raw
+      --with-heic
       --with-gs-font-dir=/usr/local/share/ghostscript/fonts
       --without-gslib
       --without-fftw
@@ -69,7 +73,7 @@ class ImagemagickStatic < Formula
     ]
 
     # versioned stuff in main tree is pointless for us
-    inreplace "configure", "${PACKAGE_NAME}-${PACKAGE_VERSION}", "${PACKAGE_NAME}"
+    inreplace "configure", "${PACKAGE_NAME}-${PACKAGE_BASE_VERSION}", "${PACKAGE_NAME}"
     system "./configure", *args
     system "make", "install"
   end
@@ -78,7 +82,7 @@ class ImagemagickStatic < Formula
     assert_match "PNG", shell_output("#{bin}/identify #{test_fixtures("test.png")}")
     # Check support for recommended features and delegates.
     features = shell_output("#{bin}/convert -version")
-    %w[fontconfig pango cairo rsvg webp freetype jpeg jp2 png tiff].each do |feature|
+    %w[raw heic fontconfig pango cairo rsvg webp freetype jpeg jp2 png tiff].each do |feature|
       assert_match feature, features
     end
   end
