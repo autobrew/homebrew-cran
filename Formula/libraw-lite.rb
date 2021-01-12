@@ -10,6 +10,13 @@ class LibrawLite < Formula
     regex(/href=.*?LibRaw[._-]v?(\d+(?:\.\d+)*)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libraw-lite-0.20.2"
+    cellar :any
+    sha256 "05c8c0eaea41486861b29a8c66a0b574eefcb50cddf88c0ed692f19287bfde94" => :big_sur
+    sha256 "4d712244d01291bfb15580043ac85ecec7d30344022f664c8ed4e46c6343f2fe" => :catalina
+  end
+
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
