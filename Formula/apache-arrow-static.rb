@@ -1,14 +1,14 @@
 class ApacheArrowStatic < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://downloads.apache.org/arrow/arrow-2.0.0/apache-arrow-2.0.0.tar.gz"
+  # url "https://downloads.apache.org/arrow/arrow-3.0.0/apache-arrow-3.0.0.tar.gz"
   # Uncomment and update to test on a release candidate
-  # url "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-2.0.0-rc2/apache-arrow-2.0.0.tar.gz"
-  sha256 "be0342cc847bb340d86aeaef43596a0b6c1dbf1ede9c789a503d939e01c71fbe"
+  url "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-3.0.0-rc0/apache-arrow-3.0.0.tar.gz"
+  sha256 "47fc0aa552ed207b45b10c1580bd21f886d77d40229d60ec48b35736607bb416"
   head "https://github.com/apache/arrow.git"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-2.0.0"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-3.0.0"
     cellar :any
     sha256 "3783c16c7f4168bc53fe0ec8dae9274f83fa4e03360ef8849b5a283e372f2c9e" => :arm64_big_sur
     sha256 "d751dba6846b3f3e092914a684e5ed7d5a33a13711d370fa724bc3b3bc5ece05" => :big_sur
@@ -25,11 +25,6 @@ class ApacheArrowStatic < Formula
 
   conflicts_with "apache-arrow", because: "both install Arrow"
 
-  patch do
-    # Fix ARM detection, remove for 3.0.0
-    url "https://github.com/apache/arrow/commit/7df87aca022ab6a309a6ee515370686aa3bcc013.patch?full_index=1"
-  end
-
   def install
     ENV.cxx11
     args = %W[
@@ -42,6 +37,7 @@ class ApacheArrowStatic < Formula
       -DARROW_PARQUET=ON
       -DARROW_BUILD_SHARED=OFF
       -DARROW_JEMALLOC=ON
+      -DARROW_MIMALLOC=ON
       -DARROW_USE_GLOG=OFF
       -DARROW_PYTHON=OFF
       -DARROW_S3=ON
