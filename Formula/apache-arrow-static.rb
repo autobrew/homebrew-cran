@@ -10,7 +10,7 @@ class ApacheArrowStatic < Formula
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-3.0.0"
     cellar :any
-    sha256 "61b9f319297991c4a03e6c17e5ba5e58f07fffa26b111ce9ed7a84df66e75910" => :arm64_big_sur
+    sha256 "9348f39d8e10876f446f734729a25c340a888b27e1c4be9642495279633818c0" => :arm64_big_sur
     sha256 "7132f09b2f65a9e14c4cabd76b2cefbb6663ec5d4b235c6469ab18b4f4a42d59" => :big_sur
     sha256 "f34c2242f9e2d3747ff2c1837c31285ee7c16394cf01eebe80c657095d2e82ee" => :catalina
   end
@@ -37,7 +37,6 @@ class ApacheArrowStatic < Formula
       -DARROW_PARQUET=ON
       -DARROW_BUILD_SHARED=OFF
       -DARROW_JEMALLOC=ON
-      -DARROW_MIMALLOC=ON
       -DARROW_USE_GLOG=OFF
       -DARROW_PYTHON=OFF
       -DARROW_S3=ON
@@ -52,6 +51,8 @@ class ApacheArrowStatic < Formula
       -DLZ4_HOME=#{Formula["lz4"].prefix}
       -DTHRIFT_HOME=#{Formula["thrift"].prefix}
     ]
+
+    args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?
 
     mkdir "build"
     cd "build" do
