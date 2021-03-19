@@ -4,9 +4,9 @@ class ImagemagickStatic < Formula
   # Please always keep the Homebrew mirror as the primary URL as the
   # ImageMagick site removes tarballs regularly which means we get issues
   # unnecessarily and older versions of the formula are broken.
-  url "https://dl.bintray.com/homebrew/mirror/imagemagick%406-6.9.11-57.tar.xz"
-  mirror "https://www.imagemagick.org/download/releases/ImageMagick-6.9.11-57.tar.xz"
-  sha256 "1a1d35a6e702a498d34b4a4f9fbf5aab228ee233d18b83f742163071fc6b7e05"
+  url "https://dl.bintray.com/homebrew/mirror/ImageMagick-6.9.12-3.tar.xz"
+  mirror "https://www.imagemagick.org/download/releases/ImageMagick-6.9.12-3.tar.xz"
+  sha256 "b9bf05a49f878713d96bc9c88d21414adaf2a542125530e2dee8a07128ef8ed1"
   license "ImageMagick"
   head "https://github.com/imagemagick/imagemagick6.git"
 
@@ -20,6 +20,11 @@ class ImagemagickStatic < Formula
     sha256 arm64_big_sur: "52489f1fef59e8fc8a02334bceac3f7ad243d9d6a3f8c3d6925874e683332e88"
     sha256 big_sur:       "2655e14531075144149aefe6e9cfdda99ed0df9179677af8b4134015e3572f58"
     sha256 catalina:      "0d41ab3c54f9dd8764e7f7b0b8fc2ab1c5eccda0b20700591e7034c691aea7e6"
+  end
+
+  # Hardcode thresholds.xml
+  patch do
+    url "https://patch-diff.githubusercontent.com/raw/ImageMagick/ImageMagick6/pull/141.diff"
   end
 
   depends_on "pkg-config" => :build
