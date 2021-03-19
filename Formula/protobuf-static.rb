@@ -12,10 +12,9 @@ class ProtobufStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/protobuf-static-3.14.0"
-    cellar :any_skip_relocation
-    sha256 "075c41c950ea164f8e757713b069c29f60d3229e15a987b1885e0693687c9ee6" => :arm64_big_sur
-    sha256 "5a97fdb4781619f2fda43bf42eae50102260caedba79a7c5e9f31452efce214c" => :big_sur
-    sha256 "ea15bcdb4b2f9ce2d3219ba9a2068cd6bf217bcd14913e1a48c3a1fccd2a3292" => :catalina
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "075c41c950ea164f8e757713b069c29f60d3229e15a987b1885e0693687c9ee6"
+    sha256 cellar: :any_skip_relocation, big_sur:       "5a97fdb4781619f2fda43bf42eae50102260caedba79a7c5e9f31452efce214c"
+    sha256 cellar: :any_skip_relocation, catalina:      "ea15bcdb4b2f9ce2d3219ba9a2068cd6bf217bcd14913e1a48c3a1fccd2a3292"
   end
 
   head do

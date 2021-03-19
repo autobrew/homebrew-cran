@@ -13,9 +13,9 @@ class GlibLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/glib-lite-2.66.4"
-    sha256 "4359ba3bb9f7de80e5b0a4e32846965e7b948d34a8b5be426c8291d5fb0c40d4" => :arm64_big_sur
-    sha256 "36358586fa7435f04864f8e4b198e70b592758ade611159aca95db72ff3d7cd4" => :big_sur
-    sha256 "bf75e06dc2472043c585f9df519c0f5b4506f5629436978ba22245b517ca2869" => :catalina
+    sha256 arm64_big_sur: "4359ba3bb9f7de80e5b0a4e32846965e7b948d34a8b5be426c8291d5fb0c40d4"
+    sha256 big_sur:       "36358586fa7435f04864f8e4b198e70b592758ade611159aca95db72ff3d7cd4"
+    sha256 catalina:      "bf75e06dc2472043c585f9df519c0f5b4506f5629436978ba22245b517ca2869"
   end
 
   # All this formula does is disable COCOA which leads to:

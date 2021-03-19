@@ -13,10 +13,9 @@ class V8Static < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-8.7.220.29"
-    cellar :any_skip_relocation
-    sha256 "f4b537c7cf411248f58045719a2e231e6d9d0671b09b468d5835e1da6d58f4b5" => :arm64_big_sur
-    sha256 "6f3dd872f4d7407b811c853b730581b71859e55563e7aceaf5a303e42f4cd0fc" => :big_sur
-    sha256 "c3be4811ff02c2eef39790ce1208996c3a76323556d1ed947814eb38f437acef" => :catalina
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f4b537c7cf411248f58045719a2e231e6d9d0671b09b468d5835e1da6d58f4b5"
+    sha256 cellar: :any_skip_relocation, big_sur:       "6f3dd872f4d7407b811c853b730581b71859e55563e7aceaf5a303e42f4cd0fc"
+    sha256 cellar: :any_skip_relocation, catalina:      "c3be4811ff02c2eef39790ce1208996c3a76323556d1ed947814eb38f437acef"
   end
 
   depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1200

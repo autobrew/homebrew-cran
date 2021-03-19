@@ -25,9 +25,9 @@ class FfmpegLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/ffmpeg-lite-4.3.1"
-    sha256 "988cec9495538e8a43fdec1d4bfde9d6dc4be7976a26ec148ed3eb940028e618" => :arm64_big_sur
-    sha256 "110e80049aee6d85f335265a871685035038dfd481b18c9b1d0a795d31b2769a" => :big_sur
-    sha256 "3b5227d01d8e7d9e3156b0e7788c2723f72541541ee2214d20244b2758adc254" => :catalina
+    sha256 arm64_big_sur: "988cec9495538e8a43fdec1d4bfde9d6dc4be7976a26ec148ed3eb940028e618"
+    sha256 big_sur:       "110e80049aee6d85f335265a871685035038dfd481b18c9b1d0a795d31b2769a"
+    sha256 catalina:      "3b5227d01d8e7d9e3156b0e7788c2723f72541541ee2214d20244b2758adc254"
   end
 
   depends_on "nasm" => :build

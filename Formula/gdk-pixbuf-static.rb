@@ -11,9 +11,9 @@ class GdkPixbufStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdk-pixbuf-static-2.36.12"
-    sha256 "bbee911de59b53d05b6d39b8fd42f3e5b98ab410846cfdd07f8b17bf7b9b643c" => :arm64_big_sur
-    sha256 "92b5b6a9cb7aebd8f118a0e2b9885676d89da4a29196c3b9d3f5d53b2b4663f2" => :big_sur
-    sha256 "770ce07605b6d18bea5f07f082ebdc27d1b135329ea5c4ba019dc54f47a2b51f" => :catalina
+    sha256 arm64_big_sur: "bbee911de59b53d05b6d39b8fd42f3e5b98ab410846cfdd07f8b17bf7b9b643c"
+    sha256 big_sur:       "92b5b6a9cb7aebd8f118a0e2b9885676d89da4a29196c3b9d3f5d53b2b4663f2"
+    sha256 catalina:      "770ce07605b6d18bea5f07f082ebdc27d1b135329ea5c4ba019dc54f47a2b51f"
   end
 
   depends_on "pkg-config" => :build
