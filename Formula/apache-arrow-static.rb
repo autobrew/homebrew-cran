@@ -9,8 +9,9 @@ class ApacheArrowStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-4.0.0"
-    sha256 cellar: :any, big_sur:  "73af52992ff3da289d3a1af38d94688056fa85cedb7b98a5612f01455091a470"
-    sha256 cellar: :any, catalina: "746b78d7ef3c6740d5901e10f24f8c4edf981aac63024cdc1a85fe7e56c208d6"
+    sha256 cellar: :any, arm64_big_sur: "b25136b3b12ea6e1f659f54a94a9347bce3b72d48c76b0ddeca2cf436f3d056a"
+    sha256 cellar: :any, big_sur:       "73af52992ff3da289d3a1af38d94688056fa85cedb7b98a5612f01455091a470"
+    sha256 cellar: :any, catalina:      "746b78d7ef3c6740d5901e10f24f8c4edf981aac63024cdc1a85fe7e56c208d6"
   end
 
   depends_on "boost" => :build
