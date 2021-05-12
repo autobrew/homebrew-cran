@@ -6,6 +6,7 @@ class ApacheArrowStatic < Formula
   # url "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-4.0.0-rc3/apache-arrow-4.0.0.tar.gz"
   sha256 "4a31d0bf702e953bdbcda67af10762a33308281bd247fcbd152ee177419649ae"
   head "https://github.com/apache/arrow.git"
+  revision 1
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-4.0.0"
