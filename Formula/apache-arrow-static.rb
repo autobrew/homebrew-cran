@@ -1,15 +1,15 @@
 class ApacheArrowStatic < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://downloads.apache.org/arrow/arrow-4.0.0/apache-arrow-4.0.0.tar.gz"
+  # url "https://downloads.apache.org/arrow/arrow-4.0.0/apache-arrow-4.0.0.tar.gz"
   # Uncomment and update to test on a release candidate
-  # url "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-4.0.0-rc3/apache-arrow-4.0.0.tar.gz"
-  sha256 "4a31d0bf702e953bdbcda67af10762a33308281bd247fcbd152ee177419649ae"
+  url "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-4.0.1-rc1/apache-arrow-4.0.1.tar.gz"
+  sha256 "75ccbfa276b925c6b1c978a920ff2f30c4b0d3fdf8b51777915b6f69a211896e"
   head "https://github.com/apache/arrow.git"
   revision 1
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-4.0.0_1"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-4.0.1"
     sha256 cellar: :any, arm64_big_sur:  "f0880024fddc620ee57b0aae6f1d4305e34be888b9cf1a936a905f21035cba1f"
     sha256 cellar: :any, big_sur:  "55fa5b9204c8152d05ecb69f0950c0237e4456b9713909c5fbffce6351d20cc9"
     sha256 cellar: :any, catalina: "87cc2596aa3b76a2ce629f3bb18ac77c287c447592e0ea7651b3fdf5c90f8755"
