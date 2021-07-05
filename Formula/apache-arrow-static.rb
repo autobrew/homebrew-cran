@@ -25,6 +25,9 @@ class ApacheArrowStatic < Formula
   conflicts_with "apache-arrow", because: "both install Arrow"
 
   def install
+    # https://github.com/Homebrew/homebrew-core/issues/76537
+    ENV.runtime_cpu_detection if Hardware::CPU.intel?
+
     ENV.cxx11
     args = %W[
       -DARROW_COMPUTE=ON
