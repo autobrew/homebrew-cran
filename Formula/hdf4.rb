@@ -5,8 +5,9 @@ class Hdf4 < Formula
   sha256 "dbeeef525af7c2d01539906c28953f0fdab7dba603d1bc1ec4a5af60d002c459"
 
   bottle do
-    root_url "https://autobrew.github.io/bottles"
-    sha256 cellar: :any, high_sierra: "0c6b89b04d458dbec257b3d8702459b8d1168a8edda4c93b7701a5f804fdebc2"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/hdf4-4.2.15"
+    sha256 cellar: :any, big_sur:  "9bb7d63d507734ee2ac425432d61f060c1e36601ddeb030040b6d5fcb114b9ea"
+    sha256 cellar: :any, catalina: "c93355cf4fb1853fbda30ad0943c9ee8d9fa189b536c4982e84a2411eacd2f53"
   end
 
   depends_on "gcc" => :build
