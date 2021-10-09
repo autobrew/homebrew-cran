@@ -33,6 +33,10 @@ class Hdf4 < Formula
     system "./configure", *args
     system "make", "install"
     (lib/"libhdf4.settings").unlink
+    (bin/"ncdump").unlink
+    (bin/"ncgen").unlink
+    (share/"man/man1/ncdump.1").unlink
+    (share/"man/man1/ncgen.1").unlink
   end
 
   test do
