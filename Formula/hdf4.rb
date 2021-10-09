@@ -6,6 +6,7 @@ class Hdf4 < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/hdf4-4.2.15"
+    sha256 cellar: :any, arm64_big_sur:  "020df5ea763c951097819f58cc8f2f51b3160c7835b97021f3fb8a749750ea1e"
     sha256 cellar: :any, big_sur:  "9bb7d63d507734ee2ac425432d61f060c1e36601ddeb030040b6d5fcb114b9ea"
     sha256 cellar: :any, catalina: "c93355cf4fb1853fbda30ad0943c9ee8d9fa189b536c4982e84a2411eacd2f53"
   end
