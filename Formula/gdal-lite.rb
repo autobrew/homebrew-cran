@@ -1,8 +1,8 @@
 class GdalLite < Formula
   desc "Geospatial Data Abstraction Library"
   homepage "https://www.gdal.org/"
-  url "https://download.osgeo.org/gdal/3.2.0/gdal-3.2.0.tar.xz"
-  sha256 "b051f852600ffdf07e337a7f15673da23f9201a9dbb482bd513756a3e5a196a6"
+  url "https://download.osgeo.org/gdal/3.3.2/gdal-3.3.2.tar.xz"
+  sha256 "630e34141cf398c3078d7d8f08bb44e804c65bbf09807b3610dcbfbc37115cc3"
   license "MIT"
 
   livecheck do
@@ -27,6 +27,7 @@ class GdalLite < Formula
   depends_on "freexl"
   depends_on "geos"
   depends_on "giflib"
+  depends_on "hdf4"
   depends_on "hdf5"
   depends_on "jpeg"
   depends_on "json-c"
@@ -85,6 +86,7 @@ class GdalLite < Formula
       "--with-proj=#{Formula["proj"].opt_prefix}",
       "--with-zstd=#{Formula["zstd"].opt_prefix}",
       "--with-liblzma=yes",
+      "--with-hdf4=#{Formula["hdf4"].opt_prefix}",
       "--with-hdf5=#{Formula["hdf5"].opt_prefix}",
       "--with-netcdf=#{Formula["netcdf"].opt_prefix}",
       "--with-openjpeg",
@@ -112,7 +114,6 @@ class GdalLite < Formula
       "--without-fgdb",
       "--without-fme",
       "--without-gta",
-      "--without-hdf4",
       "--without-idb",
       "--without-ingres",
       "--without-jp2mrsid",
