@@ -12,7 +12,7 @@ class GdalLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdal-lite-3.3.2"
-    sha256 arm64_big_sur: "a54164e07a711e87dd9464e07858543ff2b00a670b570e1e75fc90012d02281c"
+    sha256 arm64_big_sur: "6c989b0e375de81d0b75aabdbc11bdc6f1f4bb387ec7374aa81cc62f16e12b94"
     sha256 big_sur:       "d4d7fc8e44f1ee59f04371639617b854e7906b49efd854068488d8adc94641af"
     sha256 catalina:      "afedacbf74e5a4218a6f074ed6da6085bbab7d432068f984ef9f105ec2a1779a"
   end
@@ -106,6 +106,7 @@ class GdalLite < Formula
       "--without-python",
       "--without-poppler",
       "--without-xerces",
+      "--without-cfitsio",
 
       # Unsupported backends are either proprietary or have no compatible version
       # in Homebrew. Podofo is disabled because Poppler provides the same
