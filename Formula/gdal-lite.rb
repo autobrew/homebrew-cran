@@ -4,6 +4,7 @@ class GdalLite < Formula
   url "https://download.osgeo.org/gdal/3.3.2/gdal-3.3.2.tar.xz"
   sha256 "630e34141cf398c3078d7d8f08bb44e804c65bbf09807b3610dcbfbc37115cc3"
   license "MIT"
+  revision 1
 
   livecheck do
     url "https://download.osgeo.org/gdal/CURRENT/"
@@ -106,6 +107,7 @@ class GdalLite < Formula
       "--without-python",
       "--without-poppler",
       "--without-xerces",
+      "--without-cfitsio",
 
       # Unsupported backends are either proprietary or have no compatible version
       # in Homebrew. Podofo is disabled because Poppler provides the same
