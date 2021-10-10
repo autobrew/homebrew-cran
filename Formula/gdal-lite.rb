@@ -11,10 +11,9 @@ class GdalLite < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdal-lite-3.2.0"
-    sha256 arm64_big_sur: "747c965819fcbca555a3c8bbe423e3e21845ef6ab39fb029b5b785bbb944480a"
-    sha256 big_sur:       "59c3d14da4111d53d4cf35c4dcceb8f5f58c46e14e45d7c403db62beece18887"
-    sha256 catalina:      "0c7d4f602c8ac49518141df67acad577a1d4701663a937a781a4569ccb761af5"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdal-lite-3.3.2"
+    sha256 big_sur:  "d4d7fc8e44f1ee59f04371639617b854e7906b49efd854068488d8adc94641af"
+    sha256 catalina: "afedacbf74e5a4218a6f074ed6da6085bbab7d432068f984ef9f105ec2a1779a"
   end
 
   head do
