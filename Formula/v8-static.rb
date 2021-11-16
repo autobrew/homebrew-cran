@@ -2,8 +2,10 @@ class V8Static < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   # Track V8 version from Chrome stable: https://omahaproxy.appspot.com
-  url "https://github.com/v8/v8/archive/8.7.220.29.tar.gz"
-  sha256 "36ebf7a55ccc0f2c765a45f23ed152caceb7612f31ce29d3f49ff1614afbe54d"
+  # revert back to GitHub mirror tar.gz archives once it's synced again
+  url "https://chromium.googlesource.com/v8/v8.git",
+      tag:      "9.6.180.12",
+      revision: "7a8373f18e2327d7dc52600fc9e52cc2f5b6abf6"
   license "BSD-3-Clause"
 
   livecheck do
@@ -18,54 +20,60 @@ class V8Static < Formula
     sha256 cellar: :any_skip_relocation, catalina:      "c3be4811ff02c2eef39790ce1208996c3a76323556d1ed947814eb38f437acef"
   end
 
-  depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1200
   depends_on "ninja" => :build
+  depends_on "python@3.9" => :build
 
-  depends_on xcode: ["10.0", :build] # required by v8
+  on_macos do
+    depends_on "llvm"
+#   depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1200
+    depends_on xcode: ["10.0", :build] # required by v8
+  end
+
+  on_linux do
+    depends_on "pkg-config" => :build
+    depends_on "gcc"
+    depends_on "glib"
+  end
 
   conflicts_with "v8", because: "both install V8"
+  fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://github.com/v8/v8/blob/8.7.220.29/DEPS#L44
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/9.6.180.12/DEPS#52
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "e002e68a48d1c82648eadde2f6aafa20d08c36f2"
+        revision: "0153d369bbccc908f4da4993b1ba82728055926a"
   end
 
-  # e.g.: https://github.com/v8/v8/blob/8.7.220.29/DEPS#L85 for the revision of build for v8 8.7.220.29
-  resource "v8/build" do
-    url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "38a49c12ded01dd8c4628b432cb7eebfb29e77f1"
-  end
-
-  resource "v8/third_party/icu" do
-    url "https://chromium.googlesource.com/chromium/deps/icu.git",
-        revision: "aef20f06d47ba76fdf13abcdb033e2a408b5a94d"
-  end
-
+  # e.g.: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/9.6.180.12/DEPS#93
   resource "v8/base/trace_event/common" do
     url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
-        revision: "23ef5333a357fc7314630ef88b44c3a545881dee"
+        revision: "68d816952258c9d817bba656ee2664b35507f01b"
+  end
+
+  resource "v8/build" do
+    url "https://chromium.googlesource.com/chromium/src/build.git",
+        revision: "ebad8533842661f66b9b905e0ee9890a32f628d5"
   end
 
   resource "v8/third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "4fe018038f87675c083d0cfb6a6b57c274fb1753"
+        revision: "3b49be074d5c1340eeb447e6a8e78427051e675a"
   end
 
   resource "v8/third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "a82a4944a7f2496639f34a89c9923be5908b80aa"
+        revision: "6db8da1615a13fdfab925688bc4bf2eb394a73af"
   end
 
   resource "v8/third_party/markupsafe" do
     url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
-        revision: "f2fb0f21ef1e1d4ffd43be8c63fc3d4928dea7ab"
+        revision: "1b882ef6372b58bfd55a3285f37ed801be9137cd"
   end
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "4668feaaa47973a6f9d9f9caeb14cd03731854f1"
+        revision: "dfa96e81458fb3b39676e45f7e9e000dff789b05"
   end
 
   def install
@@ -74,13 +82,12 @@ class V8Static < Formula
     (buildpath/"third_party/markupsafe").install resource("v8/third_party/markupsafe")
     (buildpath/"third_party/googletest/src").install resource("v8/third_party/googletest/src")
     (buildpath/"base/trace_event/common").install resource("v8/base/trace_event/common")
-    (buildpath/"third_party/icu").install resource("v8/third_party/icu")
     (buildpath/"third_party/zlib").install resource("v8/third_party/zlib")
 
     # Build gn from source and add it to the PATH
     (buildpath/"gn").install resource("gn")
     cd "gn" do
-      system "python", "build/gen.py"
+      system "python3", "build/gen.py"
       system "ninja", "-C", "out/", "gn"
     end
     ENV.prepend_path "PATH", buildpath/"gn/out"
@@ -103,17 +110,16 @@ class V8Static < Formula
       use_gold:                     false,
       v8_use_external_startup_data: false,
       v8_enable_i18n_support:       false, # enables i18n support with icu
-      clang_base_path:              "\"/usr/\"", # uses system clang instead of Google clang
+      clang_base_path:              "\"#{Formula["llvm"].opt_prefix}\"", # uses Homebrew clang instead of Google clang
       clang_use_chrome_plugins:     false, # disable the usage of Google's custom clang plugins
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
     }
 
-    # use clang from homebrew llvm formula for XCode 11- , because the system clang is too old for V8
-    if DevelopmentTools.clang_build_version < 1200
-      ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib # but link against system libc++
-      gn_args[:clang_base_path] = "\"#{Formula["llvm"].prefix}\""
-    end
+    # use clang from homebrew llvm formula, because the system clang is unreliable
+    ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib # but link against system libc++
+    # Make sure private libraries can be found from lib
+    ENV.prepend "LDFLAGS", "-Wl,-rpath,#{libexec}"
 
     # Transform to args string
     gn_args_string = gn_args.map { |k, v| "#{k}=#{v}" }.join(" ")
