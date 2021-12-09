@@ -1,4 +1,4 @@
-class SuiteSparse < Formula
+class SuiteSparseStatic < Formula
   desc "Suite of Sparse Matrix Software"
   homepage "https://people.engr.tamu.edu/davis/suitesparse.html"
   url "https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1.tar.gz"
@@ -11,18 +11,10 @@ class SuiteSparse < Formula
     "GPL-3.0-only",
     any_of: ["LGPL-3.0-or-later", "GPL-2.0-or-later"],
   ]
-  revision 1
 
   livecheck do
     url :stable
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-  end
-
-  bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/suite-sparse-5.10.1"
-    sha256 cellar: :any,                 arm64_big_sur:  "c8fbc735aba72dc8654281521ff0601568d925873c98d2268fa7297cccff72c6"
-    sha256 cellar: :any,                 big_sur:        "ddd29e66d06ca74ae08450c744d516bd4ad8fd42d655afcfac31ddf4f260c6ee"
-    sha256 cellar: :any,                 catalina:       "4c5c24fae85e69e4d3b75ecb79437240c0810ab49324b585f868949a57f4dfcc"
   end
 
   depends_on "cmake" => :build
@@ -38,7 +30,7 @@ class SuiteSparse < Formula
       "BLAS=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "LAPACK=$(BLAS)",
       "CHOLMOD_CONFIG=-DNPARTITION",
-      "CMAKE_OPTIONS=#{std_cmake_args.join(" ")}",
+      "CMAKE_OPTIONS=#{std_cmake_args.join(" ")} -DBUILD_SHARED_LIBS=OFF",
       "JOBS=#{ENV.make_jobs}",
     ]
 
