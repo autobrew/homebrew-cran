@@ -25,7 +25,6 @@ class V8Static < Formula
 
   on_macos do
     depends_on "llvm"
-#   depends_on "llvm" => :build if DevelopmentTools.clang_build_version < 1200
     depends_on xcode: ["10.0", :build] # required by v8
   end
 

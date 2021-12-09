@@ -23,10 +23,6 @@ class ImagemagickStatic < Formula
   end
 
   # Hardcode thresholds.xml
-  patch do
-    url "https://patch-diff.githubusercontent.com/raw/ImageMagick/ImageMagick6/pull/141.diff"
-  end
-
   depends_on "pkg-config" => :build
   depends_on "gettext" => :test
   depends_on "fontconfig"
@@ -45,6 +41,10 @@ class ImagemagickStatic < Formula
   depends_on "xz"
 
   skip_clean :la
+
+  patch do
+    url "https://patch-diff.githubusercontent.com/raw/ImageMagick/ImageMagick6/pull/141.diff"
+  end
 
   def install
     # Avoid references to shim
