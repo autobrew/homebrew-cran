@@ -7,10 +7,9 @@ class AwsSdkCppStatic < Formula
   license "Apache-2.0"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/aws-sdk-cpp-static-1.8.110"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "13a225bea1577c25a8c14c42a70be4e571468ecf08acdb9b676ef8e307bce57e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "4a3ef7ce846997ecbdbba9542a5f53246430d7b76935c6be0ff4f400a5a7232d"
-    sha256 cellar: :any_skip_relocation, catalina:      "ee5afee9ccc9c2dd2c94817a27a9e310fc82d497f3543a7436cddc7d6c4914a7"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/aws-sdk-cpp-static-1.9.163"
+    sha256 cellar: :any_skip_relocation, big_sur:  "a341ae23be8bfbd70125219ff8bc52e71e6c22dbd5b630808c6bac0088ffac4e"
+    sha256 cellar: :any_skip_relocation, catalina: "4f6586822f8b61083a4dcec09a550a2bb2e018dc5804f6d84686d57e6123feaa"
   end
 
   depends_on "cmake" => :build
