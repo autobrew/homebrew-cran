@@ -5,6 +5,7 @@ class ApacheArrowStatic < Formula
   # Uncomment and update to test on a release candidate
   mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-6.0.1-rc1/apache-arrow-6.0.1.tar.gz"
   sha256 "3786b3d2df954d078b3e68f98d2e5aecbaa3fa2accf075d7a3a13c187b9c5294"
+  revision 1
   head "https://github.com/apache/arrow.git"
 
   bottle do
