@@ -19,13 +19,14 @@ class SuiteSparseStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/suite-sparse-static-5.10.1"
-    sha256 cellar: :any_skip_relocation, big_sur:  "78a1de5e34f0217f77a304f08e368d067ea9a6e1cf071a054c48645d63ff1a59"
-    sha256 cellar: :any_skip_relocation, catalina: "2ac7df3ed45f7cb40cf7e102532a9d1396a61e64713058e9cfc7429a45f1ff72"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "9d12c651781bc77d6b29fb72fdd65433b06b03b6d6daa489b7e2720f80f0dd94"
+    sha256 cellar: :any_skip_relocation, big_sur:       "78a1de5e34f0217f77a304f08e368d067ea9a6e1cf071a054c48645d63ff1a59"
+    sha256 cellar: :any_skip_relocation, catalina:      "2ac7df3ed45f7cb40cf7e102532a9d1396a61e64713058e9cfc7429a45f1ff72"
   end
 
   depends_on "cmake" => :build
-  depends_on "mpfr" => :build
   depends_on "gmp" => :build
+  depends_on "mpfr" => :build
 
   uses_from_macos "m4"
 
