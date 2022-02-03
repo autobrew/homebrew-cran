@@ -3,12 +3,12 @@ class ApacheArrowStatic < Formula
   homepage "https://arrow.apache.org/"
   url "https://downloads.apache.org/arrow/arrow-7.0.0/apache-arrow-7.0.0.tar.gz"
   # Uncomment and update to test on a release candidate
-  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-7.0.0-rc8/apache-arrow-7.0.0.tar.gz"
-  sha256 "c493d9c4e1de2028fbbb8522b6bf9a36f4e0a2c05dbbd046df08e87a74fb123e"
+  # mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-7.0.0-rc8/apache-arrow-7.0.0.tar.gz"
+  sha256 "e8f49b149a15ecef4e40fcfab1b87c113c6b1ee186005c169e5cdf95d31a99de"
   head "https://github.com/apache/arrow.git"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-6.0.1"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-7.0.0"
     sha256 cellar: :any, arm64_big_sur: "c6a7a85eb0747ddfe1eb389e9234a9658ae8dbed948f3d2a08ae0dd3061d4a5c"
     sha256 cellar: :any, big_sur:       "767142d88b6be9a36de8d1c5f6f3b64f22284c4bc3c22c9916a65a0b016fd286"
     sha256 cellar: :any, catalina:      "2579168ae3c3266091b8801477fa30355e9095724c9600b72d321fe7b831701f"
