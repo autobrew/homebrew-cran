@@ -1,8 +1,8 @@
 class PopplerLite < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-20.12.1.tar.xz"
-  sha256 "d0aa2586c0a4296c775f0d2045f28bb95a694113fc995f95350faa12930f7b35"
+  url "https://poppler.freedesktop.org/poppler-21.12.0.tar.xz"
+  sha256 "acb840c2c1ec07d07e53c57c4b3a1ff3e3ee2d888d44e1e9f2f01aaf16814de7"
   license "GPL-2.0-only"
   head "https://gitlab.freedesktop.org/poppler/poppler.git"
 
@@ -49,9 +49,11 @@ class PopplerLite < Formula
 
     args = std_cmake_args + %w[
       -DBUILD_GTK_TESTS=OFF
+      -DENABLE_BOOST=OFF
       -DENABLE_CMS=lcms2
       -DENABLE_GLIB=OFF
       -DENABLE_QT5=OFF
+      -DENABLE_QT6=OFF
       -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF
       -DENABLE_NSS3=OFF
       -DWITH_GObjectIntrospection=OFF
