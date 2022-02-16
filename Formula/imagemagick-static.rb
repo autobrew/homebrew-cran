@@ -43,7 +43,7 @@ class ImagemagickStatic < Formula
   skip_clean :la
 
   patch do
-    url "https://patch-diff.githubusercontent.com/raw/ImageMagick/ImageMagick6/pull/141.diff"
+    url "https://autobrew.github.io/patches/imagemagick/141.diff"
   end
 
   def install
