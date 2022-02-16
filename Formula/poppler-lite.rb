@@ -39,13 +39,13 @@ class PopplerLite < Formula
   conflicts_with "pdftohtml", "pdf2image", "xpdf",
     because: "poppler, pdftohtml, pdf2image, and xpdf install conflicting executables"
 
-  patch do
-    url "https://autobrew.github.io/patches/poppler/segfault-on-unset-catalog.patch"
-  end
-
   resource "font-data" do
     url "https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz"
     sha256 "2cec05cd1bb03af98a8b06a1e22f6e6e1a65b1e2f3816cb3069bb0874825f08c"
+  end
+
+  patch do
+    url "https://autobrew.github.io/patches/poppler/segfault-on-unset-catalog.patch"
   end
 
   def install
