@@ -1,8 +1,8 @@
 class OpencvStatic < Formula
   desc "Open source computer vision library"
   homepage "https://opencv.org/"
-  url "https://github.com/opencv/opencv/archive/4.5.0.tar.gz"
-  sha256 "dde4bf8d6639a5d3fe34d5515eab4a15669ded609a1d622350c7ff20dace1907"
+  url "https://github.com/opencv/opencv/archive/4.5.5.tar.gz"
+  sha256 "a1cfdcf6619387ca9e232687504da996aaa9f7b5689986b8331ec02cb61d28ad"
   license "Apache-2.0"
 
   livecheck do
@@ -27,8 +27,8 @@ class OpencvStatic < Formula
   depends_on "webp"
 
   resource "contrib" do
-    url "https://github.com/opencv/opencv_contrib/archive/4.5.0.tar.gz"
-    sha256 "a65f1f0b98b2c720abbf122c502044d11f427a43212d85d8d2402d7a6339edda"
+    url "https://github.com/opencv/opencv_contrib/archive/4.5.5.tar.gz"
+    sha256 "a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11"
   end
 
   def install
