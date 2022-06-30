@@ -15,6 +15,7 @@ class ApacheArrowStatic < Formula
   end
 
   depends_on "boost" => :build
+  depends_on "brotli"
   depends_on "cmake" => :build
   depends_on "aws-sdk-cpp-static"
   depends_on "lz4"
@@ -39,6 +40,8 @@ class ApacheArrowStatic < Formula
       -DARROW_USE_GLOG=OFF
       -DARROW_PYTHON=OFF
       -DARROW_S3=ON
+      -DARROW_WITH_BROTLI=ON
+      -DARROW_WITH_BZ2=ON
       -DARROW_WITH_LZ4=ON
       -DARROW_WITH_SNAPPY=ON
       -DARROW_WITH_ZLIB=ON
