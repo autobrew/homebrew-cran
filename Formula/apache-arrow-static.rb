@@ -5,6 +5,7 @@ class ApacheArrowStatic < Formula
   # Uncomment and update to test on a release candidate
   mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-9.0.0-rc2/apache-arrow-9.0.0.tar.gz"
   sha256 "a9a033f0a3490289998f458680d19579cf07911717ba65afde6cb80070f7a9b5"
+  revision 1
   head "https://github.com/apache/arrow.git"
 
   bottle do
@@ -26,7 +27,12 @@ class ApacheArrowStatic < Formula
   conflicts_with "apache-arrow", because: "both install Arrow"
 
   def install
-    ENV.cxx11
+    # https://github.com/Homebrew/homebrew-core/issues/76537
+    ENV.runtime_cpu_detection if Hardware::CPU.intel?
+
+    # https://github.com/Homebrew/homebrew-core/issues/94724
+    # https://issues.apache.org/jira/browse/ARROW-15664
+    ENV["HOMEBREW_OPTIMIZATION_LEVEL"] = "O2"
     args = %W[
       -DARROW_BUILD_SHARED=OFF
       -DARROW_BUILD_UTILITIES=ON
