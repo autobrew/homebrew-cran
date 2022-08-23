@@ -1,0 +1,48 @@
+name: Testing
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/homebrew/ubuntu16.04:master
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+      - name: Check formulae
+        run: brew test-bot --only-tap-syntax
+  build:
+    if: github.event_name == 'pull_request'
+    needs: check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            container:
+              image: ghcr.io/homebrew/ubuntu16.04:master
+              options: --user=linuxbrew
+          - os: macos-11
+          - os: macos-12
+    runs-on: ${{matrix.os}}
+    container: ${{matrix.container}}
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+      - name: Build bottles
+        run: |
+          mkdir ~/bottles
+          cd ~/bottles
+          brew test-bot
+      - name: Upload bottles
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: bottles
+          path: ~/bottles
+          if-no-files-found: error
