@@ -23,7 +23,13 @@ class ApacheArrowStatic < Formula
   depends_on "thrift"
   depends_on "zstd"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
   conflicts_with "apache-arrow", because: "both install Arrow"
+
+  fails_with gcc: "5"
 
   def install
     ENV.cxx11
