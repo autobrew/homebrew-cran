@@ -15,9 +15,9 @@ class ApacheArrowStatic < Formula
   end
 
   depends_on "boost" => :build
-  depends_on "brotli"
   depends_on "cmake" => :build
   depends_on "aws-sdk-cpp-static"
+  depends_on "brotli"
   depends_on "lz4"
   depends_on "snappy"
   depends_on "thrift"

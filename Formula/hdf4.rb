@@ -14,14 +14,14 @@ class Hdf4 < Formula
 
   depends_on "gcc" => :build
   depends_on "jpeg"
-  depends_on "szip"
+  depends_on "libaec"
 
   def install
     args = %W[
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
-      --with-szlib=#{Formula["szip"].opt_prefix}
+      --with-szlib=#{Formula["libaec"].opt_prefix}
       --enable-build-mode=production
       --enable-fortran
       --disable-netcdf

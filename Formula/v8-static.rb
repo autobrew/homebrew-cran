@@ -24,8 +24,8 @@ class V8Static < Formula
   depends_on "python@3.9" => :build
 
   on_macos do
-    depends_on "llvm"
     depends_on xcode: ["10.0", :build] # required by v8
+    depends_on "llvm"
   end
 
   on_linux do
