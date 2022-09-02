@@ -64,7 +64,7 @@ class ApacheArrowStatic < Formula
 
     args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?
 
-    args << "-DARROW_SYSTEM_LINK_LIBS=-lpthread" if OS.linux?
+    args << "-DINTERFACE_LINK_LIBRARIES=-pthread;pthread" if OS.linux?
 
     mkdir "build"
     cd "build" do
