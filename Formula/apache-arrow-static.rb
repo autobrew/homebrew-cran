@@ -64,6 +64,8 @@ class ApacheArrowStatic < Formula
 
     args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?
 
+    args << "-DARROW_SYSTEM_LINK_LIBS=-lpthread" if OS.linux?
+
     mkdir "build"
     cd "build" do
       system "cmake", "../cpp", *std_cmake_args, *args
