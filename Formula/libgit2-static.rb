@@ -13,14 +13,15 @@ class Libgit2Static < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.4.2"
-    sha256 cellar: :any,                 monterey:     "faa500483e8818fd4ae5338802de995f522e9f6798cc6cc54e191fa7a36cfb0b"
-    sha256 cellar: :any,                 big_sur:      "ab9d52eb06edd8328df913e026dc4ca360e872d322805268448135a932f67ce7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "08ec03081ce7d9fa0514a934f697a3288476c505bc9a3dda016e1bd130276d83"
+    sha256 cellar: :any,                 arm64_big_sur: "26dd42597778392ac4a8700eaea72367fd68f50552c683cec8d401a5f88d3db7"
+    sha256 cellar: :any,                 monterey:      "faa500483e8818fd4ae5338802de995f522e9f6798cc6cc54e191fa7a36cfb0b"
+    sha256 cellar: :any,                 big_sur:       "ab9d52eb06edd8328df913e026dc4ca360e872d322805268448135a932f67ce7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "08ec03081ce7d9fa0514a934f697a3288476c505bc9a3dda016e1bd130276d83"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "libssh2"
+  depends_on "libssh2-static"
 
   def install
     args = std_cmake_args
