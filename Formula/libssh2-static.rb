@@ -13,9 +13,10 @@ class Libssh2Static < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/libssh2-static-1.10.1"
-    sha256 cellar: :any,                 monterey:     "40860f472dfcc2d6bf36db895bc31ab29c837da7ee78fe9b4479ee40d75670a9"
-    sha256 cellar: :any,                 big_sur:      "8435566913758f3fbbac0e9bcbb661b04de4c0fb64203c9f7eea5af224a5ad35"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "4ec34528fcd35c090d8a344429d17d407c8be729f8c75ab459238570dce2ed72"
+    sha256 cellar: :any,                 arm64_big_sur: "6eb820f4f9b826bbf048fd8d2ce43cd2a6429b3d1dd2f6ea3330c76465322e51"
+    sha256 cellar: :any,                 monterey:      "40860f472dfcc2d6bf36db895bc31ab29c837da7ee78fe9b4479ee40d75670a9"
+    sha256 cellar: :any,                 big_sur:       "8435566913758f3fbbac0e9bcbb661b04de4c0fb64203c9f7eea5af224a5ad35"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4ec34528fcd35c090d8a344429d17d407c8be729f8c75ab459238570dce2ed72"
   end
 
   head do
