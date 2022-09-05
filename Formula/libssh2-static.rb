@@ -12,13 +12,10 @@ class Libssh2Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "f9dab718cfa591fa90dc716a337e4c2c1da2db651b669565c3cc08e6a6074f28"
-    sha256 cellar: :any,                 arm64_big_sur:  "db07a7c502116b5a80ae01e82e7f5c54633a8ac7343d369af25af6cc2c7e5bbb"
-    sha256 cellar: :any,                 monterey:       "97126a03685c5538a9ddc95f1cae7f5b4ff9e7e7aba7fd8ebda0e2b48e76575a"
-    sha256 cellar: :any,                 big_sur:        "56dd017876fd446d7283c7db7a6a0729eeebd34016094fdbf9f46b6711c0e26d"
-    sha256 cellar: :any,                 catalina:       "5b30fe11d2ced21be876b56787e5d6900cb991fdd7e6ad3a6058401aa59ee9d7"
-    sha256 cellar: :any,                 mojave:         "70c0928f2cb9034ad07c6242517ebc0e4cfb92b1ab74518f7b510a2ac36e81fe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2ff0fe65fb281d51dab44a53b15ef40ebeebf09a7f4d28e86dfc0cc18e49bbc1"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libssh2-static-1.10.1"
+    sha256 cellar: :any,                 monterey:     "40860f472dfcc2d6bf36db895bc31ab29c837da7ee78fe9b4479ee40d75670a9"
+    sha256 cellar: :any,                 big_sur:      "8435566913758f3fbbac0e9bcbb661b04de4c0fb64203c9f7eea5af224a5ad35"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "4ec34528fcd35c090d8a344429d17d407c8be729f8c75ab459238570dce2ed72"
   end
 
   head do
