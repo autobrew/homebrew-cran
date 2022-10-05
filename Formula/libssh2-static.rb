@@ -47,13 +47,14 @@ class Libssh2Static < Formula
       --with-openssl
       --with-libz
       --with-libssl-prefix=#{Formula["openssl@3"].opt_prefix}
+      CC=gcc-8
     ]
 
     args << "--with-pic" if OS.linux?
 
     system "autoreconf", "-fi"
     system "./configure", *std_configure_args, *args
-    system "make", "install"
+    system "make", "install", "CC=gcc-8"
   end
 
   test do
