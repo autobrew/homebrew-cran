@@ -33,6 +33,10 @@ class Libssh2Static < Formula
   depends_on "libtool" => :build
   depends_on "openssl@3"
 
+  on_linux do
+    depends_on "gcc@8" => [:build, :test]
+  end
+
   uses_from_macos "zlib"
 
   def install

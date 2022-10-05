@@ -24,6 +24,10 @@ class Libgit2Static < Formula
   depends_on "pkg-config" => :build
   depends_on "libssh2-static"
 
+  on_linux do
+    depends_on "gcc@8" => [:build, :test]
+  end
+
   def install
     args = std_cmake_args
     args << "-DBUILD_EXAMPLES=YES"
