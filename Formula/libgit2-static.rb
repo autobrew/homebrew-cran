@@ -25,7 +25,7 @@ class Libgit2Static < Formula
   depends_on "libssh2-static"
 
   on_linux do
-    depends_on "gcc@5" => [:build, :test]
+    depends_on "gcc@5"
   end
 
   def install
