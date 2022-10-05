@@ -5,6 +5,7 @@ class Libssh2Static < Formula
       revision: "6c59eea5a9ea77127ec0fa3d6815c8adc743dba3"
   version "1.10.1"
   license "BSD-3-Clause"
+  revision 1
 
   livecheck do
     url "https://www.libssh2.org/download/"
@@ -30,7 +31,7 @@ class Libssh2Static < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
 
   uses_from_macos "zlib"
 
@@ -40,7 +41,7 @@ class Libssh2Static < Formula
       --disable-examples-build
       --with-openssl
       --with-libz
-      --with-libssl-prefix=#{Formula["openssl@1.1"].opt_prefix}
+      --with-libssl-prefix=#{Formula["openssl@3"].opt_prefix}
     ]
 
     args << "--with-pic" if OS.linux?
