@@ -37,6 +37,7 @@ class Libssh2Static < Formula
 
   on_linux do
     depends_on "gcc@5"
+    conflicts_with "gcc"
   end
 
   def install
