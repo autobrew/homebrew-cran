@@ -29,6 +29,7 @@ class Libgit2Static < Formula
   end
 
   def install
+    ENV["CC"] = "gcc-8"
     args = std_cmake_args
     args << "-DBUILD_EXAMPLES=YES"
     args << "-DBUILD_TESTS=OFF" # Don't build tests.

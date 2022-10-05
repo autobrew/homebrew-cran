@@ -40,6 +40,7 @@ class Libssh2Static < Formula
   end
 
   def install
+    ENV["CC"] = "gcc-8"
     args = %W[
       --disable-silent-rules
       --disable-examples-build
