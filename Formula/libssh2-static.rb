@@ -36,7 +36,7 @@ class Libssh2Static < Formula
   uses_from_macos "zlib"
 
   on_linux do
-    depends_on "gcc@8"
+    depends_on "gcc@5"
   end
 
   def install
