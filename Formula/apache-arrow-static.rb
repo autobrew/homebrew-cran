@@ -1,14 +1,14 @@
 class ApacheArrowStatic < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://downloads.apache.org/arrow/arrow-9.0.0/apache-arrow-9.0.0.tar.gz"
+  url "https://downloads.apache.org/arrow/arrow-10.0.0/apache-arrow-10.0.0.tar.gz"
   # Uncomment and update to test on a release candidate
-  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-9.0.0-rc2/apache-arrow-9.0.0.tar.gz"
-  sha256 "a9a033f0a3490289998f458680d19579cf07911717ba65afde6cb80070f7a9b5"
+  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-10.0.0-rc0/apache-arrow-10.0.0.tar.gz"
+  sha256 "5b46fa4c54f53e5df0019fe0f9d421e93fc906b625ebe8e89eed010d561f1f12"
   head "https://github.com/apache/arrow.git"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-9.0.0"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-10.0.0"
     sha256 cellar: :any, arm64_big_sur: "307e6499bdb1d3a93e6694c1c78cd23d338cca5fb4274c637bd1fb52fe844829"
     sha256 cellar: :any, big_sur:       "e9025220969caf4abb34e41ef2e2db0c72e85ee53425fac964c5621f603db89c"
     sha256 cellar: :any, catalina:      "f685186fd3403c58ec10a824af1e32367d8e639967a1a221f0af4f66f3218848"
@@ -26,7 +26,6 @@ class ApacheArrowStatic < Formula
   conflicts_with "apache-arrow", because: "both install Arrow"
 
   def install
-    ENV.cxx11
     args = %W[
       -DARROW_BUILD_SHARED=OFF
       -DARROW_BUILD_UTILITIES=ON
@@ -74,7 +73,7 @@ class ApacheArrowStatic < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-std=c++11", "-I#{include}", "-L#{lib}", \
+    system ENV.cxx, "test.cpp", "-std=c++17", "-I#{include}", "-L#{lib}", \
       "-larrow", "-larrow_bundled_dependencies", "-o", "test"
     system "./test"
   end
