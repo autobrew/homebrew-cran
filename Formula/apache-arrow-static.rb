@@ -26,7 +26,6 @@ class ApacheArrowStatic < Formula
   conflicts_with "apache-arrow", because: "both install Arrow"
 
   def install
-    ENV.cxx17
     args = %W[
       -DARROW_BUILD_SHARED=OFF
       -DARROW_BUILD_UTILITIES=ON
