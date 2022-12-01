@@ -3,7 +3,7 @@ class ApacheArrowStatic < Formula
   homepage "https://arrow.apache.org/"
   url "https://downloads.apache.org/arrow/arrow-10.0.1/apache-arrow-10.0.1.tar.gz"
   # Uncomment and update to test on a release candidate
-  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-10.0.1-rc0/apache-arrow-10.0.0.tar.gz"
+  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-10.0.1-rc0/apache-arrow-10.0.1.tar.gz"
   sha256 "c814e0670112a22c1a6ec03ab420a52ae236a9a42e9e438c3cbd37f37e658fb3"
   head "https://github.com/apache/arrow.git"
 
