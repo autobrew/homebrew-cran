@@ -8,10 +8,9 @@ class ApacheArrowStatic < Formula
   head "https://github.com/apache/arrow.git"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-10.0.0"
-    sha256 cellar: :any, arm64_big_sur: "fb1bd222eb75e99c5cb32815706dd6d1afac1a2f86a46418cb649150d0a8faec"
-    sha256 cellar: :any, monterey:      "9cc395014578bf974607b299d18a00770a83bc1968299964d646651c1bcd29cc"
-    sha256 cellar: :any, big_sur:       "d310626c313934b980091898a0d1e22a3c0f6c7b8931e2519e8140df19984ae4"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/apache-arrow-static-10.0.1"
+    sha256 cellar: :any, monterey: "73b0c6f7d485dd8c5fc3e424cb8ef829be86326067921e88b011a9411b2923e3"
+    sha256 cellar: :any, big_sur:  "88905e5be82dc9dc138c1ee4a308f4d2fd386710138fc1a4a4e3bd2280850ba6"
   end
 
   depends_on "boost" => :build
