@@ -9,4 +9,4 @@ brew install apache-arrow-static
 
 # CI setup
 
-Based on: https://github.com/dawidd6/homebrew-tap
+~Based on: https://github.com/dawidd6/homebrew-tap~ The workflows are based on those from `brew tap-new`.
