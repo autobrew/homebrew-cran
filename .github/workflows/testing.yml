@@ -10,7 +10,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/homebrew/ubuntu16.04:master
+      image: ghcr.io/homebrew/ubuntu22.04:master
+      options: --user=linuxbrew
     steps:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -23,6 +24,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - os: ubuntu-latest
+            container:
+              image: ghcr.io/homebrew/ubuntu22.04:master
+              options: --user=linuxbrew
           - os: macos-11
           - os: macos-12
     runs-on: ${{matrix.os}}

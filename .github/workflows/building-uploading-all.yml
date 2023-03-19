@@ -12,9 +12,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - macos-11
-          - macos-12
+        include:
+          - os: ubuntu-latest
+            container:
+              image: ghcr.io/homebrew/ubuntu22.04:master
+              options: --user=linuxbrew
+          - os: macos-11
+          - os: macos-12
     runs-on: ${{matrix.os}}
     steps:
       - name: Set up Homebrew
