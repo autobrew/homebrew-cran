@@ -1,80 +1,64 @@
 class ProtobufStatic < Formula
   desc "Protocol buffers (Google's data interchange format)"
   homepage "https://github.com/protocolbuffers/protobuf/"
-  url "https://github.com/protocolbuffers/protobuf/releases/download/v3.14.0/protobuf-all-3.14.0.tar.gz"
-  sha256 "6dd0f6b20094910fbb7f1f7908688df01af2d4f6c5c21331b9f636048674aebf"
   license "BSD-3-Clause"
+  head "https://github.com/protocolbuffers/protobuf.git", branch: "main"
+
+  stable do
+    url "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz"
+    sha256 "2c6a36c7b5a55accae063667ef3c55f2642e67476d96d355ff0acb13dbb47f09"
+
+    # Fix build with Python 3.11. Remove in the next release.
+    patch do
+      url "https://github.com/protocolbuffers/protobuf/commit/da973aff2adab60a9e516d3202c111dbdde1a50f.patch?full_index=1"
+      sha256 "911925e427a396fa5e54354db8324c0178f5c602b3f819f7d471bb569cc34f53"
+    end
+  end
 
   livecheck do
     url :stable
     strategy :github_latest
   end
 
-  bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/protobuf-static-3.14.0"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "075c41c950ea164f8e757713b069c29f60d3229e15a987b1885e0693687c9ee6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "5a97fdb4781619f2fda43bf42eae50102260caedba79a7c5e9f31452efce214c"
-    sha256 cellar: :any_skip_relocation, catalina:      "ea15bcdb4b2f9ce2d3219ba9a2068cd6bf217bcd14913e1a48c3a1fccd2a3292"
+  depends_on "cmake" => :build
+  depends_on "python@3.10" => [:build, :test]
+  depends_on "python@3.11" => [:build, :test]
+
+  uses_from_macos "zlib"
+
+  def pythons
+    deps.map(&:to_formula)
+        .select { |f| f.name.match?(/^python@\d\.\d+$/) }
+        .map { |f| f.opt_libexec/"bin/python" }
   end
 
-  head do
-    url "https://github.com/protocolbuffers/protobuf.git"
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "libtool" => :build
-  end
-
-  depends_on "python@3.9" => [:build, :test]
-
-  conflicts_with "percona-server", "percona-xtrabackup",
-    because: "both install libprotobuf(-lite) libraries"
-
-  resource "six" do
-    url "https://files.pythonhosted.org/packages/6b/34/415834bfdafca3c5f451532e8a8d9ba89a21c9743a0c59fbd0205c7f9426/six-1.15.0.tar.gz"
-    sha256 "30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"
-  end
-
-  # Fix build on Big Sur, remove in next version
-  # https://github.com/protocolbuffers/protobuf/pull/8126
-  patch do
-    url "https://github.com/atomiix/protobuf/commit/d065bd6910a0784232dbbbfd3e5806922d69c622.patch?full_index=1"
-    sha256 "5433b6247127f9ca622b15c9f669efbaac830fa717ed6220081bc1fc3c735f91"
-  end
-
+  # Jeroen: make sure protoc executable is only statically linked
   def install
-    # Don't build in debug mode. See:
-    # https://github.com/Homebrew/homebrew/issues/9279
-    # https://github.com/protocolbuffers/protobuf/blob/5c24564811c08772d090305be36fae82d8f12bbe/configure.ac#L61
-    ENV.prepend "CXXFLAGS", "-DNDEBUG"
-    ENV.cxx11
+    cmake_args = %w[
+      -Dprotobuf_BUILD_LIBPROTOC=ON
+      -Dprotobuf_INSTALL_EXAMPLES=ON
+      -Dprotobuf_BUILD_TESTS=OFF
+    ] + std_cmake_args
 
-    system "./autogen.sh" if build.head?
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}", "--disable-shared", "--with-zlib"
-    system "make"
-    system "make", "check"
-    system "make", "install"
+    system "cmake", "-S", ".", "-B", "build", "-Dprotobuf_BUILD_SHARED_LIBS=OFF", *cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
-    # Install editor support and examples
-    pkgshare.install "editors/proto.vim", "examples"
+    pkgshare.install "editors/proto.vim"
     elisp.install "editors/protobuf-mode.el"
 
     ENV.append_to_cflags "-I#{include}"
     ENV.append_to_cflags "-L#{lib}"
+    ENV["PROTOC"] = bin/"protoc"
 
-    resource("six").stage do
-      system Formula["python@3.9"].opt_bin/"python3", *Language::Python.setup_install_args(libexec)
+    cd "python" do
+      pythons.each do |python|
+        pyext_dir = prefix/Language::Python.site_packages(python)/"google/protobuf/pyext"
+        with_env(LDFLAGS: "-Wl,-rpath,#{rpath(source: pyext_dir)} #{ENV.ldflags}") do
+          system python, *Language::Python.setup_install_args(prefix, python), "--cpp_implementation"
+        end
+      end
     end
-    chdir "python" do
-      system Formula["python@3.9"].opt_bin/"python3", *Language::Python.setup_install_args(libexec),
-                        "--cpp_implementation"
-    end
-
-    version = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
-    site_packages = "lib/python#{version}/site-packages"
-    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
-    (prefix/site_packages/"homebrew-protobuf.pth").write pth_contents
   end
 
   test do
@@ -90,6 +74,9 @@ class ProtobufStatic < Formula
     EOS
     (testpath/"test.proto").write testdata
     system bin/"protoc", "test.proto", "--cpp_out=."
-    system Formula["python@3.9"].opt_bin/"python3", "-c", "import google.protobuf"
+
+    pythons.each do |python|
+      system python, "-c", "import google.protobuf"
+    end
   end
 end
