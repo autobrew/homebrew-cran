@@ -12,13 +12,9 @@ class V8Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "218e6cefd67a49b1c178e7cd1d1842eb920e8d6736468fd6108ac0e507d2ae76"
-    sha256 cellar: :any,                 arm64_monterey: "bd3898303fc0f6e73cd96a3596d9d828bb2a0e19c5ebd1edf0c4b2a17ac732d6"
-    sha256 cellar: :any,                 arm64_big_sur:  "9a7a61b4807b8af282096f1b64f3561fb54f6e290d373cb52374f266834ce6df"
-    sha256 cellar: :any,                 ventura:        "16ed97cc8eb6cee23d8bf8e0d84400e9af4e842ae4a8f58f8436f3ab2f37d094"
-    sha256 cellar: :any,                 monterey:       "89997fd878b141dc66358543b75a2a63ca61861e6047062cfba624e5e9da94b6"
-    sha256 cellar: :any,                 big_sur:        "6b9a184dd7507a544af8038596f9d1aa2231f5e0503762a7a76d56717e5399f5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4afb2e399b65ce0ff88f38c5245e09b16a08813a2018132b20974cab84e04328"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-11.2.214.9"
+    sha256 cellar: :any_skip_relocation, monterey: "a6b58fa19ecae5632cbe68886125ee09f5f4e32d09665bbe3b61e974a8f93cfa"
+    sha256 cellar: :any_skip_relocation, big_sur:  "d790d4f2e83a288cf7c425cb93e639651cf3669ad6029f05668e71f09625acf9"
   end
 
   depends_on "ninja" => :build
