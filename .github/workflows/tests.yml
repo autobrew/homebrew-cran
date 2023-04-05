@@ -11,6 +11,10 @@ jobs:
         os: [ubuntu-22.04, macos-11, macos-12]
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    container:
+      image: ghcr.io/homebrew/ubuntu22.04:master
+    env:
+      HOMEBREW_SIMULATE_MACOS_ON_LINUX: 1
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
