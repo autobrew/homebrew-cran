@@ -2,10 +2,8 @@ class V8Static < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   # Track V8 version from Chrome stable: https://omahaproxy.appspot.com
-  # revert back to GitHub mirror tar.gz archives once it's synced again
-  url "https://chromium.googlesource.com/v8/v8.git",
-      tag:      "9.6.180.12",
-      revision: "7a8373f18e2327d7dc52600fc9e52cc2f5b6abf6"
+  url "https://github.com/v8/v8/archive/11.2.214.9.tar.gz"
+  sha256 "aabdc61eb6ce35225dcce732ae88b3e593f0a054011cae4480cdf76c23509444"
   license "BSD-3-Clause"
 
   livecheck do
@@ -14,65 +12,65 @@ class V8Static < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-9.6.180.12"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "6a6682005c67e7bab95f067af73ef23adfd0778312d7e10d131f21a4df914a1a"
-    sha256 cellar: :any_skip_relocation, big_sur:       "867d34c3d2ea0dc380f34eda40b602540b4a3c705c7141f8bb1453a4c99972ab"
-    sha256 cellar: :any_skip_relocation, catalina:      "61c700f066333d8a6fc1d10794d6de1bef4ef9f7033fb8f2c9bf402531b6ca43"
+    sha256 cellar: :any,                 arm64_ventura:  "218e6cefd67a49b1c178e7cd1d1842eb920e8d6736468fd6108ac0e507d2ae76"
+    sha256 cellar: :any,                 arm64_monterey: "bd3898303fc0f6e73cd96a3596d9d828bb2a0e19c5ebd1edf0c4b2a17ac732d6"
+    sha256 cellar: :any,                 arm64_big_sur:  "9a7a61b4807b8af282096f1b64f3561fb54f6e290d373cb52374f266834ce6df"
+    sha256 cellar: :any,                 ventura:        "16ed97cc8eb6cee23d8bf8e0d84400e9af4e842ae4a8f58f8436f3ab2f37d094"
+    sha256 cellar: :any,                 monterey:       "89997fd878b141dc66358543b75a2a63ca61861e6047062cfba624e5e9da94b6"
+    sha256 cellar: :any,                 big_sur:        "6b9a184dd7507a544af8038596f9d1aa2231f5e0503762a7a76d56717e5399f5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4afb2e399b65ce0ff88f38c5245e09b16a08813a2018132b20974cab84e04328"
   end
 
   depends_on "ninja" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.11" => :build
 
   on_macos do
+    depends_on "llvm" => :build
     depends_on xcode: ["10.0", :build] # required by v8
-    depends_on "llvm"
   end
 
   on_linux do
     depends_on "pkg-config" => :build
-    depends_on "gcc"
     depends_on "glib"
   end
 
-  conflicts_with "v8", because: "both install V8"
   fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/9.6.180.12/DEPS#52
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/11.2.214.9/DEPS#59
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "0153d369bbccc908f4da4993b1ba82728055926a"
+        revision: "b25a2f8c2d33f02082f0f258350f5e22c0973108"
   end
 
-  # e.g.: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/9.6.180.12/DEPS#93
   resource "v8/base/trace_event/common" do
     url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
-        revision: "68d816952258c9d817bba656ee2664b35507f01b"
+        revision: "147f65333c38ddd1ebf554e89965c243c8ce50b3"
   end
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "ebad8533842661f66b9b905e0ee9890a32f628d5"
+        revision: "4d96c496d92cb76c10b201cf9affb2d2027e3a86"
   end
 
   resource "v8/third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "3b49be074d5c1340eeb447e6a8e78427051e675a"
+        revision: "af29db7ec28d6df1c7f0f745186884091e602e07"
   end
 
   resource "v8/third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "6db8da1615a13fdfab925688bc4bf2eb394a73af"
+        revision: "264c07d7e64f2874434a3b8039e101ddf1b01e7e"
   end
 
   resource "v8/third_party/markupsafe" do
     url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
-        revision: "1b882ef6372b58bfd55a3285f37ed801be9137cd"
+        revision: "13f4e8c9e206567eeb13bf585406ddc574005748"
   end
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "dfa96e81458fb3b39676e45f7e9e000dff789b05"
+        revision: "ab0d470309eab637f990878965d0f10ca34f60fc"
   end
 
   def install
@@ -86,7 +84,7 @@ class V8Static < Formula
     # Build gn from source and add it to the PATH
     (buildpath/"gn").install resource("gn")
     cd "gn" do
-      system "python3", "build/gen.py"
+      system "python3.11", "build/gen.py"
       system "ninja", "-C", "out/", "gn"
     end
     ENV.prepend_path "PATH", buildpath/"gn/out"
@@ -155,8 +153,9 @@ class V8Static < Formula
     EOS
 
     # link against installed libc++
-    system ENV.cxx, "-std=c++14", "test.cpp",
-      "-I#{libexec}/include",
-      "-L#{libexec}", "-lv8", "-lv8_libplatform"
+    system ENV.cxx, "-std=c++17", "test.cpp",
+                    "-I#{include}", "-L#{lib}",
+                    "-Wl,-rpath,#{libexec}",
+                    "-lv8", "-lv8_libplatform"
   end
 end
