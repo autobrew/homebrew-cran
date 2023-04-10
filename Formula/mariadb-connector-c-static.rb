@@ -9,8 +9,9 @@ class MariadbConnectorCStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/mariadb-connector-c-static-3.3.4"
-    sha256 monterey: "04a0a7042ea1ca69513ea17b6f76f5cf2b586cd35101324c2514be8f90763c6d"
-    sha256 big_sur:  "ac1110311eb477f744f9d8bc77f5d3e5601f0181f0cdd16b2cdabbd97d0da38c"
+    sha256 arm64_big_sur: "7c71bafe46b53fcf25f91f87e8574b8c9be20711ff28a6ce3ed1754314fd18a9"
+    sha256 monterey:      "04a0a7042ea1ca69513ea17b6f76f5cf2b586cd35101324c2514be8f90763c6d"
+    sha256 big_sur:       "ac1110311eb477f744f9d8bc77f5d3e5601f0181f0cdd16b2cdabbd97d0da38c"
   end
 
   depends_on "cmake" => :build
