@@ -12,8 +12,9 @@ class OpencvStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/opencv-static-4.7.0"
-    sha256 monterey: "9b52090f2fca8d28e4910362794bbe9b586e17ea67c54f22f8428d7b4cb1909d"
-    sha256 big_sur:  "8296ec4477daa502fdfa42879d445599e987824ba81e3617920b48ee27451de7"
+    sha256 arm64_big_sur: "46dfc8714ea28643e790ccf2e59f4c3654da56baa8337ff94a79b51328677846"
+    sha256 monterey:      "9b52090f2fca8d28e4910362794bbe9b586e17ea67c54f22f8428d7b4cb1909d"
+    sha256 big_sur:       "8296ec4477daa502fdfa42879d445599e987824ba81e3617920b48ee27451de7"
   end
 
   depends_on "cmake" => :build

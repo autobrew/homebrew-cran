@@ -12,8 +12,9 @@ class LibrawLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/libraw-lite-0.21.1"
-    sha256 cellar: :any, monterey: "46665da99188841e6afbab46c97969757ec646c356e02a143459a80b582c6b71"
-    sha256 cellar: :any, big_sur:  "8774046bb598df137823ac542378f8c4d015b57c02c8fdae3210577754aa6dc3"
+    sha256 cellar: :any, arm64_big_sur: "0ad8e5839ebd2a04aec536445381ffb005ed0d94c4dd98d0dc7947e44ae5ebfd"
+    sha256 cellar: :any, monterey:      "46665da99188841e6afbab46c97969757ec646c356e02a143459a80b582c6b71"
+    sha256 cellar: :any, big_sur:       "8774046bb598df137823ac542378f8c4d015b57c02c8fdae3210577754aa6dc3"
   end
 
   depends_on "autoconf" => :build
