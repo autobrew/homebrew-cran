@@ -1,16 +1,11 @@
 class MariadbConnectorCStatic < Formula
   desc "MariaDB database connector for C applications"
-  homepage "https://downloads.mariadb.org/connector-c/"
-  url "https://downloads.mariadb.org/f/connector-c-3.1.11/mariadb-connector-c-3.1.11-src.tar.gz"
-  mirror "https://fossies.org/linux/misc/mariadb-connector-c-3.1.11-src.tar.gz"
-  sha256 "3e6f6c399493fe90efdc21a3fe70c30434b7480e8195642a959f1dd7a0fa5b0f"
+  homepage "https://mariadb.org/download/?tab=connector&prod=connector-c"
+  url "https://downloads.mariadb.com/Connectors/c/connector-c-3.3.4/mariadb-connector-c-3.3.4-src.tar.gz"
+  mirror "https://fossies.org/linux/misc/mariadb-connector-c-3.3.4-src.tar.gz/"
+  sha256 "486e5fdf976a8e7fadf583ae912128655e013ac575fa79b2d1af0fb8827a78ed"
   license "LGPL-2.1-or-later"
-  head "https://github.com/mariadb-corporation/mariadb-connector-c.git"
-
-  livecheck do
-    url "https://downloads.mariadb.org/connector-c/+releases/"
-    regex(%r{href=.*?connector-c/v?(\d+(?:\.\d+)+)/?["' >]}i)
-  end
+  head "https://github.com/mariadb-corporation/mariadb-connector-c.git", branch: "3.3"
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/mariadb-connector-c-static-3.1.11"
@@ -32,6 +27,8 @@ class MariadbConnectorCStatic < Formula
     args << "-DWITH_MYSQLCOMPAT=OFF"
     args << "-DCLIENT_PLUGIN_AUTH_GSSAPI_CLIENT=STATIC"
     args << "-DCLIENT_PLUGIN_DIALOG=STATIC"
+    args << "-DCLIENT_PLUGIN_PVIO_NPIPE=STATIC"
+    args << "-DCLIENT_PLUGIN_PVIO_SHMEM=STATIC"
     args << "-DCLIENT_PLUGIN_CLIENT_ED25519=STATIC"
     args << "-DCLIENT_PLUGIN_CACHING_SHA2_PASSWORD=STATIC"
     args << "-DCLIENT_PLUGIN_SHA256_PASSWORD=STATIC"
@@ -41,6 +38,7 @@ class MariadbConnectorCStatic < Formula
     args << "-DWITH_OPENSSL=On"
     args << "-DWITH_EXTERNAL_ZLIB=On"
     args << "-DOPENSSL_INCLUDE_DIR=#{Formula["openssl@1.1"].opt_include}"
+    args << "-DINSTALL_MANDIR=#{share}"
     args << "-DCOMPILATION_COMMENT=Homebrew"
 
     # Fixes static plugin build
