@@ -1,8 +1,8 @@
 class OpencvStatic < Formula
   desc "Open source computer vision library"
   homepage "https://opencv.org/"
-  url "https://github.com/opencv/opencv/archive/4.5.5.tar.gz"
-  sha256 "a1cfdcf6619387ca9e232687504da996aaa9f7b5689986b8331ec02cb61d28ad"
+  url "https://github.com/opencv/opencv/archive/refs/tags/4.7.0.tar.gz"
+  sha256 "8df0079cdbe179748a18d44731af62a245a45ebf5085223dc03133954c662973"
   license "Apache-2.0"
 
   livecheck do
@@ -28,14 +28,20 @@ class OpencvStatic < Formula
   depends_on "tbb"
   depends_on "webp"
 
+  uses_from_macos "zlib"
+
+  fails_with gcc: "5" # ffmpeg is compiled with GCC
+
   resource "contrib" do
-    url "https://github.com/opencv/opencv_contrib/archive/4.5.5.tar.gz"
-    sha256 "a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11"
+    url "https://github.com/opencv/opencv_contrib/archive/refs/tags/4.7.0.tar.gz"
+    sha256 "42df840cf9055e59d0e22c249cfb19f04743e1bdad113d31b1573d3934d62584"
+  end
+
+  def python3
+    "python3.11"
   end
 
   def install
-    ENV.cxx11
-
     resource("contrib").stage buildpath/"opencv_contrib"
 
     # Avoid Accelerate.framework
@@ -85,22 +91,19 @@ class OpencvStatic < Formula
       -DBUILD_opencv_python3=OFF
     ]
 
-    if Hardware::CPU.intel?
-      args << "-DENABLE_AVX=OFF" << "-DENABLE_AVX2=OFF"
-      args << "-DENABLE_SSE41=OFF" << "-DENABLE_SSE42=OFF" unless MacOS.version.requires_sse42?
+    # Ref: https://github.com/opencv/opencv/wiki/CPU-optimizations-build-options
+    if Hardware::CPU.intel? && build.bottle?
+      cpu_baseline = MacOS.version.requires_sse42? ? "SSE4_2" : "SSSE3"
+      args += %W[-DCPU_BASELINE=#{cpu_baseline} -DCPU_BASELINE_REQUIRE=#{cpu_baseline}]
     end
 
-    mkdir "build" do
-      system "cmake", "..", "-DBUILD_SHARED_LIBS=OFF", *args
-      inreplace "modules/core/version_string.inc", "#{HOMEBREW_SHIMS_PATH}/mac/super/", ""
-      system "make"
-      system "make", "install"
+    system "cmake", "-S", ".", "-B", "build_static", *args, "-DBUILD_SHARED_LIBS=OFF"
+    inreplace "build_static/modules/core/version_string.inc", "#{Superenv.shims_path}/", ""
+    system "cmake", "--build", "build_static"
+    system "cmake", "--install", "build_static"
 
-      # Jeroen: fix static linking flags
-      inreplace "#{lib}/pkgconfig/opencv4.pc", "-lAccelerate.framework",
-        "-framework Accelerate -framework AVFoundation"
-      # inreplace "#{lib}/pkgconfig/opencv4.pc", "-llibz.dylib", "-lz"
-    end
+    # Prevent dependents from using fragile Cellar paths
+    inreplace lib/"pkgconfig/opencv#{version.major}.pc", prefix, opt_prefix
   end
 
   test do
@@ -112,8 +115,7 @@ class OpencvStatic < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "-std=c++11", "test.cpp", "-I#{include}/opencv4",
-                    "-o", "test"
-    assert_equal `./test`.strip, version.to_s
+    system ENV.cxx, "-std=c++11", "test.cpp", "-I#{include}/opencv4", "-o", "test"
+    assert_equal shell_output("./test").strip, version.to_s
   end
 end
