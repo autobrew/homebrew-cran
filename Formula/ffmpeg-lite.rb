@@ -1,22 +1,12 @@
 class FfmpegLite < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
+  url "https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz"
+  sha256 "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
   # None of these parts are used by default, you have to explicitly pass `--enable-gpl`
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  head "https://github.com/FFmpeg/FFmpeg.git"
-
-  stable do
-    url "https://ffmpeg.org/releases/ffmpeg-4.3.1.tar.xz"
-    sha256 "ad009240d46e307b4e03a213a0f49c11b650e445b1f8be0dda2a9212b34d2ffb"
-
-    # https://trac.ffmpeg.org/ticket/8760
-    # Remove in next release
-    patch do
-      url "https://github.com/FFmpeg/FFmpeg/commit/7c59e1b0f285cd7c7b35fcd71f49c5fd52cf9315.patch?full_index=1"
-      sha256 "1cbe1b68d70eadd49080a6e512a35f3e230de26b6e1b1c859d9119906417737f"
-    end
-  end
+  head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -30,7 +20,6 @@ class FfmpegLite < Formula
     sha256 catalina:      "3b5227d01d8e7d9e3156b0e7788c2723f72541541ee2214d20244b2758adc254"
   end
 
-  depends_on "nasm" => :build
   depends_on "pkg-config" => :build
   depends_on "lame"
   depends_on "libvorbis"
@@ -42,6 +31,12 @@ class FfmpegLite < Formula
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
 
+  on_intel do
+    depends_on "nasm" => :build
+  end
+
+  fails_with gcc: "5"
+
   def install
     args = %W[
       --prefix=#{prefix}
@@ -49,7 +44,6 @@ class FfmpegLite < Formula
       --enable-pthreads
       --enable-version3
       --enable-hardcoded-tables
-      --enable-avresample
       --cc=#{ENV.cc}
       --host-cflags=#{ENV.cflags}
       --host-ldflags=#{ENV.ldflags}
@@ -64,15 +58,17 @@ class FfmpegLite < Formula
       --disable-indev=jack
     ]
 
+    args << "--enable-videotoolbox" if OS.mac?
+
     system "./configure", *args
     system "make", "install"
 
     # Build and install additional FFmpeg tools
-    system "make", "alltools"
-    bin.install Dir["tools/*"].select { |f| File.executable? f }
+    # system "make", "alltools"
+    # bin.install Dir["tools/*"].select { |f| File.executable? f }
 
     # Fix for Non-executables that were installed to bin/
-    mv bin/"python", pkgshare/"python", force: true
+    # mv bin/"python", pkgshare/"python", force: true
   end
 
   test do
