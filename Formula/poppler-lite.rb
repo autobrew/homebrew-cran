@@ -1,14 +1,14 @@
 class PopplerLite < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-22.02.0.tar.xz"
-  sha256 "e390c8b806f6c9f0e35c8462033e0a738bb2460ebd660bdb8b6dca01556193e1"
+  url "https://poppler.freedesktop.org/poppler-23.04.0.tar.xz"
+  sha256 "b6d893dc7dcd4138b9e9df59a13c59695e50e80dc5c2cacee0674670693951a1"
   license "GPL-2.0-only"
-  head "https://gitlab.freedesktop.org/poppler/poppler.git"
+  head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
   livecheck do
     url :homepage
-    regex(/href=.*?poppler[._-]v?(\d+(?:\.\d+)*)\.t/i)
+    regex(/href=.*?poppler[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
@@ -30,26 +30,25 @@ class PopplerLite < Formula
   depends_on "little-cms2"
   depends_on "openjpeg"
 
-  uses_from_macos "curl"
-
-  on_linux do
-    depends_on "gperf"
-  end
+  uses_from_macos "gperf" => :build
+  uses_from_macos "curl", since: :catalina # 7.55.0 required by poppler
+  uses_from_macos "zlib"
 
   conflicts_with "pdftohtml", "pdf2image", "xpdf",
     because: "poppler, pdftohtml, pdf2image, and xpdf install conflicting executables"
 
-  resource "font-data" do
-    url "https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz"
-    sha256 "2cec05cd1bb03af98a8b06a1e22f6e6e1a65b1e2f3816cb3069bb0874825f08c"
-  end
+  fails_with gcc: "5"
 
-  patch do
-    url "https://autobrew.github.io/patches/poppler/segfault-on-unset-catalog.patch"
+  resource "font-data" do
+    url "https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz"
+    sha256 "c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74"
   end
 
   def install
     ENV.cxx11
+
+    # removes /usr/include from CFLAGS (not clear why)
+    ENV["PKG_CONFIG_SYSTEM_INCLUDE_PATH"] = "/usr/include" if MacOS.version < :mojave
 
     args = std_cmake_args + %w[
       -DBUILD_GTK_TESTS=OFF
@@ -63,25 +62,12 @@ class PopplerLite < Formula
       -DWITH_GObjectIntrospection=OFF
     ]
 
-    system "cmake", ".", *args
-    system "make", "install"
-    system "make", "clean"
-    system "cmake", ".", "-DBUILD_SHARED_LIBS=OFF", *args
-    system "make"
-    lib.install "libpoppler.a"
-    lib.install "cpp/libpoppler-cpp.a"
+    system "cmake", "-S", ".", "-B", "build_static", *args, "-DBUILD_SHARED_LIBS=OFF"
+    system "cmake", "--build", "build_static"
+    system "cmake", "--install", "build_static"
+
     resource("font-data").stage do
       system "make", "install", "prefix=#{prefix}"
-    end
-
-    libpoppler = (lib/"libpoppler.dylib").readlink
-    [
-      "#{lib}/libpoppler-cpp.dylib",
-      *Dir["#{bin}/*"],
-    ].each do |f|
-      macho = MachO.open(f)
-      macho.change_dylib("@rpath/#{libpoppler}", "#{opt_lib}/#{libpoppler}")
-      macho.write!
     end
   end
 
