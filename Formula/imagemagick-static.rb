@@ -11,6 +11,12 @@ class ImagemagickStatic < Formula
     regex(/href=.*?ImageMagick[._-]v?(6(?:[.-]\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/imagemagick-static-6.9.12-84"
+    sha256 monterey: "89865c095547992478d6554f17bf84e3d8198c36189751c89ec11d04bc34c5c1"
+    sha256 big_sur:  "b9ec2b4464dc9206a2cc31dddaae84aad97235fb57141810989d8b8d6fe994f1"
+  end
+
   # Hardcode thresholds.xml
   depends_on "pkg-config" => :build
   depends_on "gettext" => :test
