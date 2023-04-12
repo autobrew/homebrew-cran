@@ -1,18 +1,14 @@
 class ImagemagickStatic < Formula
   desc "Tools and libraries to manipulate images in many formats"
-  homepage "https://www.imagemagick.org/"
-  # Please always keep the Homebrew mirror as the primary URL as the
-  # ImageMagick site removes tarballs regularly which means we get issues
-  # unnecessarily and older versions of the formula are broken.
-  url "https://dl.bintray.com/homebrew/mirror/ImageMagick-6.9.12-3.tar.xz"
-  mirror "https://www.imagemagick.org/download/releases/ImageMagick-6.9.12-3.tar.xz"
-  sha256 "b9bf05a49f878713d96bc9c88d21414adaf2a542125530e2dee8a07128ef8ed1"
+  homepage "https://legacy.imagemagick.org/"
+  url "https://imagemagick.org/archive/releases/ImageMagick-6.9.12-84.tar.xz"
+  sha256 "48e2422a9463b0fabcb14e8e3be5842d92bbdb57a5a96c0c36fa4b337a0050dc"
   license "ImageMagick"
-  head "https://github.com/imagemagick/imagemagick6.git"
+  head "https://github.com/imagemagick/imagemagick6.git", branch: "main"
 
   livecheck do
-    url "https://www.imagemagick.org/download/"
-    regex(/href=.*?ImageMagick[._-]v?(6(?:\.\d+)+(?:-\d+)?)\.t/i)
+    url "https://imagemagick.org/archive/"
+    regex(/href=.*?ImageMagick[._-]v?(6(?:[.-]\d+)+)\.t/i)
   end
 
   bottle do
@@ -41,10 +37,6 @@ class ImagemagickStatic < Formula
   depends_on "xz"
 
   skip_clean :la
-
-  patch do
-    url "https://autobrew.github.io/patches/imagemagick/141.diff"
-  end
 
   def install
     # Avoid references to shim
@@ -77,9 +69,7 @@ class ImagemagickStatic < Formula
       --without-wmf
     ]
 
-    # versioned stuff in main tree is pointless for us
-    inreplace "configure", "${PACKAGE_NAME}-${PACKAGE_BASE_VERSION}", "${PACKAGE_NAME}"
-    system "./configure", *args
+    system "./configure", *std_configure_args, *args
     system "make", "install"
   end
 
