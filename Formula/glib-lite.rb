@@ -52,7 +52,7 @@ class GlibLite < Formula
     # Jeroen: All this formula does is disable COCOA which leads to:
     # Class GNotificationCenterDelegate is implemented in both rsvg, magick
     inreplace "meson.build", "<Cocoa/Cocoa.h>", "<blablabla.str>"
-    inreplace "gio/giomodule.c", "g_type_ensure (g_cocoa_notification_backend_get_type ());", ""
+    inreplace "gio/giomodule.c", "MAC_OS_X_VERSION_MIN_REQUIRED", "0"
 
     # Disable dtrace; see https://trac.macports.org/ticket/30413
     # and https://gitlab.gnome.org/GNOME/glib/-/issues/653
