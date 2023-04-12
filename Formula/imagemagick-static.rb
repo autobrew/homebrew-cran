@@ -13,8 +13,9 @@ class ImagemagickStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/imagemagick-static-6.9.12-84"
-    sha256 monterey: "89865c095547992478d6554f17bf84e3d8198c36189751c89ec11d04bc34c5c1"
-    sha256 big_sur:  "b9ec2b4464dc9206a2cc31dddaae84aad97235fb57141810989d8b8d6fe994f1"
+    sha256 arm64_big_sur: "7b57f2e06bb2681ece86d41cadace6f4e6dd9eadf95b224fe62bb657e0f5e77f"
+    sha256 monterey:      "89865c095547992478d6554f17bf84e3d8198c36189751c89ec11d04bc34c5c1"
+    sha256 big_sur:       "b9ec2b4464dc9206a2cc31dddaae84aad97235fb57141810989d8b8d6fe994f1"
   end
 
   # Hardcode thresholds.xml
