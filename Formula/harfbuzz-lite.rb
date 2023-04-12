@@ -8,8 +8,9 @@ class HarfbuzzLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/harfbuzz-lite-7.1.0"
-    sha256 cellar: :any, monterey: "69d78c747c8cde91aeda9a6885e693910e57c7c36e009bc885eebdebd4d94261"
-    sha256 cellar: :any, big_sur:  "1cfbff1118df2e7c1b664183c3c628e0f194f8527e3189bbda9c35e819634470"
+    sha256 cellar: :any, arm64_big_sur: "4cefdbf6f2b315380b958e7659621a0b4fdbe4f2477530bf863af47c5537936f"
+    sha256 cellar: :any, monterey:      "69d78c747c8cde91aeda9a6885e693910e57c7c36e009bc885eebdebd4d94261"
+    sha256 cellar: :any, big_sur:       "1cfbff1118df2e7c1b664183c3c628e0f194f8527e3189bbda9c35e819634470"
   end
 
   depends_on "glib" => :build

@@ -9,8 +9,9 @@ class GlibLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/glib-lite-2.76.1"
-    sha256 monterey: "0eae6e73f2df39f091d22b45c9583c623178243c612a9a2e59f32674df032b35"
-    sha256 big_sur:  "ca08ca962b0b799792717cd1cd7038e708b2a7cf64c9387d05cc87fab459e355"
+    sha256 arm64_big_sur: "f95196269b515b3885645bf558d790a1df6074ea506eeedaa74130533c3e7afb"
+    sha256 monterey:      "0eae6e73f2df39f091d22b45c9583c623178243c612a9a2e59f32674df032b35"
+    sha256 big_sur:       "ca08ca962b0b799792717cd1cd7038e708b2a7cf64c9387d05cc87fab459e355"
   end
 
   depends_on "gettext" => :build
