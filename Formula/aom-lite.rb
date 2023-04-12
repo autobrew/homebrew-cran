@@ -7,13 +7,9 @@ class AomLite < Formula
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "a42b91d504001259b899320777fbd7890d2bbb658c72be7877cc8473c26f8b13"
-    sha256 cellar: :any,                 arm64_monterey: "82c42edfcd3aa2efd0073059424a80d5a38fe48db5a387a2b18de84a77c82512"
-    sha256 cellar: :any,                 arm64_big_sur:  "f6a3f0cd52dd7bbf7ce6dde8880e3c3db9144c2891f012a9e5ce8e392c071d0f"
-    sha256 cellar: :any,                 ventura:        "d01cb23d675b8706f7ea5c889d2b6dc223c54f84d2b2a496930dcf5d7c725b29"
-    sha256 cellar: :any,                 monterey:       "cecafb1aa837a007e2cde5907515492d059b8bfd4d64983bc4f116edcaa65726"
-    sha256 cellar: :any,                 big_sur:        "3e9ca81ede28cbf3e09e0bca5d7af4529f72d9a27202e7e759ce7f62b0c0b02d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dd6938f444ac758c20caa553b64dbfa4cdebd60b6e572d08b0be69a704599f35"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/aom-lite-3.6.0"
+    sha256 cellar: :any, monterey: "2ece0adfdcd4c53a1575155d8960238b7278d322bf2d36220cef31603eefad56"
+    sha256 cellar: :any, big_sur:  "6163e48178307151d1487334122d214e3797372a0d6165f258831be748fac390"
   end
 
   depends_on "cmake" => :build
