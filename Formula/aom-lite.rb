@@ -8,8 +8,9 @@ class AomLite < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/aom-lite-3.6.0"
-    sha256 cellar: :any, monterey: "2ece0adfdcd4c53a1575155d8960238b7278d322bf2d36220cef31603eefad56"
-    sha256 cellar: :any, big_sur:  "6163e48178307151d1487334122d214e3797372a0d6165f258831be748fac390"
+    sha256 cellar: :any, arm64_big_sur: "d5f0e43550a10282b1ac047873d3bbab00b501ae62c2f85499937a858f48f91a"
+    sha256 cellar: :any, monterey:      "2ece0adfdcd4c53a1575155d8960238b7278d322bf2d36220cef31603eefad56"
+    sha256 cellar: :any, big_sur:       "6163e48178307151d1487334122d214e3797372a0d6165f258831be748fac390"
   end
 
   depends_on "cmake" => :build
