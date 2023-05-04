@@ -27,6 +27,7 @@ class ApacheArrowStatic < Formula
 
   def install
     args = %W[
+      -DARROW_ACERO=ON
       -DARROW_BUILD_SHARED=OFF
       -DARROW_BUILD_UTILITIES=ON
       -DARROW_COMPUTE=ON
