@@ -1,10 +1,10 @@
 class ApacheArrowStatic < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://downloads.apache.org/arrow/arrow-11.0.0/apache-arrow-11.0.0.tar.gz"
+  url "https://downloads.apache.org/arrow/arrow-12.0.0/apache-arrow-12.0.0.tar.gz"
   # Uncomment and update to test on a release candidate
-  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-11.0.0-rc0/apache-arrow-11.0.0.tar.gz"
-  sha256 "2dd8f0ea0848a58785628ee3a57675548d509e17213a2f5d72b0d900b43f5430"
+  mirror "https://dist.apache.org/repos/dist/dev/arrow/apache-arrow-12.0.0-rc0/apache-arrow-12.0.0.tar.gz"
+  sha256 "ddd8347882775e53af7d0965a1902b7d8fcd0a030fd14f783d4f85e821352d52"
   head "https://github.com/apache/arrow.git"
 
   bottle do
