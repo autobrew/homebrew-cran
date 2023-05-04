@@ -11,6 +11,7 @@ jobs:
         include:
           - os: macos-11
           - os: macos-12
+          - os: macos-13
 #          - os: ubuntu-22.04
 #            container:
 #              image: ghcr.io/homebrew/ubuntu22.04:master
