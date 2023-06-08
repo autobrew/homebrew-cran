@@ -21,7 +21,7 @@ class Libgit2Static < Formula
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "libssh2-static"
+  depends_on "libssh2"
 
   def install
     args = std_cmake_args
