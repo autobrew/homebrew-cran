@@ -1,9 +1,9 @@
 class V8Static < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
-  # Track V8 version from Chrome stable: https://omahaproxy.appspot.com
-  url "https://github.com/v8/v8/archive/11.2.214.9.tar.gz"
-  sha256 "aabdc61eb6ce35225dcce732ae88b3e593f0a054011cae4480cdf76c23509444"
+  # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
+  url "https://github.com/v8/v8/archive/11.5.150.22.tar.gz"
+  sha256 "d4c289894f38bc58679f357ded2a8a134f529ee6ba0c618c372c8b9264d519f1"
   license "BSD-3-Clause"
 
   livecheck do
@@ -34,10 +34,10 @@ class V8Static < Formula
   fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/11.2.214.9/DEPS#59
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#59
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "b25a2f8c2d33f02082f0f258350f5e22c0973108"
+        revision: "e9e83d9095d3234adf68f3e2866f25daf766d5c7"
   end
 
   resource "v8/base/trace_event/common" do
@@ -47,7 +47,7 @@ class V8Static < Formula
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "4d96c496d92cb76c10b201cf9affb2d2027e3a86"
+        revision: "7f93a1e7ae8de96f113834f37d01b869a74b7dd3"
   end
 
   resource "v8/third_party/googletest/src" do
@@ -67,7 +67,7 @@ class V8Static < Formula
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "ab0d470309eab637f990878965d0f10ca34f60fc"
+        revision: "14dd4c4455602c9b71a1a89b5cafd1f4030d2e3f"
   end
 
   def install
