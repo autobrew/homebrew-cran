@@ -1,5 +1,5 @@
 class AwsSdkCppStatic < Formula
-  desc "AWS SDK for C++"
+  desc "Static AWS SDK for C++"
   homepage "https://github.com/aws/aws-sdk-cpp"
   url "https://github.com/aws/aws-sdk-cpp.git",
       tag:      "1.9.163",
