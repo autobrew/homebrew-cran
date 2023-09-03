@@ -2,8 +2,8 @@ class V8Static < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
-  url "https://github.com/v8/v8/archive/11.5.150.22.tar.gz"
-  sha256 "d4c289894f38bc58679f357ded2a8a134f529ee6ba0c618c372c8b9264d519f1"
+  url "https://github.com/v8/v8/archive/11.7.439.14.tar.gz"
+  sha256 "487f9c714fec0c2a0270c84105fc55c5a1a16143947385270ac3660b2934adca"
   license "BSD-3-Clause"
 
   livecheck do
@@ -38,7 +38,7 @@ class V8Static < Formula
   # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#59
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "e9e83d9095d3234adf68f3e2866f25daf766d5c7"
+        revision: "811d332bd90551342c5cbd39e133aa276022d7f8"
   end
 
   resource "v8/base/trace_event/common" do
@@ -48,7 +48,12 @@ class V8Static < Formula
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "7f93a1e7ae8de96f113834f37d01b869a74b7dd3"
+        revision: "afe0125ef9e10b400d9ec145aa18fca932369346"
+  end
+
+  resource "v8/third_party/abseil-cpp" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git",
+        revision: "583dc6d1b3a0dd44579718699e37cad2f0c41a26"
   end
 
   resource "v8/third_party/googletest/src" do
@@ -58,21 +63,22 @@ class V8Static < Formula
 
   resource "v8/third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "264c07d7e64f2874434a3b8039e101ddf1b01e7e"
+        revision: "515dd10de9bf63040045902a4a310d2ba25213a0"
   end
 
   resource "v8/third_party/markupsafe" do
     url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
-        revision: "13f4e8c9e206567eeb13bf585406ddc574005748"
+        revision: "006709ba3ed87660a17bd4548c45663628f5ed85"
   end
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "14dd4c4455602c9b71a1a89b5cafd1f4030d2e3f"
+        revision: "526382e41c9c5275dc329db4328b54e4f344a204"
   end
 
   def install
     (buildpath/"build").install resource("v8/build")
+    (buildpath/"third_party/abseil-cpp").install resource("v8/third_party/abseil-cpp")
     (buildpath/"third_party/jinja2").install resource("v8/third_party/jinja2")
     (buildpath/"third_party/markupsafe").install resource("v8/third_party/markupsafe")
     (buildpath/"third_party/googletest/src").install resource("v8/third_party/googletest/src")
