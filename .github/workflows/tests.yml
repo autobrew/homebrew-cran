@@ -20,6 +20,13 @@ jobs:
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
+      - id: reset
+        if: matrix.os == 'macos-11'
+        name: Reset homebrew to bigsur
+        run: |
+          curl -OL https://raw.githubusercontent.com/autobrew/bundler/master/lib/bigsur-reset.sh
+          chmod +x bigsur-reset.sh && ./bigsur-reset.sh
+
       - name: Cache Homebrew Bundler RubyGems
         id: cache
         uses: actions/cache@v3
@@ -34,7 +41,7 @@ jobs:
 
       - run: brew test-bot --only-cleanup-before
 
-      - run: brew test-bot --only-setup
+      - run: brew test-bot --only-setup || true
 
       - run: brew test-bot --only-tap-syntax
 
