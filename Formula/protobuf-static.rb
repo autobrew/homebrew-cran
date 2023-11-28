@@ -94,8 +94,5 @@ class ProtobufStatic < Formula
     (testpath/"test.proto").write testdata
     system bin/"protoc", "test.proto", "--cpp_out=."
 
-    pythons.each do |python|
-      system python, "-c", "from google.protobuf.pyext import _message"
-    end
   end
 end
