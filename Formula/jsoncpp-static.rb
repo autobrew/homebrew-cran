@@ -12,16 +12,10 @@ class JsoncppStatic < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "fedc02b1840b83d1e98e7c65cce31fa60858cfc82489f108cfec42989adacfdc"
-    sha256 cellar: :any,                 arm64_ventura:  "013a6b0f7beab209b744ef8119ca2a9a29a0c9c90da09f5012fc94fe5cc51ff1"
-    sha256 cellar: :any,                 arm64_monterey: "ae110e26c1c8bcb9aa833c0393ddf26f88e3a88f1056fb52c7461dd0af5d7f96"
-    sha256 cellar: :any,                 arm64_big_sur:  "a7412f7e1de7b44f22c25ec31fb7a6bd65450d04e2882954f5a282a6e021236b"
-    sha256 cellar: :any,                 sonoma:         "90c36c48a24d418235400ce76493e97379954a26f9e700e3e61d38762ba870a4"
-    sha256 cellar: :any,                 ventura:        "68fe5f2b8a499ef699890d432985cb53e648a12fc1017e4bcb0be3c616f8982b"
-    sha256 cellar: :any,                 monterey:       "be9698795e4f18a424786e6d9920409b4b98fd15fdf9b09e0ffcff5ddc6dffec"
-    sha256 cellar: :any,                 big_sur:        "906ff0a3a449611cdb96c7dd0f4e6335c6a10c8564f73fef3f799de955bdb712"
-    sha256 cellar: :any,                 catalina:       "3869924df0ab1d78ed2bc4448f0496c64e0f14af08834297319eb782fc070c3d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e00ec8c187ad0787b392125e31b23d0c2b0dcbb4e9f66cfd34570ca813146ab9"
+    root_url "https://github.com/gaborcsardi/homebrew-cran/releases/download/jsoncpp-static-1.9.5"
+    sha256 cellar: :any_skip_relocation, ventura:  "333ccacc9427645db38d9b7ffe59e45149b8f69a1cb8724a545d11c1fe56f694"
+    sha256 cellar: :any_skip_relocation, monterey: "4cb326d668468f41f474ba4090fa0fcf88db7ea10f9b590e12a843113b4a7a20"
+    sha256 cellar: :any_skip_relocation, big_sur:  "6a85793527db0df75132812cbcbeccea5328fde399b259684b9e798e939ecfd9"
   end
 
   # NOTE: Do not change this to use CMake, because the CMake build is deprecated.
