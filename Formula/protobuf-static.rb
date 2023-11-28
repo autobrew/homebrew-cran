@@ -11,13 +11,10 @@ class ProtobufStatic < Formula
   end
 
   bottle do
-    sha256                               arm64_sonoma:   "6e19f8133d388f868b407a7eb9574fa3ec1a80a3831f4e367977e475a07bf280"
-    sha256                               arm64_ventura:  "71951995260eca6b9474e468372d13be43cc172b579ec48422d3f0a991b3f752"
-    sha256                               arm64_monterey: "3615e7f2f90ffc582edec2319a0fc09a65d13464cd794dcc8194abce6dca53e1"
-    sha256                               sonoma:         "4053a1e8a6be1520a17193bc7761849d583f7176f7efdd37252568ea7e0051c2"
-    sha256                               ventura:        "d518fa7501f1696b517b17732a874a93565dd775d538c1feff03a6b9c8c7dba2"
-    sha256                               monterey:       "ab0a5867b35eeafd4b045795ed2432aa3a04c6f33659d97a33758f52a274176f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "103b44b7ab5af979e5289e98b729f5e57161c7e81d19837bc25cf5df79100890"
+    root_url "https://github.com/gaborcsardi/homebrew-cran/releases/download/protobuf-static-25.1"
+    sha256 cellar: :any_skip_relocation, ventura:  "fb8a96057572b62d055ecfcf49dd56996bdf1f150de5eea2da7df8f255a9c444"
+    sha256 cellar: :any_skip_relocation, monterey: "f23f292d8b6976213d9cd2c091dc15f96f89df21b2ae5526032eb438857a2b04"
+    sha256 cellar: :any_skip_relocation, big_sur:  "57e9caf0361953aed8d43d47bc898382c3abd3cbacf9d9698cb4f5fc685bd2f3"
   end
 
   depends_on "cmake" => :build
