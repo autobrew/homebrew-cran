@@ -29,6 +29,7 @@ class Re2Static < Formula
   end
 
   depends_on "cmake" => :build
+  depends_on "pkg-config" => :build
   depends_on "abseil-static"
 
   def install
