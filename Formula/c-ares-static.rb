@@ -30,7 +30,9 @@ class CAresStatic < Formula
     ENV["CFLAGS"] = "-mmacosx-version-min=11.0"
     ENV["CXXFLAGS"] = "-mmacosx-version-min=11.0"
     ENV["LDFLAGS"] = "-mmacosx-version-min=11.0"
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{rpath}", "-DCARES_STATIC=ON", "-DCARES_SHARED=OFF"
+    system "cmake", "-S", ".", "-B", "build",
+      *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{rpath}",
+      "-DCARES_STATIC=ON", "-DCARES_SHARED=OFF"
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end
