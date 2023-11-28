@@ -14,13 +14,10 @@ class CAresStatic < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "522b830ce4f2f855a62b8d108c799e1bcc22ccd7881ef993d8d1ce6d8642b2eb"
-    sha256 cellar: :any,                 arm64_ventura:  "aa98678b007ca977cc86ac4ea06e540fe394076bdc43ed74ffbc2ac6b7831837"
-    sha256 cellar: :any,                 arm64_monterey: "958550e764728c7abc625a5eca44227f1ec4dbd964396d7617915108faa46752"
-    sha256 cellar: :any,                 sonoma:         "c84379accf9eddb2e4ee362b2657d7799f157c43b7ee91dba2f8d84be383b7d4"
-    sha256 cellar: :any,                 ventura:        "fd984fae219405d6cb56ae86c93f09d16afc6499eec952378f7d5d79f2a555ae"
-    sha256 cellar: :any,                 monterey:       "245fda65de52dff4d56b8d876fc2e63de23196ac7364b67988657fb5b6a81af7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7c2434846f93f509154919cb3a53d45db412861388936a6785b8d24ca89b071b"
+    root_url "https://github.com/gaborcsardi/homebrew-cran/releases/download/c-ares-static-1.22.1"
+    sha256 cellar: :any_skip_relocation, ventura:  "615343f28d4dd28cefe03f497b122efb0f92dd01d27c7615ef877ebcb61f65ff"
+    sha256 cellar: :any_skip_relocation, monterey: "db38615feafee734844036a8ac8c31819763210435ea1d1c3cabf34fde02d5e4"
+    sha256 cellar: :any_skip_relocation, big_sur:  "07f9882240c0055de0242c077ad94367fa81d9bbca3b36586d7e875a742d422a"
   end
 
   depends_on "cmake" => :build
