@@ -40,6 +40,12 @@ class Re2Static < Formula
                     *std_cmake_args
     system "cmake", "--build", "build-static"
     system "cmake", "--install", "build-static"
+
+    return unless OS.mac?
+
+    inreplace lib.glob("pkgconfig/re2.pc"),
+              /^Libs: /,
+              "Libs: -framework CoreFoundation "
   end
 
   test do
@@ -52,8 +58,10 @@ class Re2Static < Formula
         return 0;
       }
     EOS
+    cflags = `pkg-config --cflags re2`
+    libs = `pkg-config --libs --static re2`
     system ENV.cxx, "-std=c++17", "test.cpp", "-o", "test",
-                    "-I#{include}", "-L#{lib}", "-lre2"
+                    *cflags.split, *libs.split
     system "./test"
   end
 end
