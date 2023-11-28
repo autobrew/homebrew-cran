@@ -19,13 +19,10 @@ class Re2Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "5284e881c685c63ebe4eb050a5c142411c5e985b75cc14071e2fa5d86b22cbf6"
-    sha256 cellar: :any,                 arm64_ventura:  "83f5eb2c99beceb45f93b35a9058d1c556605c21bc2382ebe01b88a9937e5e05"
-    sha256 cellar: :any,                 arm64_monterey: "b1bc82f91411308a1e7dd0a58655d1eee47e38a0b119efec10bf080107818f51"
-    sha256 cellar: :any,                 sonoma:         "3758b54970292370b1b60583cf131f9dde94c49c0f1f340a8002b902a28f0872"
-    sha256 cellar: :any,                 ventura:        "772ecee379c6a29b5b770bd734c82b753c3fb46cda73fd705a2d4520332e313a"
-    sha256 cellar: :any,                 monterey:       "82d0ac3196c8beb1b0246d2149b374e7a170f29d24c5405c2c3efe775e4a1882"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fb4465aef8884e998af0d2f965124d7c747eb2b9d2dfc6b9ab88b714208c18df"
+    root_url "https://github.com/gaborcsardi/homebrew-cran/releases/download/re2-static-20231101"
+    sha256 cellar: :any_skip_relocation, ventura:  "cf349d1c366f1a2bf77d4dd240d7061cc2615e5c61b8acb856194b8e785f9a71"
+    sha256 cellar: :any_skip_relocation, monterey: "d8e86cd04ba7e1ddee99c68d818b10e4b2edce06bc3f1f0541065f9226d5dbad"
+    sha256 cellar: :any_skip_relocation, big_sur:  "c0ebcc5c8924eb18f518874becda8653c26cc352458e992ebc1c4477564d76df"
   end
 
   depends_on "cmake" => :build
