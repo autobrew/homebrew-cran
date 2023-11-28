@@ -93,6 +93,5 @@ class ProtobufStatic < Formula
     EOS
     (testpath/"test.proto").write testdata
     system bin/"protoc", "test.proto", "--cpp_out=."
-
   end
 end
