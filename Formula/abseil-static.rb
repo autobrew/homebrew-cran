@@ -27,8 +27,6 @@ class AbseilStatic < Formula
   fails_with gcc: "5" # C++17
 
   def install
-    ENV.runtime_cpu_detection
-
     # Install test helpers. Doing this on Linux requires rebuilding `googltest` with `-fPIC`.
     extra_cmake_args = if OS.mac?
       %w[ABSL_BUILD_TEST_HELPERS ABSL_USE_EXTERNAL_GOOGLETEST ABSL_FIND_GOOGLETEST].map do |arg|
