@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - { os: macos-11 }
-          - { os: macos-12, token: '${{ secrets.GITHUB_TOKEN }}' }
-          - { os: macos-13, token: '${{ secrets.GITHUB_TOKEN }}' }
-#         - { os: ubuntu-22.04 }
+          - os: macos-11
+          - os: macos-12
+          - os: macos-13
+#         - os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -48,7 +48,7 @@ jobs:
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
         env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ matrix.token }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ matrix.os != 'macos-11' && secrets.GITHUB_TOKEN }}
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
