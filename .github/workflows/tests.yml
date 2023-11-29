@@ -10,8 +10,8 @@ jobs:
       matrix:
         include:
           - { os: macos-11 }
-          - { os: macos-12, token: ${{ secrets.GITHUB_TOKEN }} }
-          - { os: macos-13, token: ${{ secrets.GITHUB_TOKEN }} }
+          - { os: macos-12, token: '${{ secrets.GITHUB_TOKEN }}' }
+          - { os: macos-13, token: '${{ secrets.GITHUB_TOKEN }}' }
 #         - { os: ubuntu-22.04 }
       fail-fast: false
     runs-on: ${{ matrix.os }}
