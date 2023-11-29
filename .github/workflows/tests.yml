@@ -6,8 +6,6 @@ on:
   pull_request:
 jobs:
   test-bot:
-    env:
-      HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
         include:
