@@ -19,13 +19,10 @@ class GrpcStatic < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "34803fa1fb81a79dace2c02ce4047ef9a75398fa2a14cd9471dac50e76811feb"
-    sha256 cellar: :any,                 arm64_ventura:  "6b1a2bd1560e80d9fa2e5472f364c7fc2f86433ef8ad8209d3605378646e1c2c"
-    sha256 cellar: :any,                 arm64_monterey: "277b7b02c2d1fa17849ac6112d3f2d5c8d66ae5e419bcb1cf3facd3a68c5258a"
-    sha256 cellar: :any,                 sonoma:         "822e823b454095607251ced58a26055d5594deef27a925e5ac4e96c13ac8f602"
-    sha256 cellar: :any,                 ventura:        "f60412704844ce6266db055ed4b8ebcb87734ba5d491a7a500e6d64215648949"
-    sha256 cellar: :any,                 monterey:       "a1a19e2a4b6d6691f84606ac4d853deae4125966e82910e53301ca90b73ff144"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "75200ec6526d95edce0aa898a7c4078af480736b7d8adf6b7681dc991dd3ac9e"
+    root_url "https://github.com/gaborcsardi/homebrew-cran/releases/download/grpc-static-1.59.3"
+    sha256 ventura:  "d7a41c88395275109d60fefb9bd6f864a9dcd427555b04a07bbe9809fd94555b"
+    sha256 monterey: "fbe07a4a0b80b77b30845ae248dcbef4af5e883b604d09d10261c051ebea2287"
+    sha256 big_sur:  "1a4b1c9e628df4986212398c911b614ca6cc403a4a356555c1b13e3bbc569d8f"
   end
 
   depends_on "autoconf" => :build
