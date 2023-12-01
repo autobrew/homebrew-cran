@@ -15,6 +15,8 @@ class ProtobufStatic < Formula
     sha256 cellar: :any_skip_relocation, ventura:  "fb8a96057572b62d055ecfcf49dd56996bdf1f150de5eea2da7df8f255a9c444"
     sha256 cellar: :any_skip_relocation, monterey: "f23f292d8b6976213d9cd2c091dc15f96f89df21b2ae5526032eb438857a2b04"
     sha256 cellar: :any_skip_relocation, big_sur:  "57e9caf0361953aed8d43d47bc898382c3abd3cbacf9d9698cb4f5fc685bd2f3"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b38e306386f2b9ac21deeff8dbc814030f700a97d3d56047f849e633616d7a4d"
   end
 
   depends_on "cmake" => :build
