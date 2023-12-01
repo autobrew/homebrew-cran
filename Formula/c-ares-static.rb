@@ -18,6 +18,7 @@ class CAresStatic < Formula
     sha256 cellar: :any_skip_relocation, ventura:  "615343f28d4dd28cefe03f497b122efb0f92dd01d27c7615ef877ebcb61f65ff"
     sha256 cellar: :any_skip_relocation, monterey: "db38615feafee734844036a8ac8c31819763210435ea1d1c3cabf34fde02d5e4"
     sha256 cellar: :any_skip_relocation, big_sur:  "07f9882240c0055de0242c077ad94367fa81d9bbca3b36586d7e875a742d422a"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d5a12ed452c281c5aa90c3a5df91374c033da5d3e2e5b8f2c368924e4ea6dae1"
   end
 
   depends_on "cmake" => :build

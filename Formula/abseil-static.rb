@@ -11,6 +11,7 @@ class AbseilStatic < Formula
     sha256 cellar: :any_skip_relocation, ventura:  "b8b940a1c4d09f33fb094ef176cd1d31a32d9166f6e0caf1b706e42b384de690"
     sha256 cellar: :any_skip_relocation, monterey: "57fe9409dbd146a5e1d50d1cb87022c53b00ca36cbff67f4108710bbde1858cc"
     sha256 cellar: :any_skip_relocation, big_sur:  "30cd03d17c41a247b64640f915b36479b233daa8c1e19bcf8f297258da3dfaab"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "64700bede7568ffbd5876243f266ca3ab0a25ff4fd23f3200ffb195ffbd31c76"
   end
 
   depends_on "cmake" => :build

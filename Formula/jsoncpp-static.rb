@@ -16,6 +16,7 @@ class JsoncppStatic < Formula
     sha256 cellar: :any_skip_relocation, ventura:  "333ccacc9427645db38d9b7ffe59e45149b8f69a1cb8724a545d11c1fe56f694"
     sha256 cellar: :any_skip_relocation, monterey: "4cb326d668468f41f474ba4090fa0fcf88db7ea10f9b590e12a843113b4a7a20"
     sha256 cellar: :any_skip_relocation, big_sur:  "6a85793527db0df75132812cbcbeccea5328fde399b259684b9e798e939ecfd9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "969f014a1cd6b61ea830daf83ef05b72ebb0ac7ed03058349de63134d597df69"
   end
 
   # NOTE: Do not change this to use CMake, because the CMake build is deprecated.
