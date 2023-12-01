@@ -16,6 +16,8 @@ class OpensslStatic < Formula
     sha256 ventura:  "37adb423b9245e63631f69e63006da7d69c8681239f430f9873ac0c6b4461d49"
     sha256 monterey: "4af4dc1f218532b0b4458576c79ff03e10cbb246207cd15307e1fd9957e1fe91"
     sha256 big_sur:  "2bc3a16805bfdfe239258dd6fa403c124d6be28e628390ca5a1d263c7ac04141"
+    rebuild 2
+    sha256 arm64_big_sur: "5b88f99577ea7d23e7ccd8390560c3c187096b8a8c0942230b691986300c6f11"
   end
 
   depends_on "ca-certificates"
