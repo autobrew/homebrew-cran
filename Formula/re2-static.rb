@@ -23,7 +23,6 @@ class Re2Static < Formula
     sha256 cellar: :any_skip_relocation, ventura:  "cf349d1c366f1a2bf77d4dd240d7061cc2615e5c61b8acb856194b8e785f9a71"
     sha256 cellar: :any_skip_relocation, monterey: "d8e86cd04ba7e1ddee99c68d818b10e4b2edce06bc3f1f0541065f9226d5dbad"
     sha256 cellar: :any_skip_relocation, big_sur:  "c0ebcc5c8924eb18f518874becda8653c26cc352458e992ebc1c4477564d76df"
-    rebuild 1
     sha256 cellar: :any_skip_relocation, arm64_big_sur: "3f0d60a9771dac960f7ed37f7ab4e289dec0459527526a0135ea02d9b6d032b7"
   end
 
