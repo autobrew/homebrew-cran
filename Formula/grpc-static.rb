@@ -23,6 +23,8 @@ class GrpcStatic < Formula
     sha256 ventura:  "d7a41c88395275109d60fefb9bd6f864a9dcd427555b04a07bbe9809fd94555b"
     sha256 monterey: "fbe07a4a0b80b77b30845ae248dcbef4af5e883b604d09d10261c051ebea2287"
     sha256 big_sur:  "1a4b1c9e628df4986212398c911b614ca6cc403a4a356555c1b13e3bbc569d8f"
+    rebuild 1
+    sha256 arm64_big_sur: "3e53293ad12ed7bb541624198f7e61f895fba22eec2c05c1aba515778179a024"
   end
 
   depends_on "autoconf" => :build
