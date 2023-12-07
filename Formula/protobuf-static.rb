@@ -8,7 +8,7 @@ class ProtobufStatic < Formula
     url "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz"
     sha256 "2c6a36c7b5a55accae063667ef3c55f2642e67476d96d355ff0acb13dbb47f09"
 
-    # Fix build with Python 3.11. Remove in the next release.
+    # Fix build with Python 3.11. Remove in the next release..
     patch do
       url "https://github.com/protocolbuffers/protobuf/commit/da973aff2adab60a9e516d3202c111dbdde1a50f.patch?full_index=1"
       sha256 "911925e427a396fa5e54354db8324c0178f5c602b3f819f7d471bb569cc34f53"
