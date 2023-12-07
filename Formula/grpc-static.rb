@@ -100,7 +100,7 @@ class GrpcStatic < Formula
     EOS
     ENV.prepend_path "PKG_CONFIG_PATH", Formula["openssl@1.1"].opt_lib/"pkgconfig"
     pkg_config_flags = shell_output("pkg-config --cflags --libs libcares protobuf re2 grpc++").chomp.split
-    system ENV.cc, "test.cpp", "-L#{Formula["abseil"].opt_lib}", *pkg_config_flags, "-o", "test"
+    system ENV.cc, "test.cpp", "-L#{Formula["abseil-static"].opt_lib}", *pkg_config_flags, "-o", "test"
     system "./test"
 
     output = shell_output("grpc_cli ls localhost:#{free_port} 2>&1", 1)
