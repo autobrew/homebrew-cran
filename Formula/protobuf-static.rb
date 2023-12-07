@@ -8,7 +8,7 @@ class ProtobufStatic < Formula
     url "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz"
     sha256 "2c6a36c7b5a55accae063667ef3c55f2642e67476d96d355ff0acb13dbb47f09"
 
-    # Fix build with Python 3.11. Remove in the next release.
+    # Fix build with Python 3.11. Remove in the next release..
     patch do
       url "https://github.com/protocolbuffers/protobuf/commit/da973aff2adab60a9e516d3202c111dbdde1a50f.patch?full_index=1"
       sha256 "911925e427a396fa5e54354db8324c0178f5c602b3f819f7d471bb569cc34f53"
@@ -23,6 +23,7 @@ class ProtobufStatic < Formula
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/protobuf-static-21.12"
     sha256 cellar: :any_skip_relocation, arm64_big_sur: "a64a86e937912c5f47289e1eb741611cd2a45e265d60e149a952d1da3165a699"
+    sha256 cellar: :any_skip_relocation, ventura:       "c14887f83e8d00d32c5c70600a83052559a47dc12c490007026661a1f846ca4f"
     sha256 cellar: :any_skip_relocation, monterey:      "b3510fbd4df29e0da0e919ca8cc44e6dd1104ce61def72821684a627a6ba6d67"
     sha256 cellar: :any_skip_relocation, big_sur:       "13a90333e98e16863035bd63e31b2519a1c3a22ab540a8844ce990f047d4ddee"
   end
