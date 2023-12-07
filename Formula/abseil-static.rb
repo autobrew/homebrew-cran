@@ -27,7 +27,7 @@ class AbseilStatic < Formula
     system "cmake", "--install", "build"
     system "cmake", "-S", ".", "-B", "static", *args, *std_cmake_args, "-DBUILD_SHARED_LIBS=OFF"
     system "cmake", "--build", "static"
-    system "cmake", "--install", "static"
+    lib.install Dir["static/absl/*/*.a"]
   end
 
   test do
