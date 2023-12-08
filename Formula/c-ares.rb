@@ -13,14 +13,10 @@ class CAres < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_sonoma:   "a2659a49b749fa30972d68042f23ae8500eb2ef470b39d4d7c1d006b0d631192"
-    sha256 cellar: :any,                 arm64_ventura:  "6afea5fb4e5ff029cc3f68c6523458f7f4d800d1e20e1f7617d776c77c203e22"
-    sha256 cellar: :any,                 arm64_monterey: "52797daa8054095bf4d4c8d0f3bdce6b41a5ae4d5f6e34ac8c2d09851ca6c187"
-    sha256 cellar: :any,                 sonoma:         "eb6e1e08bc53b05cdbdcb64b6b494646b93cec6650e58182b80a22dfcee72c7d"
-    sha256 cellar: :any,                 ventura:        "7a5d3e35412af7e9f924ae2314579bb47874f5c1183a43cdcd955c92ac3065aa"
-    sha256 cellar: :any,                 monterey:       "5d56fbdc7854b40681bc7d76cbeb463d2d15524b0ea646d4ea169cd27e8a99b0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "59015edadad722031a2b46a0791c728b3453015c1c217175cf22c41ea12ddf5c"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/c-ares-1.23.0"
+    sha256 cellar: :any, ventura:  "d066b042d43f109f6635cbb01a5719f1473ef42f6430ef35b64d9decda0fca5a"
+    sha256 cellar: :any, monterey: "2e85ff3c9eb60b7a1a804eb4046dcf07ada26efa8eadacdb92251caffa07e054"
+    sha256 cellar: :any, big_sur:  "3a499f10ab5e97dd1321bd1e79c5d9c2b49567fca6152e93fd27e811a68fdadf"
   end
 
   depends_on "cmake" => :build
