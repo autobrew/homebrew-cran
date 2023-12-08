@@ -32,10 +32,10 @@ class GrpcStatic < Formula
   depends_on "libtool" => :build
   depends_on "pkg-config" => :test
   depends_on "abseil-static"
-  depends_on "c-ares"
+  depends_on "autobrew/cran/c-ares"
+  depends_on "autobrew/cran/re2"
   depends_on "openssl@3"
   depends_on "protobuf-static"
-  depends_on "re2"
 
   uses_from_macos "zlib"
 
@@ -84,7 +84,7 @@ class GrpcStatic < Formula
 
       if OS.mac?
         # These are installed manually, so need to be relocated manually as well
-        MachO::Tools.add_rpath(bin/"grpc_cli", rpath)
+        MachO::Tools.add_rpath("#{bin}/grpc_cli", rpath)
       end
     end
   end
@@ -99,11 +99,11 @@ class GrpcStatic < Formula
       }
     EOS
     ENV.prepend_path "PKG_CONFIG_PATH", Formula["openssl@3.0"].opt_lib/"pkgconfig"
-    # pkg_config_flags = shell_output("pkg-config --cflags --libs libcares protobuf re2 grpc++").chomp.split
-    # system ENV.cc, "test.cpp", "-L#{Formula["abseil-static"].opt_lib}", *pkg_config_flags, "-o", "test"
-    # system "./test"
+    pkg_config_flags = shell_output("pkg-config --cflags --libs grpc++ libcares protobuf re2").chomp.split
+    system ENV.cxx, "-std=c++17", "test.cpp", "-L#{Formula["abseil-static"].opt_lib}", *pkg_config_flags, "-o", "test"
+    system "./test"
 
-    # output = shell_output("grpc_cli ls localhost:#{free_port} 2>&1", 1)
-    # assert_match "Received an error when querying services endpoint.", output
+    output = shell_output("#{bin}/grpc_cli ls localhost:#{free_port} 2>&1", 1)
+    assert_match "Received an error when querying services endpoint.", output
   end
 end
