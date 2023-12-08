@@ -19,13 +19,10 @@ class Re2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "1859e5dda089deee38d6800aa0fe06369011c8f6813767d1ce0794f56f9c59c7"
-    sha256 cellar: :any,                 arm64_monterey: "b9ba6456398e73df6d5fdc6621c6c8817669bc920c98396f3d330962b3ffe34e"
-    sha256 cellar: :any,                 arm64_big_sur:  "7335f87d5d389c982c250978c47810b0e33209c64bbdd47069e2d955fa4903eb"
-    sha256 cellar: :any,                 ventura:        "7f161ab81e64a5a1d018ebc8002a8a428056803bb791dd6158a8c3abe7bc7c11"
-    sha256 cellar: :any,                 monterey:       "b5b2b4c595694947e56db2a4a22f8dfa9e04301f246516a7d48b37cacdb06206"
-    sha256 cellar: :any,                 big_sur:        "5b115fd3a925aabbf9ba972827921e1a75f7fb632a30e3beaa2060be3f457820"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7da984b742fc8d3c88120b14834d59426ec4828aca02628f25819d9ebc5c958b"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/re2-20230301"
+    sha256 cellar: :any, ventura:  "01e15b6e09bafc1b961be0a80e864527e89c50bc767fdf050ac1fa0bbbb1a035"
+    sha256 cellar: :any, monterey: "44867135c9b8a9e0923d4b545bbd477bf9cb8d75f40eca28c98c4d692aa571cc"
+    sha256 cellar: :any, big_sur:  "87add42966ff8d644e57826e8e2674f3e96af9c5c3482d6d74d94c27cae05566"
   end
 
   depends_on "cmake" => :build
