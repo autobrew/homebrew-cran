@@ -18,9 +18,10 @@ class GrpcStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/grpc-static-1.51.1"
-    sha256 cellar: :any, ventura:  "d046fc4bc2c52412596e20dd623e9b00bcefb8ec3416dc68b954f7ebe3a65dd0"
-    sha256 cellar: :any, monterey: "aa0cbeea48f59785aa001d69d3a3937db325d607e302026bddaed6339b2a76d8"
-    sha256 cellar: :any, big_sur:  "199081ac4a58a2d6bb5b89aaa3f73ff13202aa89e4cd90be21ec63d153875ece"
+    sha256 cellar: :any, arm64_big_sur: "0ff491246fe8ee99d0edbbbd1da27341fc48c806ed2ee3cb7e8c8bce0e210736"
+    sha256 cellar: :any, ventura:       "d046fc4bc2c52412596e20dd623e9b00bcefb8ec3416dc68b954f7ebe3a65dd0"
+    sha256 cellar: :any, monterey:      "aa0cbeea48f59785aa001d69d3a3937db325d607e302026bddaed6339b2a76d8"
+    sha256 cellar: :any, big_sur:       "199081ac4a58a2d6bb5b89aaa3f73ff13202aa89e4cd90be21ec63d153875ece"
   end
 
   depends_on "autoconf" => :build

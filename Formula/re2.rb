@@ -20,9 +20,10 @@ class Re2 < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/re2-20230301"
-    sha256 cellar: :any, ventura:  "01e15b6e09bafc1b961be0a80e864527e89c50bc767fdf050ac1fa0bbbb1a035"
-    sha256 cellar: :any, monterey: "44867135c9b8a9e0923d4b545bbd477bf9cb8d75f40eca28c98c4d692aa571cc"
-    sha256 cellar: :any, big_sur:  "87add42966ff8d644e57826e8e2674f3e96af9c5c3482d6d74d94c27cae05566"
+    sha256 cellar: :any, arm64_big_sur: "a1d81e159f7bc811bc3aae8c25c9a7bf70ed84e6098fdc7cafece5cada88ac15"
+    sha256 cellar: :any, ventura:       "01e15b6e09bafc1b961be0a80e864527e89c50bc767fdf050ac1fa0bbbb1a035"
+    sha256 cellar: :any, monterey:      "44867135c9b8a9e0923d4b545bbd477bf9cb8d75f40eca28c98c4d692aa571cc"
+    sha256 cellar: :any, big_sur:       "87add42966ff8d644e57826e8e2674f3e96af9c5c3482d6d74d94c27cae05566"
   end
 
   depends_on "cmake" => :build

@@ -14,9 +14,10 @@ class CAres < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/c-ares-1.23.0"
-    sha256 cellar: :any, ventura:  "d066b042d43f109f6635cbb01a5719f1473ef42f6430ef35b64d9decda0fca5a"
-    sha256 cellar: :any, monterey: "2e85ff3c9eb60b7a1a804eb4046dcf07ada26efa8eadacdb92251caffa07e054"
-    sha256 cellar: :any, big_sur:  "3a499f10ab5e97dd1321bd1e79c5d9c2b49567fca6152e93fd27e811a68fdadf"
+    sha256 cellar: :any, arm64_big_sur: "6151cd8b10db832ea5e24094bf7992be952e73948d8e674e0d2171c4cb42e991"
+    sha256 cellar: :any, ventura:       "d066b042d43f109f6635cbb01a5719f1473ef42f6430ef35b64d9decda0fca5a"
+    sha256 cellar: :any, monterey:      "2e85ff3c9eb60b7a1a804eb4046dcf07ada26efa8eadacdb92251caffa07e054"
+    sha256 cellar: :any, big_sur:       "3a499f10ab5e97dd1321bd1e79c5d9c2b49567fca6152e93fd27e811a68fdadf"
   end
 
   depends_on "cmake" => :build

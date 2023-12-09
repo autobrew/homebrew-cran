@@ -9,9 +9,10 @@ class AbseilStatic < Formula
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/abseil-static-20220623.1"
     rebuild 1
-    sha256 cellar: :any, ventura:  "caa3e14c515f6136e1a9c2cef2e37cbd900d95c373aed3c94c43f30812468820"
-    sha256 cellar: :any, monterey: "ca36ca75e66c75d18df71ed3b4c68eb0e183bc88f9ec3648eba698f87915fa77"
-    sha256 cellar: :any, big_sur:  "a5797588642ee1b4a953cf3bb5de1084dceefc4e050452eb68f1646372c1090e"
+    sha256 cellar: :any, arm64_big_sur: "bd22248427f327f5bc266632522e641079b9945892aeda631d0863e3a5aa59a6"
+    sha256 cellar: :any, ventura:       "caa3e14c515f6136e1a9c2cef2e37cbd900d95c373aed3c94c43f30812468820"
+    sha256 cellar: :any, monterey:      "ca36ca75e66c75d18df71ed3b4c68eb0e183bc88f9ec3648eba698f87915fa77"
+    sha256 cellar: :any, big_sur:       "a5797588642ee1b4a953cf3bb5de1084dceefc4e050452eb68f1646372c1090e"
   end
 
   depends_on "cmake" => :build
