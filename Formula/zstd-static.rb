@@ -16,9 +16,10 @@ class ZstdStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/zstd-static-1.5.5"
-    sha256 cellar: :any, ventura:  "f9ed83172ff36f0f06d501e9e7a37f93a6de6d1c976511da728cc80a1af9cd19"
-    sha256 cellar: :any, monterey: "d6b2e793368199b0859e9758e7d86b26aa33b00e50b55879627606db71cf589c"
-    sha256 cellar: :any, big_sur:  "fe2f51dc73d9a3f0d71171a3f7775f954b445e289268d058673cbaa44df62933"
+    sha256 cellar: :any, arm64_big_sur: "a8056714100b81ee2117b71f0b693f88ea33aa93178e0ef2c255c98578cd7642"
+    sha256 cellar: :any, ventura:       "f9ed83172ff36f0f06d501e9e7a37f93a6de6d1c976511da728cc80a1af9cd19"
+    sha256 cellar: :any, monterey:      "d6b2e793368199b0859e9758e7d86b26aa33b00e50b55879627606db71cf589c"
+    sha256 cellar: :any, big_sur:       "fe2f51dc73d9a3f0d71171a3f7775f954b445e289268d058673cbaa44df62933"
   end
 
   depends_on "cmake" => :build
