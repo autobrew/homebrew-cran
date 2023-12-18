@@ -22,6 +22,8 @@ class ZstdStatic < Formula
     sha256 cellar: :any, big_sur:       "fe2f51dc73d9a3f0d71171a3f7775f954b445e289268d058673cbaa44df62933"
   end
 
+  keg_only "it conflicts with `zstd`"
+
   depends_on "cmake" => :build
   uses_from_macos "zlib"
 
