@@ -84,7 +84,6 @@ class OpencvStatic < Formula
       -DWITH_TBB=ON
       -DWITH_VTK=OFF
       -DWITH_PROTOBUF=ON
-      -DWITH_QUIRC=OFF
       -DWITH_ADE=OFF
       -DWITH_IPP=OFF
       -DWITH_QUIRC=ON
