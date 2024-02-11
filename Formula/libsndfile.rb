@@ -12,9 +12,10 @@ class Libsndfile < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/libsndfile-1.2.2"
-    sha256 cellar: :any, ventura:  "b9a62d4d7deb29176e0d7e5e1f0f78742f38f50ed3eab3ad113cf16b0680fbe4"
-    sha256 cellar: :any, monterey: "456141b03372c5f4ac333c6f7bd4a08b10ea661df0c581105e0cf6dd2d4e91bf"
-    sha256 cellar: :any, big_sur:  "a98a80255b66bf15dee841be0428a0b2236adbcec12b6e82e829ff523ac008b3"
+    sha256 cellar: :any, arm64_big_sur: "c3dfdf23cad8505f4542b08d1a77bf923e9ac7e11ed77dfc78848defef252082"
+    sha256 cellar: :any, ventura:       "b9a62d4d7deb29176e0d7e5e1f0f78742f38f50ed3eab3ad113cf16b0680fbe4"
+    sha256 cellar: :any, monterey:      "456141b03372c5f4ac333c6f7bd4a08b10ea661df0c581105e0cf6dd2d4e91bf"
+    sha256 cellar: :any, big_sur:       "a98a80255b66bf15dee841be0428a0b2236adbcec12b6e82e829ff523ac008b3"
   end
 
   depends_on "cmake" => :build
