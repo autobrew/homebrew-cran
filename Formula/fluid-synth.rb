@@ -7,13 +7,10 @@ class FluidSynth < Formula
   head "https://github.com/FluidSynth/fluidsynth.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "a80c924499b6343ada666c6d93d0f3ad947d61919bace2219bc3bff05618f0a6"
-    sha256 cellar: :any,                 arm64_ventura:  "3ac1d1b35699efd38f3d43b3f2da6e4a411aca4fc5d30f045b76c5d72803f128"
-    sha256 cellar: :any,                 arm64_monterey: "7347ccc2946b6f196d992e3a70ff91be2e20e5774f8ebca43a342975d73fbe1e"
-    sha256 cellar: :any,                 sonoma:         "782f61271704cec16479e82873e9cafc209d9fd03974cc3772585e5fd6333757"
-    sha256 cellar: :any,                 ventura:        "4f08beba8c524daabee69fbf7d66491d3fda03e950da7edbad833ee1035b4d6d"
-    sha256 cellar: :any,                 monterey:       "c8b6db1f82fbe79764c7317890b06cdfa722b126bf40f5849b089c8bb5f53949"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "eff062bfebf16739b60acbb1a6300841fc8657a0ccf26f51ebca5bb93af6542c"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/fluid-synth-2.3.4"
+    sha256 cellar: :any, ventura:  "c6ba2bbe6e0972feb129ee03be4151f38ad5134cf29d8073072710f36a456b6b"
+    sha256 cellar: :any, monterey: "c944c599a8d222768460b885edeb6321d38d17a31c80c197b7ff0340ebbf5cca"
+    sha256 cellar: :any, big_sur:  "64556f57b6e346a8ffb22805b02736af210e142f4c6a82c10fc8414ec69784b2"
   end
 
   depends_on "cmake" => :build
