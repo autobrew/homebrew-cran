@@ -11,14 +11,10 @@ class Libsndfile < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_sonoma:   "d628c38ed7a4b7a5e05f685cc69093051bc499ea54b0ce974e0bd022e06a3e41"
-    sha256 cellar: :any,                 arm64_ventura:  "9153c79689fafe4bf276c519934345494b4407da58d90bd59108586837731ce6"
-    sha256 cellar: :any,                 arm64_monterey: "15b0bd6a7ddbdf62f50ca3932a9d0dc7f2541ce18583c367be9982808d8f0769"
-    sha256 cellar: :any,                 sonoma:         "6dc5dba963a9f0c267b39c95de80f654e5367262ff4627dddea36e08f3bbf8c3"
-    sha256 cellar: :any,                 ventura:        "acd92e352dadd4aa00687ec705712b5c7c28e36dfd0a50461a1c0c071ea64418"
-    sha256 cellar: :any,                 monterey:       "fd8ad4f25cd52444d42b688c8dfea3b595d249d8f61ba40f107ff4d1be19dd5a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5918b80c38cf4f78d34ae3e93fa0cf5fdceff4621ab40188fad1c2ec2f1fe254"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libsndfile-1.2.2"
+    sha256 cellar: :any, ventura:  "b9a62d4d7deb29176e0d7e5e1f0f78742f38f50ed3eab3ad113cf16b0680fbe4"
+    sha256 cellar: :any, monterey: "456141b03372c5f4ac333c6f7bd4a08b10ea661df0c581105e0cf6dd2d4e91bf"
+    sha256 cellar: :any, big_sur:  "a98a80255b66bf15dee841be0428a0b2236adbcec12b6e82e829ff523ac008b3"
   end
 
   depends_on "cmake" => :build
