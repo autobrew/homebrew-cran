@@ -8,11 +8,10 @@ class FluidSynth < Formula
   head "https://github.com/FluidSynth/fluidsynth.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/fluid-synth-2.3.4"
-    sha256 cellar: :any, arm64_big_sur: "bbc4278decd0067e47d00f94b2d0b5d8525c751e3835a5c24dcac3f3cd7dac08"
-    sha256 cellar: :any, ventura:       "c6ba2bbe6e0972feb129ee03be4151f38ad5134cf29d8073072710f36a456b6b"
-    sha256 cellar: :any, monterey:      "c944c599a8d222768460b885edeb6321d38d17a31c80c197b7ff0340ebbf5cca"
-    sha256 cellar: :any, big_sur:       "64556f57b6e346a8ffb22805b02736af210e142f4c6a82c10fc8414ec69784b2"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/fluid-synth-2.3.4_1"
+    sha256 cellar: :any, ventura:  "0b184acf81cb10b9f6f08b0d947c1c0463cd18bcba504f5f0c7e87635c61999d"
+    sha256 cellar: :any, monterey: "5a31b302f4b6aaa3a44b9b16353d0fd2c01e57909bd34d7e7991a85c1b021075"
+    sha256 cellar: :any, big_sur:  "c297edb5192322bfe7bfd08898fd0f2284e760938ae5c8ac6ee066751a7578c1"
   end
 
   depends_on "cmake" => :build
