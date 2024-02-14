@@ -9,9 +9,10 @@ class FluidSynth < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/fluid-synth-2.3.4_1"
-    sha256 cellar: :any, ventura:  "0b184acf81cb10b9f6f08b0d947c1c0463cd18bcba504f5f0c7e87635c61999d"
-    sha256 cellar: :any, monterey: "5a31b302f4b6aaa3a44b9b16353d0fd2c01e57909bd34d7e7991a85c1b021075"
-    sha256 cellar: :any, big_sur:  "c297edb5192322bfe7bfd08898fd0f2284e760938ae5c8ac6ee066751a7578c1"
+    sha256 cellar: :any, arm64_big_sur: "2eecec2b80d9a5a1ecc63aa72035fad8c81dbdfc6511576913f838191c3e3e37"
+    sha256 cellar: :any, ventura:       "0b184acf81cb10b9f6f08b0d947c1c0463cd18bcba504f5f0c7e87635c61999d"
+    sha256 cellar: :any, monterey:      "5a31b302f4b6aaa3a44b9b16353d0fd2c01e57909bd34d7e7991a85c1b021075"
+    sha256 cellar: :any, big_sur:       "c297edb5192322bfe7bfd08898fd0f2284e760938ae5c8ac6ee066751a7578c1"
   end
 
   depends_on "cmake" => :build
