@@ -4,6 +4,7 @@ class FluidSynth < Formula
   url "https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.3.4.tar.gz"
   sha256 "1529ef5bc3b9ef3adc2a7964505912f7305103e269e50cc0316f500b22053ac9"
   license "LGPL-2.1-or-later"
+  revision 1
   head "https://github.com/FluidSynth/fluidsynth.git", branch: "master"
 
   bottle do
@@ -19,7 +20,6 @@ class FluidSynth < Formula
   depends_on "glib"
   depends_on "libsndfile"
   depends_on "portaudio"
-  depends_on "readline"
 
   on_macos do
     depends_on "gettext"
@@ -65,7 +65,7 @@ class FluidSynth < Formula
       -Denable-portaudio=ON
       -Denable-profiling=OFF
       -Denable-pulseaudio=OFF
-      -Denable-readline=ON
+      -Denable-readline=OFF
       -Denable-sdl2=OFF
       -Denable-systemd=#{OS.linux?}
       -Denable-trap-on-fpe=OFF
@@ -76,15 +76,6 @@ class FluidSynth < Formula
       -Denable-winmidi=OFF
     ]
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
-
-    # On macOS, readline is keg-only so use the absolute path to its pc file
-    # uses_from_macos "readline" produces another error
-    # Related error: Package 'readline', required by 'fluidsynth', not found
-    if OS.mac?
-      inreplace "build/fluidsynth.pc",
-                "readline",
-                "#{Formula["readline"].opt_lib}/pkgconfig/readline.pc"
-    end
 
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
