@@ -12,9 +12,11 @@ class LibpqStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/libpq-static-16.2"
-    sha256 ventura:  "7443b643809f59acd703c546ad574564e83a443ef86832e23cadbf43bbebb52d"
-    sha256 monterey: "9e6cd22cb7a62c9e040a23d90a9b9af7b2c953f3572f75cb3b9ccd8292a04d81"
-    sha256 big_sur:  "4f2a439d6ff5ea46c4125025f67397ee7ff1999e9dc1ba93642a6195a883bb18"
+    sha256 arm64_ventura: "b008702b6e85424db465be445e4af9508521306f51a7e052882f09becd1f8651"
+    sha256 arm64_big_sur: "7f7ad93fd07844ee7335a72eccd44ccfbac1566a5659b68148d046cffa77a90d"
+    sha256 ventura:       "7443b643809f59acd703c546ad574564e83a443ef86832e23cadbf43bbebb52d"
+    sha256 monterey:      "9e6cd22cb7a62c9e040a23d90a9b9af7b2c953f3572f75cb3b9ccd8292a04d81"
+    sha256 big_sur:       "4f2a439d6ff5ea46c4125025f67397ee7ff1999e9dc1ba93642a6195a883bb18"
   end
 
   keg_only "conflicts with postgres formula"
