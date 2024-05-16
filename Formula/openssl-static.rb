@@ -1,8 +1,10 @@
 class OpensslStatic < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  url "https://www.openssl.org/source/openssl-3.1.1.tar.gz"
-  sha256 "b3aa61334233b852b63ddb048df181177c2c659eb9d4376008118f9c08d07674"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz"
+  mirror "https://www.openssl.org/source/openssl-3.3.0.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/openssl-3.3.0.tar.gz"
+  sha256 "53e66b043322a606abf0087e7699a0e033a37fa13feb9742df35c3a33b18fb02"
   license "Apache-2.0"
 
   livecheck do
@@ -44,13 +46,6 @@ class OpensslStatic < Formula
   link_overwrite "lib/libcrypto*", "lib/libssl*"
   link_overwrite "lib/pkgconfig/libcrypto.pc", "lib/pkgconfig/libssl.pc", "lib/pkgconfig/openssl.pc"
   link_overwrite "share/doc/openssl/*", "share/man/man*/*ssl"
-
-  # Fix SIGILL crash while run under a debugger on Apple Silicon.
-  # Remove with OpenSSL 3.1.2.
-  patch do
-    url "https://github.com/openssl/openssl/commit/50af7294e514a2aba19c5248a4ed612ba3ba4c1b.patch?full_index=1"
-    sha256 "e711cba257f08e3143a22cc7afbd550d76f2cf68ee5d251fadab4b0b5c44976a"
-  end
 
   # SSLv2 died with 1.1.0, so no-ssl2 no longer required.
   # SSLv3 & zlib are off by default with 1.1.0 but this may not
