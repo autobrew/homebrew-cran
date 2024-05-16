@@ -13,11 +13,10 @@ class OpensslStatic < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.1.1"
-    sha256 arm64_big_sur: "52b723bb07b04ce54d255efce2786344be02270908e296a5fcbed840f09d557b"
-    sha256 ventura:       "3e63bde168891cda0316aa44ce8cf0396ed666aa005e941e695e6d08e0fab80e"
-    sha256 monterey:      "76b101d16d3489b6987e35283d22264a9614530dc63a499f9a264e58065babaa"
-    sha256 big_sur:       "cd43f94328cebada991caaab632e330fda9c611837afe51d7f7922802a19f000"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.3.0"
+    sha256 ventura:  "2948a094056a4082f977b489b1651c8b899c39c674366baac44610f871b91580"
+    sha256 monterey: "ccc816e07f2c5793307f7c84b56e3ebbf6689391e52e388f40f62c619677d399"
+    sha256 big_sur:  "011c896b46537caf9bbf701da49d8a90a6e4f4dd65613e7eaa6b05fa0bf42680"
   end
 
   depends_on "ca-certificates"
