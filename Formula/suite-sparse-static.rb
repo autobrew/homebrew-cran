@@ -44,8 +44,8 @@ class SuiteSparseStatic < Formula
     ENV.deparallelize
     system "make", "library", *args
     system "make", "install", *args
-    bin.rmtree
-    lib.rmtree
+    FileUtils.rm_r(bin)
+    FileUtils.rm_r(lib)
     lib.install Dir["**/*.a"]
     pkgshare.install "KLU/Demo/klu_simple.c"
   end
