@@ -112,7 +112,7 @@ class OpensslStatic < Formula
   end
 
   def post_install
-    rm_f openssldir/"cert.pem"
+    rm(openssldir/"cert.pem")
     openssldir.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
   end
 
