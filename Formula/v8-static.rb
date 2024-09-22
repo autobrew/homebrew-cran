@@ -1,15 +1,10 @@
 class V8Static < Formula
   desc "Google's JavaScript engine"
-  homepage "https://github.com/v8/v8/wiki"
+  homepage "https://v8.dev/docs"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
-  url "https://github.com/v8/v8/archive/refs/tags/11.7.439.14.tar.gz"
-  sha256 "487f9c714fec0c2a0270c84105fc55c5a1a16143947385270ac3660b2934adca"
+  url "https://github.com/v8/v8/archive/refs/tags/12.7.224.16.tar.gz"
+  sha256 "00425fe7fd851f11839537256922addbfee0f5d27c6bf5ab375b9d0347d8ed94"
   license "BSD-3-Clause"
-
-  livecheck do
-    url "https://omahaproxy.appspot.com/all.json?os=mac&channel=stable"
-    regex(/"v8_version": "v?(\d+(?:\.\d+)+)"/i)
-  end
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-11.7.439.14"
@@ -20,11 +15,13 @@ class V8Static < Formula
   end
 
   depends_on "ninja" => :build
-  depends_on "python@3.11" => :build
+  depends_on xcode: ["10.0", :build] # for xcodebuild, min version required by v8
+
+  uses_from_macos "python" => :build
 
   on_macos do
     depends_on "llvm" => :build
-    depends_on xcode: ["10.0", :build] # required by v8
+    depends_on "llvm" if DevelopmentTools.clang_build_version <= 1400
   end
 
   on_linux do
@@ -35,60 +32,60 @@ class V8Static < Formula
   fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#59
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#74
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "811d332bd90551342c5cbd39e133aa276022d7f8"
-  end
-
-  resource "v8/base/trace_event/common" do
-    url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
-        revision: "147f65333c38ddd1ebf554e89965c243c8ce50b3"
+        revision: "b3a0bff47dd81073bfe67a402971bad92e4f2423"
   end
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "afe0125ef9e10b400d9ec145aa18fca932369346"
+        revision: "faf20f32f1d19bd492f8f16ac4a7ecfabdbb60c1"
   end
 
-  resource "v8/third_party/abseil-cpp" do
-    url "https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git",
-        revision: "583dc6d1b3a0dd44579718699e37cad2f0c41a26"
+  resource "v8/third_party/fp16/src" do
+    url "https://chromium.googlesource.com/external/github.com/Maratyszcza/FP16.git",
+        revision: "0a92994d729ff76a58f692d3028ca1b64b145d91"
   end
 
   resource "v8/third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "af29db7ec28d6df1c7f0f745186884091e602e07"
+        revision: "a7f443b80b105f940225332ed3c31f2790092f47"
   end
 
   resource "v8/third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "515dd10de9bf63040045902a4a310d2ba25213a0"
+        revision: "2f6f2ff5e4c1d727377f5e1b9e1903d871f41e74"
   end
 
   resource "v8/third_party/markupsafe" do
     url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
-        revision: "006709ba3ed87660a17bd4548c45663628f5ed85"
+        revision: "e582d7f0edb9d67499b0f5abd6ae5550e91da7f2"
   end
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "526382e41c9c5275dc329db4328b54e4f344a204"
+        revision: "209717dd69cd62f24cbacc4758261ae2dd78cfac"
+  end
+
+  resource "v8/third_party/abseil-cpp" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git",
+        revision: "bfe59c2726fda7494a800f7d0ee461f0564653b3"
   end
 
   def install
     (buildpath/"build").install resource("v8/build")
-    (buildpath/"third_party/abseil-cpp").install resource("v8/third_party/abseil-cpp")
     (buildpath/"third_party/jinja2").install resource("v8/third_party/jinja2")
     (buildpath/"third_party/markupsafe").install resource("v8/third_party/markupsafe")
+    (buildpath/"third_party/fp16/src").install resource("v8/third_party/fp16/src")
     (buildpath/"third_party/googletest/src").install resource("v8/third_party/googletest/src")
-    (buildpath/"base/trace_event/common").install resource("v8/base/trace_event/common")
     (buildpath/"third_party/zlib").install resource("v8/third_party/zlib")
+    (buildpath/"third_party/abseil-cpp").install resource("v8/third_party/abseil-cpp")
 
     # Build gn from source and add it to the PATH
     (buildpath/"gn").install resource("gn")
     cd "gn" do
-      system "python3.11", "build/gen.py"
+      system "python3", "build/gen.py"
       system "ninja", "-C", "out/", "gn"
     end
     ENV.prepend_path "PATH", buildpath/"gn/out"
@@ -102,25 +99,46 @@ class V8Static < Formula
 
     # setup gn args
     gn_args = {
+      is_debug:                     false,
+      is_component_build:           false,
       v8_enable_reverse_jsargs:     false,
       v8_monolithic:                true,
       v8_static_library:            true,
-      is_debug:                     false,
       is_asan:                      false,
       is_official_build:            false,
-      use_gold:                     false,
       v8_use_external_startup_data: false,
+      v8_enable_fuzztest:           false,
       v8_enable_i18n_support:       false, # enables i18n support with icu
-      clang_base_path:              "\"#{Formula["llvm"].opt_prefix}\"", # uses Homebrew clang instead of Google clang
       clang_use_chrome_plugins:     false, # disable the usage of Google's custom clang plugins
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
+      use_lld:                      false, # upstream use LLD but this leads to build failure on ARM
     }
 
-    # use clang from homebrew llvm formula, because the system clang is unreliable
-    ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib # but link against system libc++
+    if OS.linux?
+      gn_args[:is_clang] = false # use GCC on Linux
+      gn_args[:use_sysroot] = false # don't use sysroot
+      gn_args[:custom_toolchain] = "\"//build/toolchain/linux/unbundle:default\"" # uses system toolchain
+      gn_args[:host_toolchain] = "\"//build/toolchain/linux/unbundle:default\"" # to respect passed LDFLAGS
+      ENV["AR"] = DevelopmentTools.locate("ar")
+      ENV["NM"] = DevelopmentTools.locate("nm")
+      gn_args[:use_rbe] = false
+    else
+      ENV["DEVELOPER_DIR"] = ENV["HOMEBREW_DEVELOPER_DIR"] # help run xcodebuild when xcode-select is set to CLT
+      gn_args[:clang_base_path] = "\"#{Formula["llvm"].opt_prefix}\"" # uses Homebrew clang instead of Google clang
+      # Work around failure mixing newer `llvm` headers with older Xcode's libc++:
+      # Undefined symbols for architecture x86_64:
+      #   "std::__1::__libcpp_verbose_abort(char const*, ...)", referenced from:
+      #       std::__1::__throw_length_error[abi:nn180100](char const*) in stack_trace.o
+      if DevelopmentTools.clang_build_version <= 1400
+        gn_args[:fatal_linker_warnings] = false
+        inreplace "build/config/mac/BUILD.gn", "[ \"-Wl,-ObjC\" ]",
+                                               "[ \"-Wl,-ObjC\", \"-L#{Formula["llvm"].opt_lib}/c++\" ]"
+      end
+    end
+
     # Make sure private libraries can be found from lib
-    ENV.prepend "LDFLAGS", "-Wl,-rpath,#{libexec}"
+    ENV.prepend "LDFLAGS", "-Wl,-rpath,#{rpath(target: libexec)}"
 
     # Transform to args string
     gn_args_string = gn_args.map { |k, v| "#{k}=#{v}" }.join(" ")
@@ -157,7 +175,7 @@ class V8Static < Formula
     EOS
 
     # link against installed libc++
-    system ENV.cxx, "-std=c++17", "test.cpp",
+    system ENV.cxx, "-std=c++20", "test.cpp",
                     "-I#{include}", "-L#{lib}",
                     "-Wl,-rpath,#{libexec}",
                     "-lv8", "-lv8_libplatform"
