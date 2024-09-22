@@ -9,9 +9,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-11
-          - os: macos-12
           - os: macos-13
+          - os: macos-14
 #         - os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
