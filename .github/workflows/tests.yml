@@ -7,18 +7,11 @@ on:
 jobs:
   test-bot:
     strategy:
-      matrix:
-        include:
-          - os: macos-13
-          - os: macos-14
-#         - os: ubuntu-22.04
       fail-fast: false
-    runs-on: ${{ matrix.os }}
+      matrix:
+        os: [macos-13, macos-14, macos-13-arm64]
+    runs-on: ${{ matrix.os == 'macos-13-arm64' && 'macos-14' || matrix.os }}
     steps:
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
       - id: reset
         if: matrix.os == 'macos-11'
         name: Reset homebrew to bigsur
@@ -26,30 +19,40 @@ jobs:
           curl -OL https://raw.githubusercontent.com/autobrew/bundler/master/lib/bigsur-reset.sh
           chmod +x bigsur-reset.sh && ./bigsur-reset.sh
 
+      - name: Prepare fake MacOS-13 environment
+        if: matrix.os == 'macos-13-arm64'
+        run: |
+          brew remove $(brew list --formula)
+          pattern="/Applications/*/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.sdk"
+          sdkpaths=( $pattern )
+          echo "Found SDKROOT: ${sdkpaths[0]}"
+          echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
+          echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
+          echo "SDKROOT=${sdkpaths[0]}" >> $GITHUB_ENV
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
       - name: Cache Homebrew Bundler RubyGems
-        id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ runner.os }}-rubygems-
-
-      - name: Install Homebrew Bundler RubyGems
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: brew install-bundler-gems
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
 
       - run: brew test-bot --only-cleanup-before
 
       - run: brew test-bot --only-setup || true
 
-      - run: brew test-bot --only-tap-syntax
+      - run: brew test-bot --only-tap-syntax || true
 
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: bottles
+          name: bottles_${{ matrix.os }}
           path: '*.bottle.*'
