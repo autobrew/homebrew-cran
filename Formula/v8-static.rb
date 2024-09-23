@@ -7,11 +7,9 @@ class V8Static < Formula
   license "BSD-3-Clause"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-11.7.439.14"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "babd5f6860236645b041950bfdf6655334e0b66c5147609c91ef6ee977252ab1"
-    sha256 cellar: :any_skip_relocation, ventura:       "a373e84707429869026bcddb9b5e9186b76a019fe9da2604fc02c3d412bc450d"
-    sha256 cellar: :any_skip_relocation, monterey:      "6024fe33f3c82a3a919c63a3029f7db9adc2902ac7e1752237aef9b45a8c9424"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3edb1292162ef7101ea0232d82e75fe56045b3df63137fdd9c62ae345da179a7"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-12.7.224.16"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "38e87a70632ca6dce07d87307c261f23a7b8006ae719941159cf0886a9c3f352"
+    sha256 cellar: :any_skip_relocation, ventura:      "ac77cfe19fd262fe20bafdfab62e99aee65ae56dd121c4286e1d26bf4b6448e5"
   end
 
   depends_on "ninja" => :build
