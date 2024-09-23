@@ -27,8 +27,8 @@ jobs:
           sdkpaths=( $pattern )
           echo "Found SDKROOT: ${sdkpaths[0]}"
           echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
-          echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
-          echo "SDKROOT=${sdkpaths[0]}" >> $GITHUB_ENV
+          #echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
+          #echo "SDKROOT=${sdkpaths[0]}" >> $GITHUB_ENV
 
       - name: Set up Homebrew
         id: set-up-homebrew

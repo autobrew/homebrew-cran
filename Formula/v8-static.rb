@@ -2,8 +2,8 @@ class V8Static < Formula
   desc "Google's JavaScript engine"
   homepage "https://v8.dev/docs"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
-  url "https://github.com/v8/v8/archive/refs/tags/12.7.224.16.tar.gz"
-  sha256 "00425fe7fd851f11839537256922addbfee0f5d27c6bf5ab375b9d0347d8ed94"
+  url "https://github.com/v8/v8/archive/refs/tags/12.7.224.20.tar.gz"
+  sha256 "49cee325e57cfb4671e04e955ea87447d86d2f34944691ca5b15389cf4dac1c8"
   license "BSD-3-Clause"
 
   bottle do
@@ -111,6 +111,7 @@ class V8Static < Formula
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
       use_lld:                      false, # upstream use LLD but this leads to build failure on ARM
+      clang_base_path:              "\"#{Formula["llvm"].opt_prefix}\"", # uses Homebrew clang instead of Google clang
     }
 
     if OS.linux?
@@ -128,11 +129,11 @@ class V8Static < Formula
       # Undefined symbols for architecture x86_64:
       #   "std::__1::__libcpp_verbose_abort(char const*, ...)", referenced from:
       #       std::__1::__throw_length_error[abi:nn180100](char const*) in stack_trace.o
-      if DevelopmentTools.clang_build_version <= 1400
+      #if DevelopmentTools.clang_build_version <= 1400
         gn_args[:fatal_linker_warnings] = false
         inreplace "build/config/mac/BUILD.gn", "[ \"-Wl,-ObjC\" ]",
                                                "[ \"-Wl,-ObjC\", \"-L#{Formula["llvm"].opt_lib}/c++\" ]"
-      end
+      #end
     end
 
     # Make sure private libraries can be found from lib
