@@ -12,14 +12,10 @@ class Libgit2Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia:  "9ce2ed6059b2af3f57e06ffbca33419328406e406ed9c9d6913ea04b80c8454d"
-    sha256 cellar: :any,                 arm64_sonoma:   "c74a306a3d2a68d22dd3951ca1a2fb0c566fccd4ff7ac1b40c75fb739cf4359f"
-    sha256 cellar: :any,                 arm64_ventura:  "da870e964178facdcfddf478f968122daf1ef8e6ef2cf80e23069191c65ce532"
-    sha256 cellar: :any,                 arm64_monterey: "6b51ca0ebc9c17d000e7fd88bccb00d60ef33845ac418b8d1ff6f9093e541c58"
-    sha256 cellar: :any,                 sonoma:         "52f39e230581ec9b36b5d9021ca9eaed0c8d2bb49c31c2102b74402b5e7b3937"
-    sha256 cellar: :any,                 ventura:        "b81c00e45d323da3331f6a6f3ab4c2ce27e7a35f45c256accbb5f534d059e26d"
-    sha256 cellar: :any,                 monterey:       "1e0ba01d5c036ae7991437fafd5695bd1c4f4298b6f873a9de751906ddc50445"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "66c64820e1f7ce0ec927b8195f2748f4bc11065488c59a33ea053f2b3a8f0eb9"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.8.1"
+    sha256 cellar: :any, arm64_sonoma:  "8c86d2a049bafccc23b764a75fe3981a80c7b4471e04088e92aae0ddc0911882"
+    sha256 cellar: :any, arm64_ventura: "2325b2d316f5e01eb72bc677a45ad6cc1137264f2b93f8b19c20e30f3626776d"
+    sha256 cellar: :any, ventura:       "aa04b6f90c212a1b34f695f009b9c207ea0bd0d8b66f38f7ef21645d584fbd85"
   end
 
   depends_on "cmake" => :build
