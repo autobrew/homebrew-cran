@@ -23,12 +23,14 @@ jobs:
         if: matrix.os == 'macos-13-arm64'
         run: |
           brew remove $(brew list --formula)
-          pattern="/Applications/*/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.sdk"
-          sdkpaths=( $pattern )
-          echo "Found SDKROOT: ${sdkpaths[0]}"
           echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
           echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
-          echo "SDKROOT=${sdkpaths[0]}" >> $GITHUB_ENV
+          echo "SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" >> $GITHUB_ENV
+          sudo rm -Rf /Applications/Xcode_15.4.app
+          sudo ln -sf /Applications/Xcode_14.3.app /Applications/Xcode.app
+          sudo mv /Library/Developer/CommandLineTools/SDKs /Library/Developer/CommandLineTools/oldSDKs
+          sudo ln -sf /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs /Library/Developer/CommandLineTools/
+          ls -l /Library/Developer/CommandLineTools/SDKs/
 
       - name: Set up Homebrew
         id: set-up-homebrew
