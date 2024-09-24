@@ -25,12 +25,13 @@ jobs:
           brew remove $(brew list --formula)
           echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
           echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
-          echo "SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" >> $GITHUB_ENV
           sudo rm -Rf /Applications/Xcode_15.4.app
           sudo ln -sf /Applications/Xcode_14.3.app /Applications/Xcode.app
           sudo mv /Library/Developer/CommandLineTools/SDKs /Library/Developer/CommandLineTools/oldSDKs
           sudo ln -sf /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs /Library/Developer/CommandLineTools/
           ls -l /Library/Developer/CommandLineTools/SDKs/
+          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/build_environment.rb
+          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/extend/ENV/shared.rb
 
       - name: Set up Homebrew
         id: set-up-homebrew
