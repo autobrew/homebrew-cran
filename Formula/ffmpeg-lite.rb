@@ -14,11 +14,10 @@ class FfmpegLite < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/ffmpeg-lite-6.0"
-    sha256 arm64_big_sur: "5b5a39d041ac36b82bf623dd5b33ffe6e28c391506dd90da62ecacdf66980cad"
-    sha256 ventura:       "9ea97312b8a06a0a97086ab5fa48e1197bad113e396d4c1acfb42526be74cca0"
-    sha256 monterey:      "2605faa32021c83274d3f3393932a978ca36fe3a54b3f2a162c730e45d489f8c"
-    sha256 big_sur:       "da4f4338d9cb17bb6a88d08beebe6832d701f2400e27c983fb0991e85f35ec07"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/ffmpeg-lite-7.0.2"
+    sha256 arm64_sonoma:  "5627adaef97bbc84c7a4fbcc055c6976f5867988a5ae8fc81147382972a5826b"
+    sha256 arm64_ventura: "dc9223dedfd7feae8ee58075253d4b3f7b1745c70e76c5d86e3019693c57b6d7"
+    sha256 ventura:       "a0e0da95c604eb0fca175895d7be1ff3e0cf5d02fadbc602870bb9a42a84807d"
   end
 
   depends_on "pkg-config" => :build
