@@ -43,9 +43,9 @@ jobs:
 
       - run: brew test-bot --only-cleanup-before
 
-      - run: brew test-bot --only-setup || true
+#      - run: brew test-bot --only-setup || true
 
-      - run: brew test-bot --only-tap-syntax || true
+#      - run: brew test-bot --only-tap-syntax || true
 
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
