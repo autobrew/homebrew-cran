@@ -29,6 +29,8 @@ jobs:
           echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
           echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
           echo "SDKROOT=${sdkpaths[0]}" >> $GITHUB_ENV
+          rm -Rf /Applications/Xcode_15.4.app
+          ln -sf /Applications/Xcode_14.3.app /Applications/Xcode.app
 
       - name: Set up Homebrew
         id: set-up-homebrew
