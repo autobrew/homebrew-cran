@@ -1,8 +1,8 @@
 class Libgit2Static < Formula
   desc "C library of Git core methods that is re-entrant and linkable"
   homepage "https://libgit2.github.com/"
-  url "https://github.com/libgit2/libgit2/archive/refs/tags/v1.8.1.tar.gz"
-  sha256 "8c1eaf0cf07cba0e9021920bfba9502140220786ed5d8a8ec6c7ad9174522f8e"
+  url "https://github.com/libgit2/libgit2/archive/refs/tags/v1.8.2.tar.gz"
+  sha256 "184699f0d9773f96eeeb5cb245ba2304400f5b74671f313240410f594c566a28"
   license "GPL-2.0-only" => { with: "GCC-exception-2.0" }
   head "https://github.com/libgit2/libgit2.git", branch: "main"
 
