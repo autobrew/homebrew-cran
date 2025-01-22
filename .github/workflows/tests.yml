@@ -19,17 +19,24 @@ jobs:
           curl -OL https://raw.githubusercontent.com/autobrew/bundler/master/lib/bigsur-reset.sh
           chmod +x bigsur-reset.sh && ./bigsur-reset.sh
 
+      - name: Install MacOS 13 SDK
+        if: matrix.os == 'macos-13-arm64'
+        run: |
+          cd /Library/Developer/CommandLineTools/SDKs/
+          sudo rm -Rf *
+          sudo curl -OL https://github.com/joseluisq/macosx-sdks/releases/download/13.3/MacOSX13.3.sdk.tar.xz
+          sudo tar xf MacOSX13.3.sdk.tar.xz
+          sudo rm -f MacOSX13.3.sdk.tar.xz
+          sudo ln -sf MacOSX13.3.sdk MacOSX.sdk
+          ls -l
+          sudo xcode-select -s /Library/Developer/CommandLineTools
+
       - name: Prepare fake MacOS-13 environment
         if: matrix.os == 'macos-13-arm64'
         run: |
           brew remove $(brew list --formula)
           echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
           echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
-          sudo rm -Rf /Applications/Xcode_15.4.app
-          sudo ln -sf /Applications/Xcode_14.3.app /Applications/Xcode.app
-          sudo mv /Library/Developer/CommandLineTools/SDKs /Library/Developer/CommandLineTools/oldSDKs
-          sudo ln -sf /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs /Library/Developer/CommandLineTools/
-          ls -l /Library/Developer/CommandLineTools/SDKs/
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/build_environment.rb
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/extend/ENV/shared.rb
 

@@ -1,38 +1,40 @@
 class OpensslStatic < Formula
   desc "Cryptography and SSL/TLS Toolkit"
-  homepage "https://openssl.org/"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz"
-  mirror "https://www.openssl.org/source/openssl-3.3.0.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/openssl-3.3.0.tar.gz"
-  sha256 "53e66b043322a606abf0087e7699a0e033a37fa13feb9742df35c3a33b18fb02"
+  homepage "https://openssl-library.org"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.3.2/openssl-3.3.2.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/openssl-3.3.2.tar.gz"
+  sha256 "2e8a40b01979afe8be0bbfb3de5dc1c6709fedb46d6c89c10da114ab5fc3d281"
   license "Apache-2.0"
 
   livecheck do
-    url "https://www.openssl.org/source/"
-    regex(/href=.*?openssl[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    url "https://openssl-library.org/source/"
+    regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.3.0"
-    sha256 arm64_big_sur: "9673d6eed99b74d82d87e8d0ffe05eb579e15ec407080e818a8a4505e18b2ba8"
-    sha256 ventura:       "2948a094056a4082f977b489b1651c8b899c39c674366baac44610f871b91580"
-    sha256 monterey:      "ccc816e07f2c5793307f7c84b56e3ebbf6689391e52e388f40f62c619677d399"
-    sha256 big_sur:       "011c896b46537caf9bbf701da49d8a90a6e4f4dd65613e7eaa6b05fa0bf42680"
+    rebuild 1
+    sha256 arm64_sonoma:   "f0dc71fe6bb0ce1618acd7c4a68dcaf5d725bd2beb2b703c1992e8ba91b5c7c7"
+    sha256 arm64_ventura:  "b39924b6b665832c7dcb46e99a5e257ca3e932313c528086631769933c78d9a0"
+    sha256 arm64_monterey: "4cde73aab115e6c814c8a98488c742a622f26ee8d7b2cfb422b69eccbde8148f"
+    sha256 sonoma:         "5bf5e00bd262cb450490fad19b167cb684dfe8ba9c4f3dfa079871f437cac84a"
+    sha256 ventura:        "c3148aa9a81e9cd5e05f6171a9febdbe2de43a9ce1d9b8dc58bf041ce112c7fc"
+    sha256 monterey:       "f18b36971ea359ccc7d69b5b4a7ab22ccf363c45a51417d984301700c1c73fdf"
+    sha256 x86_64_linux:   "63d76975c55730b4f46dd00ed325de913e8319b7fa6dae1e03eb11cc86514c7a"
   end
 
   depends_on "ca-certificates"
 
   on_linux do
     resource "Test::Harness" do
-      url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.44.tar.gz"
-      mirror "http://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.44.tar.gz"
-      sha256 "7eb591ea6b499ece6745ff3e80e60cee669f0037f9ccbc4e4511425f593e5297"
+      url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.50.tar.gz"
+      mirror "http://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.50.tar.gz"
+      sha256 "79b6acdc444f1924cd4c2e9ed868bdc6e09580021aca8ff078ede2ffef8a6f54"
     end
 
     resource "Test::More" do
-      url "https://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302195.tar.gz"
-      mirror "http://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302195.tar.gz"
-      sha256 "b390bb23592e0b946c95adbb3c30b11bc634a286b2847be611ad929c57e39a6c"
+      url "https://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302201.tar.gz"
+      mirror "http://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302201.tar.gz"
+      sha256 "956185dc96c1f2942f310a549a2b206cc5dd1487558f4e36d87af7a8aacbc87c"
     end
 
     resource "ExtUtils::MakeMaker" do
@@ -55,7 +57,7 @@ class OpensslStatic < Formula
     args = %W[
       --prefix=#{prefix}
       --openssldir=#{openssldir}
-      --libdir=#{lib}
+      --libdir=lib
       no-shared
       no-module
       no-ssl3
@@ -72,11 +74,12 @@ class OpensslStatic < Formula
 
   def install
     if OS.linux?
-      ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
+      ENV.prepend_create_path "PERL5LIB", buildpath/"lib/perl5"
+      ENV.prepend_path "PATH", buildpath/"bin"
 
       %w[ExtUtils::MakeMaker Test::Harness Test::More].each do |r|
         resource(r).stage do
-          system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+          system "perl", "Makefile.PL", "INSTALL_BASE=#{buildpath}"
           system "make", "PERL5LIB=#{ENV["PERL5LIB"]}", "CC=#{ENV.cc}"
           system "make", "install"
         end
@@ -104,7 +107,12 @@ class OpensslStatic < Formula
     system "perl", "./Configure", *(configure_args + arch_args)
     system "make"
     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
-    system "make", "test"
+    # AF_ALG support isn't always enabled (e.g. some containers), which breaks the tests.
+    # AF_ALG is a kernel feature and failures are unlikely to be issues with the formula.
+    system "make", "test", "TESTS=-test_afalg"
+
+    # Prevent `brew` from pruning the `certs` and `private` directories.
+    touch %w[certs private].map { |subdir| openssldir/subdir/".keepme" }
   end
 
   def openssldir
@@ -112,7 +120,7 @@ class OpensslStatic < Formula
   end
 
   def post_install
-    rm(openssldir/"cert.pem")
+    rm(openssldir/"cert.pem") if (openssldir/"cert.pem").exist?
     openssldir.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
   end
 
