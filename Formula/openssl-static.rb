@@ -5,7 +5,7 @@ class OpensslStatic < Formula
   mirror "http://fresh-center.net/linux/misc/openssl-3.3.2.tar.gz"
   sha256 "2e8a40b01979afe8be0bbfb3de5dc1c6709fedb46d6c89c10da114ab5fc3d281"
   license "Apache-2.0"
-  revision 1
+  revision 2
 
   livecheck do
     url "https://openssl-library.org/source/"
@@ -54,7 +54,7 @@ class OpensslStatic < Formula
   def configure_args
     args = %W[
       --prefix=#{prefix}
-      --openssldir=#{openssldir}
+      --openssldir=/etc/ssl
       --libdir=lib
       no-shared
       no-module
@@ -101,36 +101,12 @@ class OpensslStatic < Formula
       arch_args << (Hardware::CPU.is_64_bit? ? "linux-aarch64" : "linux-armv4")
     end
 
-    openssldir.mkpath
     system "perl", "./Configure", *(configure_args + arch_args)
     system "make"
     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
     # AF_ALG support isn't always enabled (e.g. some containers), which breaks the tests.
     # AF_ALG is a kernel feature and failures are unlikely to be issues with the formula.
     system "make", "test", "TESTS=-test_afalg"
-
-    # Prevent `brew` from pruning the `certs` and `private` directories.
-    touch %w[certs private].map { |subdir| openssldir/subdir/".keepme" }
-  end
-
-  def openssldir
-    etc/"openssl@3"
-  end
-
-  def post_install
-    rm(openssldir/"cert.pem") if (openssldir/"cert.pem").exist?
-    openssldir.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
-  end
-
-  def caveats
-    <<~EOS
-      A CA file has been bootstrapped using certificates from the system
-      keychain. To add additional certificates, place .pem files in
-        #{openssldir}/certs
-
-      and run
-        #{opt_bin}/c_rehash
-    EOS
   end
 
   test do
