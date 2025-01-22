@@ -14,6 +14,14 @@ class CurlLite < Formula
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-lite-8.11.1"
+    sha256 arm64_ventura: "1168de8cc64640f9f8c7e325aa94e1e0715732847e57986a27284e4aa4765b4f"
+    sha256 arm64_big_sur: "03c5659ece6b8fb1a49fbc29bc53daf34f8535deb9dfdea1df43bff5b9d58d06"
+    sha256 ventura:       "b407f6047c528b1ef379f3f22198624a4792409b1436454ef48f4c793bd5ebac"
+    sha256 big_sur:       "6163ed7a48466db17b990d867905e8707fb586057177f2f7b736a7ba20f1ae65"
+  end
+
   head do
     url "https://github.com/curl/curl.git", branch: "master"
 
