@@ -8,6 +8,7 @@ class CurlLite < Formula
   mirror "http://fresh-center.net/linux/www/curl-8.11.1.tar.bz2"
   sha256 "e9773ad1dfa21aedbfe8e1ef24c9478fa780b1b3d4f763c98dd04629b5e43485"
   license "curl"
+  revision 1
 
   livecheck do
     url "https://curl.se/download/"
@@ -49,12 +50,13 @@ class CurlLite < Formula
 
     system "./buildconf" if build.head?
 
+    # cf https://github.com/apple-oss-distributions/curl/blob/HEAD/config_mac/curl_config.h
     args = %W[
       --disable-silent-rules
       --with-ssl=#{Formula["openssl-static"].opt_prefix}
-      --without-ca-bundle
+      --with-ca-bundle=/etc/ssl/cert.pem
       --without-ca-path
-      --with-ca-fallback
+      --without-ca-fallback
       --with-secure-transport
       --with-default-ssl-backend=openssl
       --without-librtmp
