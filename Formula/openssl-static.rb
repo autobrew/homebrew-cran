@@ -12,14 +12,10 @@ class OpensslStatic < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 arm64_sonoma:   "f0dc71fe6bb0ce1618acd7c4a68dcaf5d725bd2beb2b703c1992e8ba91b5c7c7"
-    sha256 arm64_ventura:  "b39924b6b665832c7dcb46e99a5e257ca3e932313c528086631769933c78d9a0"
-    sha256 arm64_monterey: "4cde73aab115e6c814c8a98488c742a622f26ee8d7b2cfb422b69eccbde8148f"
-    sha256 sonoma:         "5bf5e00bd262cb450490fad19b167cb684dfe8ba9c4f3dfa079871f437cac84a"
-    sha256 ventura:        "c3148aa9a81e9cd5e05f6171a9febdbe2de43a9ce1d9b8dc58bf041ce112c7fc"
-    sha256 monterey:       "f18b36971ea359ccc7d69b5b4a7ab22ccf363c45a51417d984301700c1c73fdf"
-    sha256 x86_64_linux:   "63d76975c55730b4f46dd00ed325de913e8319b7fa6dae1e03eb11cc86514c7a"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.3.2"
+    sha256 arm64_sonoma:  "dbcf2e83da322727cbaa65afb5119c503fb185cfd54e940db2a219f63bb31969"
+    sha256 arm64_ventura: "167835a30e8dda28451cfdaca58f4bed3a2bf2695155f8b5bdba3390f23e518d"
+    sha256 ventura:       "8647d92a83fdf9626d3f558d69167623851f6f6e428f3afa0203003f0693258d"
   end
 
   depends_on "ca-certificates"
