@@ -12,6 +12,14 @@ class Libnghttp2Static < Formula
     formula "nghttp2"
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libnghttp2-static-1.64.0"
+    sha256 cellar: :any, arm64_ventura: "07d11b0786641150528a78d28299aba3afa72c8dd7b676044143917d54d476b5"
+    sha256 cellar: :any, arm64_big_sur: "e80423c15b8db847b62a0ee06d18c4d5e44eadbd13eb0bfee2ee8f495986aa14"
+    sha256 cellar: :any, ventura:       "ae033518e37a0bdd710a357febcd590ef85f7c8155f65ed44883099b9f6cc384"
+    sha256 cellar: :any, big_sur:       "ed0eed067538804eeb8e23be780fa30c0ac3eacef657fff3ca619e110593e2be"
+  end
+
   head do
     url "https://github.com/nghttp2/nghttp2.git", branch: "master"
 
