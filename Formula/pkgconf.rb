@@ -11,6 +11,14 @@ class Pkgconf < Formula
     regex(/href=.*?pkgconf[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/pkgconf-2.3.0"
+    sha256 arm64_ventura: "4bf8f1de9bf9f6601a888a2a2a86a2ac92f95d5dd81d19e590a37ee94a643207"
+    sha256 arm64_big_sur: "e384b5334e9274448863eca322b6742ceadbcae5ad9f85e073d91f9c61b474dd"
+    sha256 ventura:       "9b47ff11a69a57e3847dae1c75a14dcb663adf9903f2422f5a14f97a773bb11a"
+    sha256 big_sur:       "06153b154662c2c658783dc6d8673a48abcd91df6e72c3c1989298ef8163cd1d"
+  end
+
   head do
     url "https://github.com/pkgconf/pkgconf.git", branch: "master"
 
