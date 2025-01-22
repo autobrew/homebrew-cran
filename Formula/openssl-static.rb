@@ -5,6 +5,7 @@ class OpensslStatic < Formula
   mirror "http://fresh-center.net/linux/misc/openssl-3.3.2.tar.gz"
   sha256 "2e8a40b01979afe8be0bbfb3de5dc1c6709fedb46d6c89c10da114ab5fc3d281"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://openssl-library.org/source/"

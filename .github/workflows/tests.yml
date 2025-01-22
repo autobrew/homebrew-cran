@@ -9,36 +9,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-14, macos-13-arm64]
-    runs-on: ${{ matrix.os == 'macos-13-arm64' && 'macos-14' || matrix.os }}
+        arch: [intel, arm]
+        sdk: [11.3, 13.3]
+    runs-on: ${{ matrix.arch == 'arm' && 'macos-14' || 'macos-13' }}
     steps:
-      - id: reset
-        if: matrix.os == 'macos-11'
-        name: Reset homebrew to bigsur
-        run: |
-          curl -OL https://raw.githubusercontent.com/autobrew/bundler/master/lib/bigsur-reset.sh
-          chmod +x bigsur-reset.sh && ./bigsur-reset.sh
 
-      - name: Install MacOS 13 SDK
-        if: matrix.os == 'macos-13-arm64'
+      - name: Install MacOS ${{matrix.target}} SDK
         run: |
+          sdk=${{matrix.sdk}}
           cd /Library/Developer/CommandLineTools/SDKs/
           sudo rm -Rf *
-          sudo curl -OL https://github.com/joseluisq/macosx-sdks/releases/download/13.3/MacOSX13.3.sdk.tar.xz
-          sudo tar xf MacOSX13.3.sdk.tar.xz
-          sudo rm -f MacOSX13.3.sdk.tar.xz
-          sudo ln -sf MacOSX13.3.sdk MacOSX.sdk
+          sudo curl -OL https://github.com/joseluisq/macosx-sdks/releases/download/${sdk}/MacOSX${sdk}.sdk.tar.xz
+          sudo tar xf MacOSX${sdk}.sdk.tar.xz
+          sudo rm -f MacOSX${sdk}.sdk.tar.xz
+          sudo ln -sf MacOSX${sdk}.sdk MacOSX.sdk
           ls -l
           sudo xcode-select -s /Library/Developer/CommandLineTools
+          echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> $GITHUB_ENV
 
-      - name: Prepare fake MacOS-13 environment
-        if: matrix.os == 'macos-13-arm64'
+      - name: Prepare fake MacOS-11 environment
         run: |
           brew remove $(brew list --formula)
-          echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
-          echo "MACOSX_DEPLOYMENT_TARGET=13.0" >> $GITHUB_ENV
-          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/build_environment.rb
-          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' /opt/homebrew/Library/Homebrew/extend/ENV/shared.rb
+          echo "HOMEBREW_FAKE_MACOS=${{matrix.sdk == '11.3' && '11.7.0' || '13.7.0'}}" >> $GITHUB_ENV
+          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
+          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
 
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -48,8 +42,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ matrix.os }}-rubygems-
+          key: ${{ matrix.arch }}-${{ matrix.sdk }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.arch }}-${{ matrix.sdk }}-rubygems-
 
       - run: brew test-bot --only-cleanup-before
 
@@ -64,5 +58,5 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
-          name: bottles_${{ matrix.os }}
+          name: bottles_${{ matrix.arch }}_${{ matrix.sdk }}
           path: '*.bottle.*'
