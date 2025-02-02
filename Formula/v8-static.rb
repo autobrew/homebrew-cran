@@ -6,12 +6,6 @@ class V8Static < Formula
   sha256 "00425fe7fd851f11839537256922addbfee0f5d27c6bf5ab375b9d0347d8ed94"
   license "BSD-3-Clause"
 
-  bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-12.7.224.16"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "38e87a70632ca6dce07d87307c261f23a7b8006ae719941159cf0886a9c3f352"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "38e87a70632ca6dce07d87307c261f23a7b8006ae719941159cf0886a9c3f352"
-    sha256 cellar: :any_skip_relocation, ventura:       "ac77cfe19fd262fe20bafdfab62e99aee65ae56dd121c4286e1d26bf4b6448e5"
-  end
 
   depends_on "ninja" => :build
   depends_on xcode: ["10.0", :build] # for xcodebuild, min version required by v8
