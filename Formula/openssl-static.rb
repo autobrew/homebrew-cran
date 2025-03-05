@@ -1,11 +1,10 @@
 class OpensslStatic < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl-library.org"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.3.2/openssl-3.3.2.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/openssl-3.3.2.tar.gz"
-  sha256 "2e8a40b01979afe8be0bbfb3de5dc1c6709fedb46d6c89c10da114ab5fc3d281"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.4.1/openssl-3.4.1.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/openssl-3.4.1.tar.gz"
+  sha256 "002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3"
   license "Apache-2.0"
-  revision 1
 
   livecheck do
     url "https://openssl-library.org/source/"
@@ -86,6 +85,7 @@ class OpensslStatic < Formula
 
     # This could interfere with how we expect OpenSSL to build.
     ENV.delete("OPENSSL_LOCAL_CONFIG_DIR")
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
     # This ensures where Homebrew's Perl is needed the Cellar path isn't
     # hardcoded into OpenSSL's scripts, causing them to break every Perl update.
