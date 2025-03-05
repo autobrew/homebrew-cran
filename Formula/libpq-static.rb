@@ -2,7 +2,7 @@ class LibpqStatic < Formula
   desc "Postgres C API library"
   homepage "https://www.postgresql.org/docs/current/libpq.html"
   url "https://ftp.postgresql.org/pub/source/v16.8/postgresql-16.8.tar.bz2"
-  sha256 "55f7d9e99b8e2d4e0e193b2f0275501e6d9c1ebd29cadbea6a0da48a8587e3e0"
+  sha256 "9468083a56ce0ee7d294601b74dad3dd9fc69d87aff61f0a9fb63c813ff7efd8"
   license "PostgreSQL"
 
   livecheck do
@@ -40,9 +40,10 @@ class LibpqStatic < Formula
                           "--prefix=#{prefix}",
                           "--with-gssapi",
                           "--with-openssl",
+                          "--without-icu",
                           "--libdir=#{opt_lib}",
                           "--includedir=#{opt_include}"
-                          "--without-icu"
+
     dirs = %W[
       libdir=#{lib}
       includedir=#{include}
