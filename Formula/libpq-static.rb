@@ -1,8 +1,8 @@
 class LibpqStatic < Formula
   desc "Postgres C API library"
   homepage "https://www.postgresql.org/docs/current/libpq.html"
-  url "https://ftp.postgresql.org/pub/source/v16.2/postgresql-16.2.tar.bz2"
-  sha256 "446e88294dbc2c9085ab4b7061a646fa604b4bec03521d5ea671c2e5ad9b2952"
+  url "https://ftp.postgresql.org/pub/source/v16.8/postgresql-16.8.tar.bz2"
+  sha256 "55f7d9e99b8e2d4e0e193b2f0275501e6d9c1ebd29cadbea6a0da48a8587e3e0"
   license "PostgreSQL"
 
   livecheck do
@@ -22,7 +22,6 @@ class LibpqStatic < Formula
   keg_only "conflicts with postgres formula"
 
   depends_on "pkg-config" => :build
-  depends_on "icu4c"
   # GSSAPI provided by Kerberos.framework crashes when forked.
   # See https://github.com/Homebrew/homebrew-core/issues/47494.
   depends_on "krb5"
@@ -35,12 +34,15 @@ class LibpqStatic < Formula
   end
 
   def install
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
+
     system "./configure", "--disable-debug",
                           "--prefix=#{prefix}",
                           "--with-gssapi",
                           "--with-openssl",
                           "--libdir=#{opt_lib}",
                           "--includedir=#{opt_include}"
+                          "--without-icu"
     dirs = %W[
       libdir=#{lib}
       includedir=#{include}
