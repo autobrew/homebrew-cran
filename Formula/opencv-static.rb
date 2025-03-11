@@ -1,9 +1,10 @@
 class OpencvStatic < Formula
   desc "Open source computer vision library"
   homepage "https://opencv.org/"
-  url "https://github.com/opencv/opencv/archive/refs/tags/4.10.0.tar.gz"
-  sha256 "b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"
+  url "https://github.com/opencv/opencv/archive/refs/tags/4.11.0.tar.gz"
+  sha256 "9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url :stable
@@ -32,8 +33,8 @@ class OpencvStatic < Formula
   fails_with gcc: "5" # ffmpeg is compiled with GCC
 
   resource "contrib" do
-    url "https://github.com/opencv/opencv_contrib/archive/refs/tags/4.10.0.tar.gz"
-    sha256 "65597f8fb8dc2b876c1b45b928bbcc5f772ddbaf97539bf1b737623d0604cba1"
+    url "https://github.com/opencv/opencv_contrib/archive/refs/tags/4.11.0.tar.gz"
+    sha256 "2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041"
   end
 
   def python3
@@ -48,6 +49,8 @@ class OpencvStatic < Formula
 
     # Reset PYTHONPATH, workaround for https://github.com/Homebrew/homebrew-science/pull/4885
     ENV.delete("PYTHONPATH")
+
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
     args = std_cmake_args + %W[
       -DCMAKE_OSX_DEPLOYMENT_TARGET=
