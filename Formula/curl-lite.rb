@@ -94,11 +94,11 @@ class CurlLite < Formula
     # Fetch the curl tarball and see that the checksum matches.
     # This requires a network connection, but so does Homebrew in general.
     filename = testpath/"test.tar.gz"
-    system bin/"curl", "--ca-native", "-L", stable.url, "-o", filename
+    system bin/"curl", "-L", stable.url, "-o", filename
     filename.verify_checksum stable.checksum
 
-    # Check cases that requires ca-native
-    system bin/"curl", "--ca-native", "-vOL", "https://www.transtats.bts.gov"
+    # Check cases that require --with-ca-fallback
+    system bin/"curl", "-vOL", "https://www.transtats.bts.gov"
     system bin/"curl", "-vOL", "https://health-products.canada.ca"
 
     # Check dependencies linked correctly
