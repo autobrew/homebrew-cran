@@ -3,12 +3,12 @@ class CurlLite < Formula
   homepage "https://curl.se"
   # Don't forget to update both instances of the version in the GitHub mirror URL.
   # `url` goes below this comment when the `stable` block is removed.
-  url "https://curl.se/download/curl-8.11.1.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-8_11_1/curl-8.11.1.tar.bz2"
-  mirror "http://fresh-center.net/linux/www/curl-8.11.1.tar.bz2"
-  sha256 "e9773ad1dfa21aedbfe8e1ef24c9478fa780b1b3d4f763c98dd04629b5e43485"
+  url "https://curl.se/download/curl-8.13.0.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-8_13_0/curl-8.13.0.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/curl-8.13.0.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/legacy/curl-8.13.0.tar.bz2"
+  sha256 "e0d20499260760f9865cb6308928223f4e5128910310c025112f592a168e1473"
   license "curl"
-  revision 1
 
   livecheck do
     url "https://curl.se/download/"
@@ -42,6 +42,7 @@ class CurlLite < Formula
   uses_from_macos "zlib"
 
   def install
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
     tag_name = "curl-#{version.to_s.tr(".", "_")}"
     if build.stable? && stable.mirrors.grep(/github\.com/).first.exclude?(tag_name)
       odie "Tag name #{tag_name} is not found in the GitHub mirror URL! " \
@@ -54,9 +55,9 @@ class CurlLite < Formula
     args = %W[
       --disable-silent-rules
       --with-ssl=#{Formula["openssl-static"].opt_prefix}
-      --with-ca-bundle=/etc/ssl/cert.pem
+      --without-ca-bundle
       --without-ca-path
-      --without-ca-fallback
+      --with-ca-fallback
       --with-secure-transport
       --with-default-ssl-backend=openssl
       --without-librtmp
@@ -93,18 +94,18 @@ class CurlLite < Formula
     # Fetch the curl tarball and see that the checksum matches.
     # This requires a network connection, but so does Homebrew in general.
     filename = testpath/"test.tar.gz"
-    system bin/"curl", "-L", stable.url, "-o", filename
+    system bin/"curl", "--ca-native", "-L", stable.url, "-o", filename
     filename.verify_checksum stable.checksum
+
+    # Check cases that requires ca-native
+    system bin/"curl", "--ca-native", "-vOL", "https://www.transtats.bts.gov"
+    system bin/"curl", "--ca-native", "-vOL", "https://health-products.canada.ca"
 
     # Check dependencies linked correctly
     curl_features = shell_output("#{bin}/curl-config --features").split("\n")
     %w[GSS-API HTTP2 libz SSL].each do |feature|
       assert_includes curl_features, feature
     end
-
-    system libexec/"mk-ca-bundle.pl", "test.pem"
-    assert_path_exists testpath/"test.pem"
-    assert_path_exists testpath/"certdata.txt"
 
     with_env(PKG_CONFIG_PATH: lib/"pkgconfig") do
       system "pkgconf", "--cflags", "libcurl"
