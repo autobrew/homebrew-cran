@@ -57,7 +57,7 @@ class CurlLite < Formula
       --with-ssl=#{Formula["openssl-static"].opt_prefix}
       --without-ca-bundle
       --without-ca-path
-      --with-ca-fallback
+      --without-ca-fallback
       --with-secure-transport
       --with-default-ssl-backend=openssl
       --without-librtmp
