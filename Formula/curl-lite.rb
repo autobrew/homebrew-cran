@@ -3,12 +3,12 @@ class CurlLite < Formula
   homepage "https://curl.se"
   # Don't forget to update both instances of the version in the GitHub mirror URL.
   # `url` goes below this comment when the `stable` block is removed.
-  url "https://curl.se/download/curl-8.11.1.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-8_11_1/curl-8.11.1.tar.bz2"
-  mirror "http://fresh-center.net/linux/www/curl-8.11.1.tar.bz2"
-  sha256 "e9773ad1dfa21aedbfe8e1ef24c9478fa780b1b3d4f763c98dd04629b5e43485"
+  url "https://curl.se/download/curl-8.13.0.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-8_13_0/curl-8.13.0.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/curl-8.13.0.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/legacy/curl-8.13.0.tar.bz2"
+  sha256 "e0d20499260760f9865cb6308928223f4e5128910310c025112f592a168e1473"
   license "curl"
-  revision 1
 
   livecheck do
     url "https://curl.se/download/"
@@ -36,12 +36,14 @@ class CurlLite < Formula
   depends_on "autobrew/cran/pkgconf" => [:build, :test]
   depends_on "libnghttp2-static"
   depends_on "openssl-static"
+  depends_on "rustls-ffi"
 
   uses_from_macos "krb5"
   uses_from_macos "openldap"
   uses_from_macos "zlib"
 
   def install
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
     tag_name = "curl-#{version.to_s.tr(".", "_")}"
     if build.stable? && stable.mirrors.grep(/github\.com/).first.exclude?(tag_name)
       odie "Tag name #{tag_name} is not found in the GitHub mirror URL! " \
@@ -58,6 +60,7 @@ class CurlLite < Formula
       --without-ca-path
       --without-ca-fallback
       --with-secure-transport
+      --with-rustls=#{Formula["rustls-ffi"].opt_prefix}
       --with-default-ssl-backend=openssl
       --without-librtmp
       --without-libssh2
