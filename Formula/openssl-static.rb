@@ -5,6 +5,7 @@ class OpensslStatic < Formula
   mirror "http://fresh-center.net/linux/misc/openssl-3.5.0.tar.gz"
   sha256 "344d0a79f1a9b08029b0744e2cc401a43f9c90acd1044d09a530b4885a8e9fc0"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://openssl-library.org/source/"
@@ -18,8 +19,6 @@ class OpensslStatic < Formula
     sha256 ventura:       "429c28aac80a68a11911d46078af006c7c8247c8eaf8b441f68e9f1caa73f0b4"
     sha256 big_sur:       "f301fede87ae830edc9b091b26c9b842b92fda4e1f3fe0fa57f1ce21bf82b2c3"
   end
-
-  depends_on "ca-certificates"
 
   on_linux do
     resource "Test::Harness" do
@@ -53,7 +52,7 @@ class OpensslStatic < Formula
   def configure_args
     args = %W[
       --prefix=#{prefix}
-      --openssldir=#{openssldir}
+      --openssldir=/etc/ssl
       --libdir=lib
       no-shared
       no-module
@@ -101,7 +100,6 @@ class OpensslStatic < Formula
       arch_args << (Hardware::CPU.is_64_bit? ? "linux-aarch64" : "linux-armv4")
     end
 
-    openssldir.mkpath
     system "perl", "./Configure", *(configure_args + arch_args)
     system "make"
     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
@@ -111,26 +109,6 @@ class OpensslStatic < Formula
 
     # Prevent `brew` from pruning the `certs` and `private` directories.
     touch %w[certs private].map { |subdir| openssldir/subdir/".keepme" }
-  end
-
-  def openssldir
-    etc/"openssl@3"
-  end
-
-  def post_install
-    rm(openssldir/"cert.pem") if (openssldir/"cert.pem").exist?
-    openssldir.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
-  end
-
-  def caveats
-    <<~EOS
-      A CA file has been bootstrapped using certificates from the system
-      keychain. To add additional certificates, place .pem files in
-        #{openssldir}/certs
-
-      and run
-        #{opt_bin}/c_rehash
-    EOS
   end
 
   test do
