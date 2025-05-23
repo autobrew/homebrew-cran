@@ -55,7 +55,7 @@ class CurlLite < Formula
     args = %W[
       --disable-silent-rules
       --with-ssl=#{Formula["openssl-static"].opt_prefix}
-      --with-ca-bundle=/etc/ssl/cert.pem
+      --without-ca-bundle
       --without-ca-path
       --with-ca-fallback
       --with-secure-transport
@@ -99,7 +99,7 @@ class CurlLite < Formula
 
     # Check cases that requires ca-native
     system bin/"curl", "--ca-native", "-vOL", "https://www.transtats.bts.gov"
-    system bin/"curl", "--ca-native", "-vOL", "https://health-products.canada.ca"
+    system bin/"curl", "-vOL", "https://health-products.canada.ca"
 
     # Check dependencies linked correctly
     curl_features = shell_output("#{bin}/curl-config --features").split("\n")
