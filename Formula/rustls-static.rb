@@ -11,7 +11,7 @@ class RustlsStatic < Formula
   depends_on "rust" => :build
 
   def install
-    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
+    # ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
     system "cargo", "cinstall", "--jobs", ENV.make_jobs.to_s, "--release", "--prefix", prefix, "--libdir", lib
   end
 
