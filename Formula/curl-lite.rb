@@ -55,9 +55,9 @@ class CurlLite < Formula
     args = %W[
       --disable-silent-rules
       --with-ssl=#{Formula["openssl-static"].opt_prefix}
-      --without-ca-bundle
+      --with-ca-bundle=/etc/ssl/cert.pem
       --without-ca-path
-      --without-ca-fallback
+      --with-ca-fallback
       --with-secure-transport
       --with-default-ssl-backend=openssl
       --without-librtmp
