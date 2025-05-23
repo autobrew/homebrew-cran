@@ -26,6 +26,7 @@ jobs:
           ls -l
           sudo xcode-select -s /Library/Developer/CommandLineTools
           echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> $GITHUB_ENV
+          sudo mkdir -m777 -p /etc/ssl/private /etc/ssl/misc
 
       - name: Prepare fake MacOS environment
         run: |
