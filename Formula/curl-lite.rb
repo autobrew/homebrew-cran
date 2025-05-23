@@ -36,7 +36,7 @@ class CurlLite < Formula
   depends_on "autobrew/cran/pkgconf" => [:build, :test]
   depends_on "libnghttp2-static"
   depends_on "openssl-static"
-  depends_on "rustls-ffi"
+  depends_on "wolfssl"
 
   uses_from_macos "krb5"
   uses_from_macos "openldap"
@@ -60,7 +60,7 @@ class CurlLite < Formula
       --without-ca-path
       --without-ca-fallback
       --with-secure-transport
-      --with-rustls=#{Formula["rustls-ffi"].opt_prefix}
+      --with-wolfssl
       --with-default-ssl-backend=openssl
       --without-librtmp
       --without-libssh2
