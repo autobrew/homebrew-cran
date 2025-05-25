@@ -39,6 +39,12 @@ class CurlMacos < Formula
   uses_from_macos "openldap"
   uses_from_macos "zlib"
 
+  # Fix for MacOS-12
+  patch do
+    url "https://github.com/curl/curl/commit/63b2ec738b8a0041de5d7997ad8ee87f37e6a3b2.patch?full_index=1"
+    sha256 "a41775a6bad18c82938cb484104dcfc225c9ccbc0fff8300c45437e99a6c6d9d"
+  end
+
   def install
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
     tag_name = "curl-#{version.to_s.tr(".", "_")}"
