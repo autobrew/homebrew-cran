@@ -15,10 +15,11 @@ class CurlMacos < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-macos-8.13.0"
-    sha256 cellar: :any, arm64_ventura: "3eb0f442cb1a54742eb18cb72bf7a58d1c7c3828e622d1e26e57aea2980d3ac2"
-    sha256 cellar: :any, arm64_big_sur: "aeb1ac03bf79516ab619577f030e738f279b920df767dd0c63a7c93747f6cb29"
-    sha256 cellar: :any, ventura:       "1dbe4a2f37960037ff17b5dca9c36907b345944045af718bebde468ec1b24745"
-    sha256 cellar: :any, big_sur:       "c72e5c8f8e54418b4aa84b64904c847b1f925ce034151db1b5a7634a78e59dcd"
+    rebuild 1
+    sha256 cellar: :any, arm64_ventura: "b672f1a7d0267cce961fd532aaab8cde50a4509ab8168eb4de0b951c38ad12e4"
+    sha256 cellar: :any, arm64_big_sur: "5783a955bdff129d21bfb6ea0a23a23a1f26cb21ec266fc9896f9dffb8fef259"
+    sha256 cellar: :any, ventura:       "00dc379979a58acb579ecb7abb68c9a91943d9538b4c17ca688baad0df576359"
+    sha256 cellar: :any, big_sur:       "35de03ada8e18a5b971f74e998fcf432ebbe2466bffc7bb182df22b9ea28490a"
   end
 
   head do
