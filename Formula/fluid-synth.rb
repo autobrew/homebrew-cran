@@ -91,7 +91,7 @@ class FluidSynth < Formula
     resource("homebrew-test").stage testpath
     wavout = testpath/"Drum_sample.wav"
     system bin/"fluidsynth", "-F", wavout, pkgshare/"sf2/VintageDreamsWaves-v2.sf2", testpath/"Drum_sample.mid"
-    assert_predicate wavout, :exist?
+    assert_path_exists wavout
 
     # Check the pkg-config module
     system "pkg-config", "--cflags", "--libs", "--static", lib/"pkgconfig/fluidsynth.pc"

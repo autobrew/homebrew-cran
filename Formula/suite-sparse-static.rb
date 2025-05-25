@@ -53,7 +53,7 @@ class SuiteSparseStatic < Formula
   test do
     system ENV.cc, "-o", "test", pkgshare/"klu_simple.c",
      "-L#{lib}", "-lsuitesparseconfig", "-lklu", "-lbtf", "-lcolamd", "-lamd"
-    assert_predicate testpath/"test", :exist?
+    assert_path_exists testpath/"test"
     assert_match "x [0] = 1", shell_output("./test")
   end
 end
