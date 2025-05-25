@@ -13,11 +13,11 @@ class Libressl3 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "bb0b93fb87cb0cb7caf4ace93bebe04e29a923c140375aa013a6a77dd27aad19"
-    sha256 big_sur:       "730c015b9fa817e1885e4da2440f86ee441dabd91e99d0465a70390262361996"
-    sha256 catalina:      "ce70f350875bc9fab948233b9d30c1545083e9a8204d24d769252f89fbdbccde"
-    sha256 mojave:        "af9065afe8ec39458e0227e2d874e08971e25763944ddd2d61fc9501f331b592"
-    sha256 x86_64_linux:  "a4e5d16b1e6ae117b89ea163e025648c1c2683c100ef2ce9e89f1ade402a0b77"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libressl3-3.3.5"
+    sha256 arm64_ventura: "bccbff07e6f36747adfa5554e7a4cb86b9c3bab8c02fe381bc6a87e50ea8a36d"
+    sha256 arm64_big_sur: "89c9d3f5f3b724c063ef60bbde6a37daedf32018fa552fa4f1477094cd490950"
+    sha256 ventura:       "9c085da6b919badfabdf10c3f7749ebf577af2af663888b2a9925c70b845a61d"
+    sha256 big_sur:       "7792c1b0995384fe8212dd1898694ff7ceb6d5e6fb9b74394f417e76cf930481"
   end
 
   head do
