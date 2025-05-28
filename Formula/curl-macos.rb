@@ -7,6 +7,7 @@ class CurlMacos < Formula
   mirror "https://github.com/curl/curl/releases/download/curl-8_14_0/curl-8.14.0.tar.bz2"
   sha256 "efa1403c5ac4490c8d50fc0cabe97710abb1bf2a456e375a56d960b20a1cba80"
   license "curl"
+  revision 1
 
   livecheck do
     url "https://curl.se/download/"
@@ -38,6 +39,12 @@ class CurlMacos < Formula
   uses_from_macos "krb5"
   uses_from_macos "openldap"
   uses_from_macos "zlib"
+
+  # Fix memory bug in curl 8.14.0
+  patch do
+    url "https://github.com/curl/curl/commit/d16ccbd55de80c271fe822f4ba8b6271fd9166ff.patch?full_index=1"
+    sha256 "d30d4336e2422bedba66600b4c05a3bed7f9c51c1163b75d9ee8a27424104745"
+  end
 
   # Fix for MacOS-12
   patch do
