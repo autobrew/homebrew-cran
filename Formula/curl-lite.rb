@@ -14,11 +14,11 @@ class CurlLite < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-lite-8.11.1_1"
-    sha256 arm64_ventura: "bdcdb2227a095a4004b3ed3de3d021e28c94de5a2bbcf4467cbdaf6d9695af05"
-    sha256 arm64_big_sur: "f6e8cc4cd8d4addb94d440717fc45feac8146b4e4c1ca0d96c491a36921f1f40"
-    sha256 ventura:       "c82d4126f07931ffdfe59e9be76d28ca65ab7865a34697fc94f349597d3ae35a"
-    sha256 big_sur:       "17403b0647fd32972f411e116d0ebda9f895670e7b64ff7371cc1ee656e69124"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-lite-8.14.0"
+    sha256 arm64_ventura: "e0dfcab0e8a80c3f97ccc397cf2a24a24b84a61282570b98c66878e7d6d8dc83"
+    sha256 arm64_big_sur: "31efbfedb4df50c4de56283058ad5b44755f15970e531650d08221f3e5e44e69"
+    sha256 ventura:       "e358c51f392ece054c65877eca60faf0ab52334a498b5a5d80a1237fa135865d"
+    sha256 big_sur:       "41451af7e386c37b5e1b2b5c8a7070507c84999ba3edf6c84fbf87726ec5e885"
   end
 
   head do
