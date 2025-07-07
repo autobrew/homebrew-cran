@@ -13,13 +13,11 @@ class Libxml2Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "12bbcf2668d6a0dd1493d167428acf67f262fb13b1982511eec7afadfe3d12fd"
-    sha256 cellar: :any,                 arm64_sonoma:  "d9eee4e34d98f846d6dae120a51272e32a3fd8306bfd5b0bfa8d2af5fb0fb06b"
-    sha256 cellar: :any,                 arm64_ventura: "3981cb3adaf892fe72ede95d825535dde86727697198bf6967999a5690eac877"
-    sha256 cellar: :any,                 sonoma:        "07d9dbde746514cdabdd7b3b3ab15d26f46bff4772926f3b8f7545a7c6c5e456"
-    sha256 cellar: :any,                 ventura:       "c4eb4a4ead8d6a1a214d3a3b5c01f50b492927b6c9f5f3eedd6988708bdfa2f4"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "5c82daf83bbbcf9aba0ec01e4105446845a525cf87d6ef0716769a1909ed24d4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "03831d3b679e963d9be90a748746b447cc52a2398dc516dfd0ed7c26f9b431cf"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libxml2-static-2.14.4"
+    sha256 cellar: :any, arm64_ventura: "e1e60f1b05e241dde38cd9949bbb312f529ccbe68de0ee4c6bf1910ae0c1da97"
+    sha256 cellar: :any, arm64_big_sur: "93221f6031fcf5ad6635bc9c82c7df804caf177e76759c2a456bd23e6f10aa5f"
+    sha256 cellar: :any, ventura:       "182b6880cb40589819a931441fc4c5d9d4e706bcea669dd24d3543e424246e3e"
+    sha256 cellar: :any, big_sur:       "bdd8a616e678c405f8feb7d1f6acb502159bb0c820dfbcf829158e4cff9c7460"
   end
 
   head do
