@@ -3,8 +3,8 @@ class V8Static < Formula
   homepage "https://v8.dev/docs"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
   # Check `brew livecheck --resources v8` for any resource updates
-  url "https://github.com/v8/v8/archive/refs/tags/13.5.212.10.tar.gz"
-  sha256 "2c47b3de22591f4384f75aa462301eb9fdb9d661ee07f73cab95a89d0a75d5ae"
+  url "https://github.com/v8/v8/archive/refs/tags/13.6.233.10.tar.gz"
+  sha256 "a1d9609a90bebd88d41efef9e6ee84829dbe88684e807d552bc9ae73850d2aca"
   license "BSD-3-Clause"
 
   livecheck do
@@ -35,15 +35,10 @@ class V8Static < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "17f7942f13ff8b10fb467c44c6af7d33c0b0f1d26c6bb4522b9d8e2164cfe19f"
   end
 
-  depends_on "llvm" => :build
   depends_on "ninja" => :build
   depends_on xcode: ["10.0", :build] # for xcodebuild, min version required by v8
 
   uses_from_macos "python" => :build
-
-  on_macos do
-    depends_on "llvm" if DevelopmentTools.clang_build_version <= 1400
-  end
 
   on_linux do
     depends_on "lld" => :build
@@ -55,8 +50,8 @@ class V8Static < Formula
   # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#74
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "4a8016dc391553fa1644c0740cc04eaac844121e"
-    version "4a8016dc391553fa1644c0740cc04eaac844121e"
+        revision: "6e8e0d6d4a151ab2ed9b4a35366e630c55888444"
+    version "6e8e0d6d4a151ab2ed9b4a35366e630c55888444"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -66,8 +61,8 @@ class V8Static < Formula
 
   resource "build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "efb3303345a5501074564393470197a904b4afb7"
-    version "efb3303345a5501074564393470197a904b4afb7"
+        revision: "451ef881d77fff0b7a8bbfa61934f5e4a35b4c96"
+    version "451ef881d77fff0b7a8bbfa61934f5e4a35b4c96"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -77,8 +72,8 @@ class V8Static < Formula
 
   resource "buildtools" do
     url "https://chromium.googlesource.com/chromium/src/buildtools.git",
-        revision: "b248db940ef3dd7e5f4694ebf4d8a3f67aa0086d"
-    version "b248db940ef3dd7e5f4694ebf4d8a3f67aa0086d"
+        revision: "6f359296daa889aa726f3d05046b9f37be241169"
+    version "6f359296daa889aa726f3d05046b9f37be241169"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -88,8 +83,8 @@ class V8Static < Formula
 
   resource "third_party/abseil-cpp" do
     url "https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git",
-        revision: "2705c6655c0008cc3fb152dae27890d44bc335f1"
-    version "2705c6655c0008cc3fb152dae27890d44bc335f1"
+        revision: "3fbb10e80d80e3430224b75add53c47c7a711612"
+    version "3fbb10e80d80e3430224b75add53c47c7a711612"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -121,8 +116,8 @@ class V8Static < Formula
 
   resource "third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "24a9e940d481f992ba852599c78bb2217362847b"
-    version "24a9e940d481f992ba852599c78bb2217362847b"
+        revision: "52204f78f94d7512df1f0f3bea1d47437a2c3a58"
+    version "52204f78f94d7512df1f0f3bea1d47437a2c3a58"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -176,8 +171,8 @@ class V8Static < Formula
 
   resource "third_party/partition_alloc" do
     url "https://chromium.googlesource.com/chromium/src/base/allocator/partition_allocator.git",
-        revision: "46d880ff62f340854a5a70142b0abf604c7af221"
-    version "46d880ff62f340854a5a70142b0abf604c7af221"
+        revision: "ab56923a27b2793f21994589b0c39bc3324ff49f"
+    version "ab56923a27b2793f21994589b0c39bc3324ff49f"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -187,8 +182,8 @@ class V8Static < Formula
 
   resource "third_party/simdutf" do
     url "https://chromium.googlesource.com/chromium/src/third_party/simdutf.git",
-        revision: "5a9a2134b280c1b956ad68a0643797fe26dd1c94"
-    version "5a9a2134b280c1b956ad68a0643797fe26dd1c94"
+        revision: "40d1fa26cd5ca221605c974e22c001ca2fb12fde"
+    version "40d1fa26cd5ca221605c974e22c001ca2fb12fde"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -216,6 +211,7 @@ class V8Static < Formula
       system "ninja", "-C", "out/", "gn"
     end
     ENV.prepend_path "PATH", buildpath/"gn/out"
+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
     # create gclient_args.gni
     (buildpath/"build/config/gclient_args.gni").write <<~GN
@@ -238,11 +234,11 @@ class V8Static < Formula
       clang_use_chrome_plugins:     false, # disable the usage of Google's custom clang plugins
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
+      enable_rust:                  false,
     }
 
     # uses Homebrew clang instead of Google clang
-    gn_args[:clang_base_path] = "\"#{Formula["llvm"].opt_prefix}\""
-    gn_args[:clang_version] = "\"#{Formula["llvm"].version.major}\""
+    gn_args[:clang_base_path] = "\"/usr/bin\""
 
     if OS.linux?
       ENV.llvm_clang
@@ -259,11 +255,6 @@ class V8Static < Formula
       # Undefined symbols for architecture x86_64:
       #   "std::__1::__libcpp_verbose_abort(char const*, ...)", referenced from:
       #       std::__1::__throw_length_error[abi:nn180100](char const*) in stack_trace.o
-      if DevelopmentTools.clang_build_version <= 1400
-        gn_args[:fatal_linker_warnings] = false
-        inreplace "build/config/mac/BUILD.gn", "[ \"-Wl,-ObjC\" ]",
-                                               "[ \"-Wl,-ObjC\", \"-L#{Formula["llvm"].opt_lib}/c++\" ]"
-      end
     end
 
     # Make sure private libraries can be found from lib
@@ -274,30 +265,23 @@ class V8Static < Formula
 
     # Build with gn + ninja
     system "gn", "gen", "--args=#{gn_args_string}", "out.gn"
+    system "ninja", "-j", ENV.make_jobs, "-C", "out.gn", "-v", "v8_monolith"
     system "ninja", "-j", ENV.make_jobs, "-C", "out.gn", "-v", "d8"
 
-    # Install libraries and headers into libexec so d8 can find them, and into standard directories
-    # so other packages can find them and they are linked into HOMEBREW_PREFIX
-    libexec.install "include"
+    # Jeroen: somehow is_debug doesnt help
+    system "strip", "-S", "out.gn/obj/libv8_monolith.a"
 
-    # Make sure we don't symlink non-headers into `include`.
-    header_files_and_directories = (libexec/"include").children.select do |child|
-      (child.extname == ".h") || child.directory?
-    end
-    include.install_symlink header_files_and_directories
-
-    libexec.install "out.gn/d8", "out.gn/icudtl.dat"
-    bin.write_exec_script libexec/"d8"
-
-    libexec.install Pathname.glob("out.gn/#{shared_library("*")}")
-    lib.install_symlink libexec.glob(shared_library("libv8*"))
-    lib.glob("*.TOC").map(&:unlink) if OS.linux? # Remove symlinks to .so.TOC text files
+    # Install all the things
+    include.install Dir["include/*"]
+    lib.install "out.gn/obj/libv8_monolith.a"
+    lib.install_symlink "libv8_monolith.a" => "libv8.a"
+    lib.install_symlink "libv8_monolith.a" => "libv8_libplatform.a"
+    bin.install "out.gn/d8"
+    prefix.install_symlink "lib" => "libexec"
   end
 
   test do
     assert_equal "Hello World!", shell_output("#{bin}/d8 -e 'print(\"Hello World!\");'").chomp
-    t = "#{bin}/d8 -e 'print(new Intl.DateTimeFormat(\"en-US\").format(new Date(\"2012-12-20T03:00:00\")));'"
-    assert_match %r{12/\d{2}/2012}, shell_output(t).chomp
 
     (testpath/"test.cpp").write <<~CPP
       #include <libplatform/libplatform.h>
@@ -314,6 +298,6 @@ class V8Static < Formula
     system ENV.cxx, "-std=c++20", "test.cpp",
                     "-I#{include}", "-L#{lib}",
                     "-Wl,-rpath,#{libexec}",
-                    "-lv8", "-lv8_libplatform"
+                    "-lv8", "-lv8_libplatform", "-framework CoreFoundation"
   end
 end
