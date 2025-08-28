@@ -223,7 +223,6 @@ class V8Static < Formula
     gn_args = {
       is_debug:                     false,
       is_component_build:           false,
-      v8_enable_reverse_jsargs:     false,
       v8_monolithic:                true,
       v8_static_library:            true,
       is_asan:                      false,
