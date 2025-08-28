@@ -26,13 +26,9 @@ class V8Static < Formula
   no_autobump! because: :requires_manual_review
 
   bottle do
-    sha256 cellar: :any,                 arm64_sequoia: "ee9f92d890ff6d646db3b11554be91ed50219923f5a7900d7f3e980a8d00f9e8"
-    sha256 cellar: :any,                 arm64_sonoma:  "7c4952b33dd522e79610eabb3beb9bbfdddc3378f41c2153041503e9f8f0a878"
-    sha256 cellar: :any,                 arm64_ventura: "9d424966acb2e88b34d0b27bef9032dc0d789deff4b298cb6ad2d43321227de7"
-    sha256 cellar: :any,                 sonoma:        "9e25c1646f1f395ec8f9466d96fd5bd2bf3ca6f770ebf69905a43fdbaa80169e"
-    sha256 cellar: :any,                 ventura:       "c66e6c688dd73c1a6182461e765231385f2bebcafeabf64234b1c5f6d6d26576"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "7ecb114d91a7473d870fa935b34b9c45588ef16313a34027208bf1098656a6d8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "17f7942f13ff8b10fb467c44c6af7d33c0b0f1d26c6bb4522b9d8e2164cfe19f"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-13.6.233.10"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "cb39e2e88e99ce5aa0fd7f2655e76d37f72e325772643699da2577278bda60ed"
+    sha256                               ventura:       "1614d24616123c20eac6279971b8fb67c9fa1106c5a744f9e19e1cbcea0cf214"
   end
 
   depends_on "llvm@20" => :build
