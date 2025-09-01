@@ -6,6 +6,7 @@ class V8Static < Formula
   url "https://github.com/v8/v8/archive/refs/tags/13.6.233.10.tar.gz"
   sha256 "a1d9609a90bebd88d41efef9e6ee84829dbe88684e807d552bc9ae73850d2aca"
   license "BSD-3-Clause"
+  revision 1
 
   livecheck do
     url "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Mac"

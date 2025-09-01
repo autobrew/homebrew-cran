@@ -30,7 +30,7 @@ jobs:
       - name: Prepare fake MacOS environment
         run: |
           brew remove $(brew list --formula)
-          echo "HOMEBREW_FAKE_MACOS=${{matrix.sdk == '11.3' && '11.7.0' || '13.7.0'}}" >> $GITHUB_ENV
+          echo "HOMEBREW_FAKE_MACOS=13.7.0" >> $GITHUB_ENV
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
 
