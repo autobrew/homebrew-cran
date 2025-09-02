@@ -29,6 +29,7 @@ class V8Static < Formula
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-13.6.233.17"
     sha256 cellar: :any_skip_relocation, arm64_ventura: "5f7cc89944f3d13231222ac6ee5b9f16c6224027594c5c61e3b810953c923491"
     sha256                               ventura:       "c85be37bd4372ef9d996ddcab874f51fbbd2035b5d512f1c527b28feb2eb24c3"
+    sha256                               big_sur:       "a0c902d5005291dadae7563576cb2650a83af56fce910ada8a8b87249e215fe7"
   end
 
   depends_on "llvm@20" => :build
