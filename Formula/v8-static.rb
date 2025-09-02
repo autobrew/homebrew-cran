@@ -3,8 +3,8 @@ class V8Static < Formula
   homepage "https://v8.dev/docs"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
   # Check `brew livecheck --resources v8` for any resource updates
-  url "https://github.com/v8/v8/archive/refs/tags/13.6.233.10.tar.gz"
-  sha256 "a1d9609a90bebd88d41efef9e6ee84829dbe88684e807d552bc9ae73850d2aca"
+  url "https://github.com/v8/v8/archive/refs/tags/13.6.233.17.tar.gz"
+  sha256 "9d5c441ffed186900a35287b7620dbe7918bde2679a185aba79a332b57e38925"
   license "BSD-3-Clause"
 
   livecheck do
@@ -261,6 +261,7 @@ class V8Static < Formula
         gn_args[:fatal_linker_warnings] = false
         inreplace "build/config/mac/BUILD.gn", "[ \"-Wl,-ObjC\" ]",
                                                "[ \"-Wl,-ObjC\", \"-L#{Formula["llvm@20"].opt_lib}/c++\" ]"
+        inreplace "build/config/compiler/BUILD.gn", "-Wl,-no_warn_duplicate_libraries", ""
       end
     end
 
