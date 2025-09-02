@@ -26,9 +26,9 @@ class V8Static < Formula
   no_autobump! because: :requires_manual_review
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-13.6.233.10"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "cb39e2e88e99ce5aa0fd7f2655e76d37f72e325772643699da2577278bda60ed"
-    sha256                               ventura:       "1614d24616123c20eac6279971b8fb67c9fa1106c5a744f9e19e1cbcea0cf214"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-13.6.233.17"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "5f7cc89944f3d13231222ac6ee5b9f16c6224027594c5c61e3b810953c923491"
+    sha256                               ventura:       "c85be37bd4372ef9d996ddcab874f51fbbd2035b5d512f1c527b28feb2eb24c3"
   end
 
   depends_on "llvm@20" => :build
