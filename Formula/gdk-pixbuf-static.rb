@@ -113,3 +113,4 @@ class GdkPixbufStatic < Formula
     system "./test"
   end
 end
+
