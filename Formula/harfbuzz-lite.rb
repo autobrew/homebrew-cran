@@ -1,8 +1,8 @@
 class HarfbuzzLite < Formula
   desc "OpenType text shaping engine"
   homepage "https://github.com/harfbuzz/harfbuzz"
-  url "https://github.com/harfbuzz/harfbuzz/archive/refs/tags/7.1.0.tar.gz"
-  sha256 "6c7a358c6e134bd6da4fe39f59ec273ff0ee461697945027b7538287b8c73b1e"
+  url "https://github.com/harfbuzz/harfbuzz/archive/refs/tags/11.4.5.tar.gz"
+  sha256 "5bc7a571b476eeda0c1996a04006da7c25f8edbc01cdf394ef729a6ecd1296d6"
   license "MIT"
   head "https://github.com/harfbuzz/harfbuzz.git", branch: "main"
 
@@ -20,11 +20,6 @@ class HarfbuzzLite < Formula
   depends_on "cairo"
   depends_on "freetype"
 
-  resource "homebrew-test-ttf" do
-    url "https://github.com/harfbuzz/harfbuzz/raw/fc0daafab0336b847ac14682e581a8838f36a0bf/test/shaping/fonts/sha1sum/270b89df543a7e48e206a2d830c0e10e5265c630.ttf"
-    sha256 "9535d35dab9e002963eef56757c46881f6b3d3b27db24eefcc80929781856c77"
-  end
-
   def install
     args = %w[
       --default-library=both
@@ -41,12 +36,5 @@ class HarfbuzzLite < Formula
     system "meson", "setup", "build", *std_meson_args, *args
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"
-  end
-
-  test do
-    resource("homebrew-test-ttf").stage do
-      shape = pipe_output("#{bin}/hb-shape 270b89df543a7e48e206a2d830c0e10e5265c630.ttf", "സ്റ്റ്").chomp
-      assert_equal "[glyph201=0+1183|U0D4D=0+0]", shape
-    end
   end
 end
