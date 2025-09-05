@@ -2,9 +2,9 @@ class GlibLite < Formula
   include Language::Python::Shebang
 
   desc "Core application library for C"
-  homepage "https://developer.gnome.org/glib/"
-  url "https://download.gnome.org/sources/glib/2.76/glib-2.76.1.tar.xz"
-  sha256 "43dc0f6a126958f5b454136c4398eab420249c16171a769784486e25f2fda19f"
+  homepage "https://docs.gtk.org/glib/"
+  url "https://download.gnome.org/sources/glib/2.84/glib-2.84.4.tar.xz"
+  sha256 "8a9ea10943c36fc117e253f80c91e477b673525ae45762942858aef57631bb90"
   license "LGPL-2.1-or-later"
 
   bottle do
@@ -42,14 +42,16 @@ class GlibLite < Formula
   end
 
   def install
-    inreplace %w[gio/xdgmime/xdgmime.c glib/gutils.c], "@@HOMEBREW_PREFIX@@", HOMEBREW_PREFIX
     # Avoid the sandbox violation when an empty directory is created outside of the formula prefix.
     inreplace "gio/meson.build", "install_emptydir(glib_giomodulesdir)", ""
+
+    # build patch for `ld: missing LC_LOAD_DYLIB (must link with at least libSystem.dylib) \
+    # in ../gobject-introspection-1.80.1/build/tests/offsets/liboffsets-1.0.1.dylib`
+    # ENV.append "LDFLAGS", "-Wl,-ld_classic" if OS.mac? && MacOS.version == :ventura
 
     # Jeroen: All this formula does is disable COCOA which leads to:
     # Class GNotificationCenterDelegate is implemented in both rsvg, magick
     inreplace "meson.build", "<Cocoa/Cocoa.h>", "<blablabla.str>"
-    inreplace "gio/giomodule.c", "MAC_OS_X_VERSION_MIN_REQUIRED", "0"
 
     # Disable dtrace; see https://trac.macports.org/ticket/30413
     # and https://gitlab.gnome.org/GNOME/glib/-/issues/653
