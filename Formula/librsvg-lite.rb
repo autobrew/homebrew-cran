@@ -14,13 +14,9 @@ class LibrsvgLite < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_sequoia: "ffb4e691e2c3d62decf0e59349bae5386a900ef7b6c9b68cbb8c1d9f2a806b4e"
-    sha256 cellar: :any, arm64_sonoma:  "4d6857350f453cee62797559cce3568060b3dea1495f449d2763cdc007d07b9c"
-    sha256 cellar: :any, arm64_ventura: "a6f2fc2ed73049f6340feb9462694b8e7e2b6dbd65d36175a7be4e190af6480e"
-    sha256 cellar: :any, sonoma:        "dc755722074cc389f23a2bcdff100c83f91675eef2229e92a4851dedb37f0021"
-    sha256 cellar: :any, ventura:       "129b360b516863ba5f207e22255d101eddfd54e8e102b1f72ed35c1cc937b56b"
-    sha256               arm64_linux:   "87b834095b43615cb95eab9312865385914dbede3a2576ab309084706c89111b"
-    sha256               x86_64_linux:  "f5552c43775e141cc03099e635cb867f5f436670798430333761879a1bb07da7"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/librsvg-lite-2.61.0"
+    sha256 cellar: :any, arm64_ventura: "0b99cbb0de010e21eb05d2d6f5657d66c8cddc65411dfdc976a96f7620f0520f"
+    sha256 cellar: :any, ventura:       "f90ac3f86644fc46476497b9a45441eff01564415c3b36c90801e9f9dafc839a"
   end
 
   depends_on "cargo-c" => :build
