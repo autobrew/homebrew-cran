@@ -15,13 +15,9 @@ class PangoLite < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_sequoia: "af46edb4113ff0190d78175fb4e82296467cef2ed216267bcc3b26f151b2fe0a"
-    sha256 cellar: :any, arm64_sonoma:  "5574b80791985eddd56246754eae3b4d35404fef8618d217595dbcd115e87cf9"
-    sha256 cellar: :any, arm64_ventura: "a540a741aa1f48d1aa12a4da48c14ed0684f7622e5f5c00acbec5fbf8cdbad08"
-    sha256 cellar: :any, sonoma:        "2e14b5c3420123b2d1fee02cbf9e9bffebfbe680ba116353bd44faa598ec9d14"
-    sha256 cellar: :any, ventura:       "901790521cdaa6ed8a4ca3161a7afdb954d2d8e3d65460f47d7393a3c9ca7fe4"
-    sha256               arm64_linux:   "0fe86be52c9a3244e9badf8116eaf985003ca39aff68957a3e4082a1bc5bfac0"
-    sha256               x86_64_linux:  "e4e73119da00a975bb646eed9d6fadea31032286ac43ef8ff57bf7dc2edc0b20"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/pango-lite-1.57.0"
+    sha256 cellar: :any, arm64_ventura: "20cf0572e4c36c0e18c298cf6ccefd49dc22c08a6ce77c5e34ce8768e7a8a179"
+    sha256 cellar: :any, ventura:       "5747ba47ef53fb39e54e28a0e8bf976bad32b550c7d29943aea0959c051858d6"
   end
 
   depends_on "gobject-introspection" => :build
