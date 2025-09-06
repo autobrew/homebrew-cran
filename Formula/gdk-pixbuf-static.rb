@@ -1,26 +1,38 @@
 class GdkPixbufStatic < Formula
   desc "Toolkit for image loading and pixel buffer manipulation"
   homepage "https://gtk.org"
-  url "https://download.gnome.org/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.12.tar.xz"
-  sha256 "fff85cf48223ab60e3c3c8318e2087131b590fd6f1737e42cb3759a3b427a334"
+  url "https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz"
+  sha256 "b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7"
   license "LGPL-2.1-or-later"
 
-  livecheck do
-    url :stable
-  end
-
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdk-pixbuf-static-2.36.12"
-    rebuild 1
-    sha256 arm64_ventura: "6068ca8fc7c98e8466867d9318b95d1530597d573879020ca900fd66a90051ce"
-    sha256 ventura:       "4f382c5a94997cd101a1cc9f7a3fd8a03ed7cd42beb83057a7b42312f989a73d"
+    sha256 arm64_sequoia: "64089a3ef04afef0dc8601d22cd534fdc155bef2458bf1a97e6e90f25b7529ad"
+    sha256 arm64_sonoma:  "c703ce18d2e7f538a643fcccca6a42b5fa8e4f1afeaf0fca8588fe1f475f95c9"
+    sha256 arm64_ventura: "f3b25a91f9e808d5811194ff0e49dcfb67b758e95b341fb95a53066b1e726994"
+    sha256 sonoma:        "4b55a027f7b848eee61127f19da0c29fd2ae32d51d5a936e32ac30d504864fe6"
+    sha256 ventura:       "62202745ffbf466de3dcc1901897f3625cb2e2449944bb76093731342ff4b375"
+    sha256 arm64_linux:   "a095ecd2cc3a7b3f7ef029e3a73b5f9cbfc5901b983327e6ec641e0786fe85ca"
+    sha256 x86_64_linux:  "0b6776f4eafc2e63c2d718e73bb1714239201929074cbaa0c794a1dd0423d197"
   end
 
-  depends_on "pkg-config" => :build
+  depends_on "docutils" => :build # for rst2man
+  depends_on "gettext" => :build
+  depends_on "gobject-introspection" => :build
+  depends_on "meson" => :build
+  depends_on "ninja" => :build
+  depends_on "pkgconf" => [:build, :test]
   depends_on "glib"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
+
+  on_macos do
+    depends_on "gettext"
+  end
+
+  on_linux do
+    depends_on "shared-mime-info"
+  end
 
   # gdk-pixbuf has an internal version number separate from the overall
   # version number that specifies the location of its module and cache
@@ -35,37 +47,33 @@ class GdkPixbufStatic < Formula
   end
 
   def install
-    # fix libtool versions
-    # https://bugzilla.gnome.org/show_bug.cgi?id=776892
-    inreplace "configure", /LT_VERSION_INFO=.+$/, "LT_VERSION_INFO=\"3602:0:3602\""
-    ENV.append_to_cflags "-DGDK_PIXBUF_LIBDIR=\\\"#{HOMEBREW_PREFIX}/lib\\\""
-    args = %W[
-      --disable-dependency-tracking
-      --disable-maintainer-mode
-      --enable-debug=no
-      --prefix=#{prefix}
-      --disable-Bsymbolic
-      --enable-static
-      --without-gdiplus
-      --enable-introspection=no
-      --disable-modules
-      --with-included-loaders=yes
-    ]
+    inreplace "gdk-pixbuf/meson.build",
+              "-DGDK_PIXBUF_LIBDIR=\"@0@\"'.format(gdk_pixbuf_libdir)",
+              "-DGDK_PIXBUF_LIBDIR=\"@0@\"'.format('#{HOMEBREW_PREFIX}/lib')"
 
-    system "./configure", *args
-    system "make"
-    system "make", "install"
+    ENV["DESTDIR"] = "/"
+    system "meson", "setup", "build", "--default-library=both",
+                                      "-Dbuiltin_loaders=all",
+                                      "-Drelocatable=false",
+                                      "-Dnative_windows_loaders=false",
+                                      "-Dtests=false",
+                                      "-Dinstalled_tests=false",
+                                      "-Dman=false",
+                                      "-Dgtk_doc=false",
+                                      "-Dpng=enabled",
+                                      "-Dtiff=enabled",
+                                      "-Djpeg=enabled",
+                                      "-Dothers=enabled",
+                                      "-Dintrospection=enabled",
+                                      *std_meson_args
+    system "meson", "compile", "-C", "build", "--verbose"
+    system "meson", "install", "-C", "build"
 
     # Other packages should use the top-level modules directory
     # rather than dumping their files into the gdk-pixbuf keg.
     inreplace lib/"pkgconfig/gdk-pixbuf-#{gdk_so_ver}.pc" do |s|
-      libv = s.get_make_var "gdk_pixbuf_binary_version"
-      s.change_make_var! "gdk_pixbuf_binarydir",
-        HOMEBREW_PREFIX/"lib/gdk-pixbuf-#{gdk_so_ver}"/libv
+      s.change_make_var! "prefix", HOMEBREW_PREFIX
     end
-
-    # Remove the cache. We will regenerate it in post_install
-    (lib/"gdk-pixbuf-#{gdk_so_ver}/#{gdk_module_ver}/loaders.cache").unlink
   end
 
   # The directory that loaders.cache gets linked into, also has the "loaders"
@@ -76,41 +84,20 @@ class GdkPixbufStatic < Formula
 
   def post_install
     ENV["GDK_PIXBUF_MODULEDIR"] = "#{module_dir}/loaders"
-    system "#{bin}/gdk-pixbuf-query-loaders", "--update-cache"
+    system bin/"gdk-pixbuf-query-loaders", "--update-cache"
   end
 
   test do
-    (testpath/"test.c").write <<~EOS
+    (testpath/"test.c").write <<~C
       #include <gdk-pixbuf/gdk-pixbuf.h>
 
       int main(int argc, char *argv[]) {
         GType type = gdk_pixbuf_get_type();
         return 0;
       }
-    EOS
-    gettext = Formula["gettext"]
-    glib = Formula["glib"]
-    libpng = Formula["libpng"]
-    pcre = Formula["pcre"]
-    flags = (ENV.cflags || "").split + (ENV.cppflags || "").split + (ENV.ldflags || "").split
-    flags += %W[
-      -I#{gettext.opt_include}
-      -I#{glib.opt_include}/glib-2.0
-      -I#{glib.opt_lib}/glib-2.0/include
-      -I#{include}/gdk-pixbuf-2.0
-      -I#{libpng.opt_include}/libpng16
-      -I#{pcre.opt_include}
-      -D_REENTRANT
-      -L#{gettext.opt_lib}
-      -L#{glib.opt_lib}
-      -L#{lib}
-      -lgdk_pixbuf-2.0
-      -lglib-2.0
-      -lgobject-2.0
-      -lintl
-    ]
+    C
+    flags = shell_output("pkgconf --cflags --libs gdk-pixbuf-#{gdk_so_ver}").chomp.split
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
   end
 end
-
