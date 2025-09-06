@@ -44,7 +44,7 @@ class CairoLite < Formula
       -Dfreetype=enabled
       -Dpng=enabled
       -Dglib=enabled
-      -Dauto_features=enabled
+      -Dspectre=disabled
       -Dtests=disabled
       -Dfreetype=enabled
       -Dxlib=disabled
