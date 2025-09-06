@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: [intel, arm]
-        sdk: [11.3, 13.3]
+        sdk: [13.3]
     runs-on: ${{ matrix.arch == 'arm' && 'macos-14' || 'macos-13' }}
     steps:
 
