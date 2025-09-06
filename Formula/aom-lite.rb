@@ -2,9 +2,10 @@ class AomLite < Formula
   desc "Codec library for encoding and decoding AV1 video streams"
   homepage "https://aomedia.googlesource.com/aom"
   url "https://aomedia.googlesource.com/aom.git",
-      tag:      "v3.6.0",
-      revision: "3c65175b1972da4a1992c1dae2365b48d13f9a8d"
+      tag:      "v3.13.1",
+      revision: "d772e334cc724105040382a977ebb10dfd393293"
   license "BSD-2-Clause"
+  head "https://aomedia.googlesource.com/aom.git", branch: "main"
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/aom-lite-3.6.0"
