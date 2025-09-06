@@ -6,13 +6,9 @@ class GdkPixbufStatic < Formula
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 arm64_sequoia: "64089a3ef04afef0dc8601d22cd534fdc155bef2458bf1a97e6e90f25b7529ad"
-    sha256 arm64_sonoma:  "c703ce18d2e7f538a643fcccca6a42b5fa8e4f1afeaf0fca8588fe1f475f95c9"
-    sha256 arm64_ventura: "f3b25a91f9e808d5811194ff0e49dcfb67b758e95b341fb95a53066b1e726994"
-    sha256 sonoma:        "4b55a027f7b848eee61127f19da0c29fd2ae32d51d5a936e32ac30d504864fe6"
-    sha256 ventura:       "62202745ffbf466de3dcc1901897f3625cb2e2449944bb76093731342ff4b375"
-    sha256 arm64_linux:   "a095ecd2cc3a7b3f7ef029e3a73b5f9cbfc5901b983327e6ec641e0786fe85ca"
-    sha256 x86_64_linux:  "0b6776f4eafc2e63c2d718e73bb1714239201929074cbaa0c794a1dd0423d197"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/gdk-pixbuf-static-2.42.12"
+    sha256 arm64_ventura: "65b3259f5bca51de2bca16a4586db1e6fcb7696d9b61fdc0cb823db3a21016a7"
+    sha256 ventura:       "30a497f86d6582b263b5c34fa69ddd96828d21e4f3a67c9fa10604d6ec9b2517"
   end
 
   depends_on "docutils" => :build # for rst2man
