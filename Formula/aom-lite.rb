@@ -8,25 +8,26 @@ class AomLite < Formula
   head "https://aomedia.googlesource.com/aom.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/aom-lite-3.13.1"
-    sha256 cellar: :any, ventura: "702098f8d9f978bba5526a3bdcc642067ca1c352d4944b0287792bf54eae0343"
+    sha256 cellar: :any,                 arm64_sequoia: "ca79133eb9a4ec1e943322ef475811cc2be310cccfc28d4aa1326bfba0ffa0c7"
+    sha256 cellar: :any,                 arm64_sonoma:  "697ad35de4a11f4a9f8a7307384081a397ca58ff238060a396e1248e88a08b24"
+    sha256 cellar: :any,                 arm64_ventura: "9329b9bf9dbd64be5bf52ad5eb822e0a7454948bfb91746772e0ee2788ae70e4"
+    sha256 cellar: :any,                 sonoma:        "5d05040b86a95990ea50468ff17b5cbe3bccb2e636a1f6256e4c0439fe189f93"
+    sha256 cellar: :any,                 ventura:       "644685d7962c133de1873d831d87a6cc71138fcbf2bbe2455b51000011a72b3a"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "dfb1ae4c7df80a5a2a6df56e1eef67536da73f1c90601d96c637e6a871ed2635"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c860bd13961bfa2cba27db91983d7bfac46e9a00ae005174ea6faa41bce43969"
   end
 
   depends_on "cmake" => :build
+  depends_on "pkgconf" => :build
+  depends_on "jpeg-xl"
+  depends_on "libvmaf"
 
   on_intel do
     depends_on "yasm" => :build
   end
 
-  # Jeroen: this formula basically reverts: https://github.com/Homebrew/homebrew-core/commit/093d8417e3fd3
-
-  resource "homebrew-bus_qcif_15fps.y4m" do
-    url "https://media.xiph.org/video/derf/y4m/bus_qcif_15fps.y4m"
-    sha256 "868fc3446d37d0c6959a48b68906486bd64788b2e795f0e29613cbb1fa73480e"
-  end
-
   def install
-    args = std_cmake_args + [
+    args = [
       "-DCMAKE_INSTALL_RPATH=#{rpath}",
       "-DENABLE_DOCS=off",
       "-DENABLE_EXAMPLES=on",
@@ -34,26 +35,30 @@ class AomLite < Formula
       "-DENABLE_TESTS=off",
       "-DENABLE_TOOLS=off",
       "-DBUILD_SHARED_LIBS=on",
+      "-DCONFIG_TUNE_VMAF=1",
     ]
-    # Runtime CPU detection is not currently enabled for ARM on macOS.
-    args << "-DCONFIG_RUNTIME_CPU_DETECT=0" if Hardware::CPU.arm?
 
-    system "cmake", "-S", ".", "-B", "brewbuild", *args
+    system "cmake", "-S", ".", "-B", "brewbuild", *args, *std_cmake_args
     system "cmake", "--build", "brewbuild"
     system "cmake", "--install", "brewbuild"
   end
 
   test do
-    resource("homebrew-bus_qcif_15fps.y4m").stage do
-      system "#{bin}/aomenc", "--webm",
-                              "--tile-columns=2",
-                              "--tile-rows=2",
-                              "--cpu-used=8",
-                              "--output=bus_qcif_15fps.webm",
-                              "bus_qcif_15fps.y4m"
-
-      system "#{bin}/aomdec", "--output=bus_qcif_15fps_decode.y4m",
-                              "bus_qcif_15fps.webm"
+    resource "homebrew-bus_qcif_15fps.y4m" do
+      url "https://media.xiph.org/video/derf/y4m/bus_qcif_15fps.y4m"
+      sha256 "868fc3446d37d0c6959a48b68906486bd64788b2e795f0e29613cbb1fa73480e"
     end
+
+    testpath.install resource("homebrew-bus_qcif_15fps.y4m")
+
+    system bin/"aomenc", "--webm",
+                         "--tile-columns=2",
+                         "--tile-rows=2",
+                         "--cpu-used=8",
+                         "--output=bus_qcif_15fps.webm",
+                         "bus_qcif_15fps.y4m"
+
+    system bin/"aomdec", "--output=bus_qcif_15fps_decode.y4m",
+                         "bus_qcif_15fps.webm"
   end
 end
