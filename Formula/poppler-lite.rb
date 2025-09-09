@@ -1,8 +1,8 @@
 class PopplerLite < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-23.04.0.tar.xz"
-  sha256 "b6d893dc7dcd4138b9e9df59a13c59695e50e80dc5c2cacee0674670693951a1"
+  url "https://poppler.freedesktop.org/poppler-25.09.1.tar.xz"
+  sha256 "0c1091d01d3dd1664a13816861e812d02b29201e96665454b81b52d261fad658"
   license "GPL-2.0-only"
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
@@ -57,6 +57,7 @@ class PopplerLite < Formula
       -DENABLE_GLIB=OFF
       -DENABLE_QT5=OFF
       -DENABLE_QT6=OFF
+      -DENABLE_GPGME=OFF
       -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF
       -DENABLE_NSS3=OFF
       -DWITH_GObjectIntrospection=OFF
