@@ -38,6 +38,10 @@ jobs:
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
+      - id: reset
+        name: Reset homebrew to ventura
+        run: ./.github/workflows/ventura-reset.sh
+
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@v4
         with:
