@@ -1,8 +1,8 @@
 class PopplerLite < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-25.09.1.tar.xz"
-  sha256 "0c1091d01d3dd1664a13816861e812d02b29201e96665454b81b52d261fad658"
+  url "https://poppler.freedesktop.org/poppler-25.11.0.tar.xz"
+  sha256 "63f155142b77349e2bccaef148e754e7506ab1641e713b83af4f54a8f8b15369"
   license "GPL-2.0-only"
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
@@ -23,7 +23,7 @@ class PopplerLite < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "gettext"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "little-cms2"
