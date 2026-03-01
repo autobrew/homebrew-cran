@@ -1,11 +1,11 @@
 class MariadbConnectorCStatic < Formula
   desc "MariaDB database connector for C applications"
   homepage "https://mariadb.org/download/?tab=connector&prod=connector-c"
-  url "https://downloads.mariadb.com/Connectors/c/connector-c-3.3.4/mariadb-connector-c-3.3.4-src.tar.gz"
-  mirror "https://fossies.org/linux/misc/mariadb-connector-c-3.3.4-src.tar.gz/"
-  sha256 "486e5fdf976a8e7fadf583ae912128655e013ac575fa79b2d1af0fb8827a78ed"
+  url "https://archive.mariadb.org/connector-c-3.4.8/mariadb-connector-c-3.4.8-src.tar.gz"
+  mirror "https://fossies.org/linux/misc/mariadb-connector-c-3.4.8-src.tar.gz/"
+  sha256 "156aed3b49f857d0ac74fb76f1982968bcbfd8382da3f5b6ae71f616729920d7"
   license "LGPL-2.1-or-later"
-  head "https://github.com/mariadb-corporation/mariadb-connector-c.git", branch: "3.3"
+  head "https://github.com/mariadb-corporation/mariadb-connector-c.git", branch: "3.4"
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/mariadb-connector-c-static-3.3.4"
@@ -15,7 +15,8 @@ class MariadbConnectorCStatic < Formula
   end
 
   depends_on "cmake" => :build
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
+  depends_on "zstd"
 
   uses_from_macos "curl"
   uses_from_macos "zlib"
@@ -34,10 +35,12 @@ class MariadbConnectorCStatic < Formula
     args << "-DCLIENT_PLUGIN_SHA256_PASSWORD=STATIC"
     args << "-DCLIENT_PLUGIN_MYSQL_CLEAR_PASSWORD=STATIC"
     args << "-DCLIENT_PLUGIN_MYSQL_OLD_PASSWORD=STATIC"
+    args << "-DCLIENT_PLUGIN_ZSTD=STATIC"
+    args << "-DCLIENT_PLUGIN_PARSEC=STATIC"
     args << "-DCLIENT_PLUGIN_REMOTE_IO=OFF"
     args << "-DWITH_OPENSSL=On"
     args << "-DWITH_EXTERNAL_ZLIB=On"
-    args << "-DOPENSSL_INCLUDE_DIR=#{Formula["openssl@1.1"].opt_include}"
+    args << "-DOPENSSL_INCLUDE_DIR=#{Formula["openssl@3"].opt_include}"
     args << "-DINSTALL_MANDIR=#{share}"
     args << "-DCOMPILATION_COMMENT=Homebrew"
 

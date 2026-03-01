@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         arch: [intel, arm]
-        sdk: [13.3]
-    runs-on: ${{ matrix.arch == 'arm' && 'macos-14' || 'macos-13' }}
+        sdk: ['14.0']
+    runs-on: ${{ matrix.arch == 'arm' && 'macos-14' || 'macos-15-intel' }}
     steps:
 
       - name: Install MacOS SDK
@@ -30,7 +30,7 @@ jobs:
       - name: Prepare fake MacOS environment
         run: |
           brew remove $(brew list --formula)
-          echo "HOMEBREW_FAKE_MACOS=${{matrix.sdk == '11.3' && '11.7.0' || '13.7.0'}}" >> $GITHUB_ENV
+          echo "HOMEBREW_FAKE_MACOS=14.8.4" >> $GITHUB_ENV
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
 
@@ -50,7 +50,7 @@ jobs:
       - run: brew test-bot --only-setup || true
 
       - run: brew test-bot --only-tap-syntax || true
-        if: matrix.sdk == '13.3'
+        if: matrix.sdk == '14.0'
 
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
