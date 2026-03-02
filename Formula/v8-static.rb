@@ -3,8 +3,8 @@ class V8Static < Formula
   homepage "https://v8.dev/docs"
   # Track V8 version from Chrome stable: https://chromiumdash.appspot.com/releases?platform=Mac
   # Check `brew livecheck --resources v8` for any resource updates
-  url "https://github.com/v8/v8/archive/refs/tags/13.6.233.17.tar.gz"
-  sha256 "9d5c441ffed186900a35287b7620dbe7918bde2679a185aba79a332b57e38925"
+  url "https://github.com/v8/v8/archive/refs/tags/14.6.202.6.tar.gz"
+  sha256 "5eff8d1bcdbbd562882732afea5ff899dd52b8ba4a084423ce319d0df7b1840c"
   license "BSD-3-Clause"
 
   livecheck do
@@ -23,24 +23,20 @@ class V8Static < Formula
     end
   end
 
-  no_autobump! because: :requires_manual_review
-
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-13.6.233.17"
-    sha256 cellar: :any_skip_relocation, arm64_ventura: "5f7cc89944f3d13231222ac6ee5b9f16c6224027594c5c61e3b810953c923491"
-    sha256                               ventura:       "c85be37bd4372ef9d996ddcab874f51fbbd2035b5d512f1c527b28feb2eb24c3"
-    sha256                               big_sur:       "a0c902d5005291dadae7563576cb2650a83af56fce910ada8a8b87249e215fe7"
+    sha256 cellar: :any,                 arm64_tahoe:   "94b94ae7fcb05a8b6301cc97e66f6c1b5d9889f6edf9f9f5dddd07e0a613cf89"
+    sha256 cellar: :any,                 arm64_sequoia: "aa21ae6fd4daf2f6ce0684def791cb48a344ed45f5191c88452f0b918072f670"
+    sha256 cellar: :any,                 arm64_sonoma:  "0afdef5ec84914be1f38c37e2849c45d02b6d054e1966744c098a02b56eba6e9"
+    sha256 cellar: :any,                 sonoma:        "5faf16b12f0baf8fcfc97799e6e7b51e93aba6692bba04816b2ba03197147944"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "3696028da7cf166f7c35c9451499bf3f56799dc9b98b50232331c91207104e42"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cf13af6dea1e1ce90c57f9f9a5cda9e794577d4b695ffd156f726ad352c27215"
   end
 
-  depends_on "llvm@20" => :build
+  depends_on "llvm" => :build
   depends_on "ninja" => :build
   depends_on xcode: ["10.0", :build] # for xcodebuild, min version required by v8
 
   uses_from_macos "python" => :build
-
-  on_macos do
-    depends_on "llvm@20" if DevelopmentTools.clang_build_version <= 1400
-  end
 
   on_linux do
     depends_on "lld" => :build
@@ -48,12 +44,20 @@ class V8Static < Formula
     depends_on "glib"
   end
 
+  fails_with :clang do
+    cause "Apple Clang frequently breaks as upstream often uses features from newer Clang"
+  end
+
+  fails_with :gcc do
+    cause "requires Clang"
+  end
+
   # Look up the correct resource revisions in the DEP file of the specific releases tag
   # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/<version>/DEPS#74
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "6e8e0d6d4a151ab2ed9b4a35366e630c55888444"
-    version "6e8e0d6d4a151ab2ed9b4a35366e630c55888444"
+        revision: "103f8b437f5e791e0aef9d5c372521a5d675fabb"
+    version "103f8b437f5e791e0aef9d5c372521a5d675fabb"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -63,8 +67,8 @@ class V8Static < Formula
 
   resource "build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "451ef881d77fff0b7a8bbfa61934f5e4a35b4c96"
-    version "451ef881d77fff0b7a8bbfa61934f5e4a35b4c96"
+        revision: "483cecced32ce8b098d65eb08eb77925afa90bec"
+    version "483cecced32ce8b098d65eb08eb77925afa90bec"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -74,8 +78,8 @@ class V8Static < Formula
 
   resource "buildtools" do
     url "https://chromium.googlesource.com/chromium/src/buildtools.git",
-        revision: "6f359296daa889aa726f3d05046b9f37be241169"
-    version "6f359296daa889aa726f3d05046b9f37be241169"
+        revision: "6a18683f555b4ac8b05ac8395c29c84483ac9588"
+    version "6a18683f555b4ac8b05ac8395c29c84483ac9588"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -85,12 +89,23 @@ class V8Static < Formula
 
   resource "third_party/abseil-cpp" do
     url "https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git",
-        revision: "3fbb10e80d80e3430224b75add53c47c7a711612"
-    version "3fbb10e80d80e3430224b75add53c47c7a711612"
+        revision: "6d5ac0f7d3f0af5d13b78044fc31c793aa3549f8"
+    version "6d5ac0f7d3f0af5d13b78044fc31c793aa3549f8"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
       regex(%r{["']/chromium/src/third_party/abseil-cpp\.git["']\s*\+\s*["']@["']\s*\+\s*["']([0-9a-f]+)["']}i)
+    end
+  end
+
+  resource "third_party/dragonbox/src" do
+    url "https://chromium.googlesource.com/external/github.com/jk-jeon/dragonbox.git",
+        revision: "beeeef91cf6fef89a4d4ba5e95d47ca64ccb3a44"
+    version "beeeef91cf6fef89a4d4ba5e95d47ca64ccb3a44"
+
+    livecheck do
+      url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
+      regex(%r{["']/external/github\.com/jk-jeon/dragonbox\.git["']\s*\+\s*["']@["']\s*\+\s*["']([0-9a-f]+)["']}i)
     end
   end
 
@@ -107,8 +122,8 @@ class V8Static < Formula
 
   resource "third_party/fp16/src" do
     url "https://chromium.googlesource.com/external/github.com/Maratyszcza/FP16.git",
-        revision: "0a92994d729ff76a58f692d3028ca1b64b145d91"
-    version "0a92994d729ff76a58f692d3028ca1b64b145d91"
+        revision: "3d2de1816307bac63c16a297e8c4dc501b4076df"
+    version "3d2de1816307bac63c16a297e8c4dc501b4076df"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -118,8 +133,8 @@ class V8Static < Formula
 
   resource "third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "52204f78f94d7512df1f0f3bea1d47437a2c3a58"
-    version "52204f78f94d7512df1f0f3bea1d47437a2c3a58"
+        revision: "4fe3307fb2d9f86d19777c7eb0e4809e9694dde7"
+    version "4fe3307fb2d9f86d19777c7eb0e4809e9694dde7"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -129,8 +144,8 @@ class V8Static < Formula
 
   resource "third_party/highway/src" do
     url "https://chromium.googlesource.com/external/github.com/google/highway.git",
-        revision: "00fe003dac355b979f36157f9407c7c46448958e"
-    version "00fe003dac355b979f36157f9407c7c46448958e"
+        revision: "84379d1c73de9681b54fbe1c035a23c7bd5d272d"
+    version "84379d1c73de9681b54fbe1c035a23c7bd5d272d"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -151,8 +166,8 @@ class V8Static < Formula
 
   resource "third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "5e1ee241ab04b38889f8d517f2da8b3df7cfbd9a"
-    version "5e1ee241ab04b38889f8d517f2da8b3df7cfbd9a"
+        revision: "c3027d884967773057bf74b957e3fea87e5df4d7"
+    version "c3027d884967773057bf74b957e3fea87e5df4d7"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -162,8 +177,8 @@ class V8Static < Formula
 
   resource "third_party/markupsafe" do
     url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
-        revision: "9f8efc8637f847ab1ba984212598e6fb9cf1b3d4"
-    version "9f8efc8637f847ab1ba984212598e6fb9cf1b3d4"
+        revision: "4256084ae14175d38a3ff7d739dca83ae49ccec6"
+    version "4256084ae14175d38a3ff7d739dca83ae49ccec6"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -173,8 +188,8 @@ class V8Static < Formula
 
   resource "third_party/partition_alloc" do
     url "https://chromium.googlesource.com/chromium/src/base/allocator/partition_allocator.git",
-        revision: "ab56923a27b2793f21994589b0c39bc3324ff49f"
-    version "ab56923a27b2793f21994589b0c39bc3324ff49f"
+        revision: "936619c71ecb17c0e2482cf86be3f3f417b2f683"
+    version "936619c71ecb17c0e2482cf86be3f3f417b2f683"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -184,8 +199,8 @@ class V8Static < Formula
 
   resource "third_party/simdutf" do
     url "https://chromium.googlesource.com/chromium/src/third_party/simdutf.git",
-        revision: "40d1fa26cd5ca221605c974e22c001ca2fb12fde"
-    version "40d1fa26cd5ca221605c974e22c001ca2fb12fde"
+        revision: "93b35aec29256f705c97f675fe4623578bd7a395"
+    version "93b35aec29256f705c97f675fe4623578bd7a395"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -195,8 +210,8 @@ class V8Static < Formula
 
   resource "third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "788cb3c270e8700b425c7bdca1f9ce6b0c1400a9"
-    version "788cb3c270e8700b425c7bdca1f9ce6b0c1400a9"
+        revision: "980253c1cc835c893c57b5cfc10c5b942e10bc46"
+    version "980253c1cc835c893c57b5cfc10c5b942e10bc46"
 
     livecheck do
       url "https://raw.githubusercontent.com/v8/v8/refs/tags/#{LATEST_VERSION}/DEPS"
@@ -205,6 +220,9 @@ class V8Static < Formula
   end
 
   def install
+    # Workaround for an error: no member named 'powl' in namespace 'std'
+    inreplace "src/objects/js-duration-format.cc", "std::powl", "powl"
+
     resources.each { |r| r.stage(buildpath/r.name) }
 
     # Build gn from source and add it to the PATH
@@ -213,7 +231,7 @@ class V8Static < Formula
       system "ninja", "-C", "out/", "gn"
     end
     ENV.prepend_path "PATH", buildpath/"gn/out"
-    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
+    # ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
     # create gclient_args.gni
     (buildpath/"build/config/gclient_args.gni").write <<~GN
@@ -237,14 +255,26 @@ class V8Static < Formula
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
       enable_rust:                  false,
+      use_sysroot:                  false,
+      v8_enable_temporal_support:   false,
     }
 
+    # workaround to use shim to compile v8
+    llvm = Formula["llvm"]
+    clang_base_path = buildpath/"clang"
+    clang_base_path.install_symlink (llvm.opt_prefix.children - [llvm.opt_bin])
+    (clang_base_path/"bin").install_symlink llvm.opt_bin.children
+    %w[clang clang++].each do |compiler|
+      rm(clang_base_path/"bin"/compiler)
+      (clang_base_path/"bin"/compiler).write_env_script Superenv.shims_path/"llvm_#{compiler}", _skip: ""
+      chmod "+x", clang_base_path/"bin"/compiler
+    end
+
     # uses Homebrew clang instead of Google clang
-    gn_args[:clang_base_path] = "\"#{Formula["llvm@20"].opt_prefix}\""
-    gn_args[:clang_version] = "\"#{Formula["llvm@20"].version.major}\""
+    gn_args[:clang_base_path] = "\"#{clang_base_path}\""
+    gn_args[:clang_version] = "\"#{llvm.version.major}\""
 
     if OS.linux?
-      ENV.llvm_clang
       ENV["AR"] = DevelopmentTools.locate("ar")
       ENV["NM"] = DevelopmentTools.locate("nm")
       gn_args[:use_sysroot] = false # don't use sysroot
@@ -254,16 +284,6 @@ class V8Static < Formula
     else
       ENV["DEVELOPER_DIR"] = ENV["HOMEBREW_DEVELOPER_DIR"] # help run xcodebuild when xcode-select is set to CLT
       gn_args[:use_lld] = false # upstream use LLD but this leads to build failure on ARM
-      # Work around failure mixing newer `llvm` headers with older Xcode's libc++:
-      # Undefined symbols for architecture x86_64:
-      #   "std::__1::__libcpp_verbose_abort(char const*, ...)", referenced from:
-      #       std::__1::__throw_length_error[abi:nn180100](char const*) in stack_trace.o
-      if DevelopmentTools.clang_build_version <= 1400
-        gn_args[:fatal_linker_warnings] = false
-        inreplace "build/config/mac/BUILD.gn", "[ \"-Wl,-ObjC\" ]",
-                                               "[ \"-Wl,-ObjC\", \"-L#{Formula["llvm@20"].opt_lib}/c++\" ]"
-        inreplace "build/config/compiler/BUILD.gn", "-Wl,-no_warn_duplicate_libraries", ""
-      end
     end
 
     # Make sure private libraries can be found from lib

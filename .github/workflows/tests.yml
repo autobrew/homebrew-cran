@@ -11,10 +11,11 @@ jobs:
       matrix:
         arch: [intel, arm]
         sdk: ['14.0']
-    runs-on: ${{ matrix.arch == 'arm' && 'macos-14' || 'macos-15-intel' }}
+    runs-on: ${{ matrix.arch == 'arm' && 'macos-15' || 'macos-15-intel' }}
     steps:
 
       - name: Install MacOS SDK
+        if: false
         run: |
           sdk=${{matrix.sdk}}
           cd /Library/Developer/CommandLineTools/SDKs/
