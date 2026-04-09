@@ -24,12 +24,9 @@ class V8Static < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_tahoe:   "c2c4b350695dfd65277a690d9b178ed22062cdea0d23730022836e1d347dd2bb"
-    sha256 cellar: :any,                 arm64_sequoia: "392d31610bd1b0177b666fe95dcf2125c751abc8e732b978b668c81043516842"
-    sha256 cellar: :any,                 arm64_sonoma:  "3710210fb8be5b3f5766556ce2d8178bd1c8911b87fa89850d16b9e82477193e"
-    sha256 cellar: :any,                 sonoma:        "3dca0f9ac63bd56cbfff5d20f49f71e0fbf7d6a3797874105244909cbd4b9875"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "2bf0ab7ec28c0aff19bef09a399a1e752ae559374a8849236d103f0d329c6a50"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "855f737f074644ae183b72f05dee11416db263baae8eea8a12cb51ccd6529208"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/v8-static-14.6.202.26"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "ab9e849d30e42d724dcc7d1ded2c4322cf1ee9d0e18a2394aa74126864d9c0cb"
+    sha256                               sonoma:       "8bcff2a084c79e031c8f7307263a028775b9f6ead5b1a3e3168197539508146d"
   end
 
   depends_on "llvm" => :build
