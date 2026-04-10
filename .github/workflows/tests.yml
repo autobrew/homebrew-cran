@@ -15,6 +15,7 @@ jobs:
     steps:
 
       - name: Install MacOS SDK
+        if: github.event_name == 'pull_request'
         run: |
           sdk=${{matrix.sdk}}
           cd /Library/Developer/CommandLineTools/SDKs/
@@ -28,6 +29,7 @@ jobs:
           echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> $GITHUB_ENV
 
       - name: Prepare fake MacOS environment
+        if: github.event_name == 'pull_request'
         run: |
           brew remove $(brew list --formula)
           echo "HOMEBREW_FAKE_MACOS=14.8.4" >> $GITHUB_ENV
@@ -36,7 +38,7 @@ jobs:
 
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@v4
