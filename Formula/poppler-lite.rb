@@ -4,6 +4,7 @@ class PopplerLite < Formula
   url "https://poppler.freedesktop.org/poppler-26.04.0.tar.xz"
   sha256 "b0955163114af96bc0106f68cb24daf973a629462453d8b82775f81b0d4e0693"
   license "GPL-2.0-only"
+  revision 1
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
   livecheck do
@@ -23,7 +24,7 @@ class PopplerLite < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "gettext"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "little-cms2"
