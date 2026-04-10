@@ -12,9 +12,9 @@ class PopplerLite < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/poppler-lite-25.09.1"
-    sha256 arm64_ventura: "57af0c58999685f5623555966f9022505d4fa4907195c6b09dbd788d37a4a531"
-    sha256 ventura:       "68345e7dd8dcd02444362694d4aa4e7e22595d8b6b75662ee611f607d29a6dde"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/poppler-lite-26.04.0"
+    sha256 arm64_sonoma: "28703cf46361fc4d66c7062a7a176275ee261390b0b507e0a543b5fb074b06c3"
+    sha256 sonoma:       "1adac25530d374c85a8df0b5bdae299aeb67ca383768e296b442752b15e45a73"
   end
 
   depends_on "cmake" => :build
