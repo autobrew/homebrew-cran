@@ -26,7 +26,7 @@ jobs:
         run: brew pr-pull --debug --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
 
       - name: Push commits
-        uses: Homebrew/actions/git-try-push@master
+        uses: Homebrew/actions/git-try-push@main
         with:
           token: ${{ github.token }}
           branch: main
