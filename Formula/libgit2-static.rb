@@ -12,10 +12,9 @@ class Libgit2Static < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.8.2"
-    sha256 cellar: :any, arm64_sonoma:  "11b15383aa9cb6d54a43471c3c0ffb9867e12f80e2d6dc7f331a7ccb81318602"
-    sha256 cellar: :any, arm64_ventura: "6dcd272c27baa1b30af554444d61b56e01db7dc7d80cede8961b3bef20594b93"
-    sha256 cellar: :any, ventura:       "a064e7cee98c677ff5f9111ee2c7fa4c40145628f9dcfec33a86d3f1dc6f7fbb"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.9.2"
+    sha256 cellar: :any, arm64_sonoma: "c7cbdbc71ba0878f99dee5727d02a4eeabdc906d16053c0fe5a44816280e2549"
+    sha256 cellar: :any, sonoma:       "e3979f34d052ecf7ed875558daf70ebf0f77081d4d08038fb15ebfcfc08d03d0"
   end
 
   depends_on "cmake" => :build
