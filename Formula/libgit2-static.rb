@@ -1,8 +1,8 @@
 class Libgit2Static < Formula
   desc "C library of Git core methods that is re-entrant and linkable"
   homepage "https://libgit2.org/"
-  url "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.2.tar.gz"
-  sha256 "6f097c82fc06ece4f40539fb17e9d41baf1a5a2fc26b1b8562d21b89bc355fe6"
+  url "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.3.tar.gz"
+  sha256 "d532172d7ab24d2a25944e2434212d63ee85f3650e97b5f7579e7f201a78ad64"
   license "GPL-2.0-only" => { with: "GCC-exception-2.0" }
   head "https://github.com/libgit2/libgit2.git", branch: "main"
 
@@ -12,18 +12,17 @@ class Libgit2Static < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.9.2"
-    sha256 cellar: :any, arm64_sonoma: "c7cbdbc71ba0878f99dee5727d02a4eeabdc906d16053c0fe5a44816280e2549"
-    sha256 cellar: :any, sonoma:       "e3979f34d052ecf7ed875558daf70ebf0f77081d4d08038fb15ebfcfc08d03d0"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.9.3"
   end
 
   depends_on "cmake" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "libssh2"
+  depends_on "llhttp"
   depends_on "openssl@3"
 
   def install
-    args = %w[-DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DUSE_SSH=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON]
+    args = %w[-DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DUSE_SSH=ON -DUSE_HTTP_PARSER=llhttp -DCMAKE_POSITION_INDEPENDENT_CODE=ON]
 
     system "cmake", "-S", ".", "-B", "build", "-DBUILD_SHARED_LIBS=ON", *args, *std_cmake_args
     system "cmake", "--build", "build"
