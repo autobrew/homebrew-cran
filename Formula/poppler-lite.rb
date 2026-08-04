@@ -1,10 +1,9 @@
 class PopplerLite < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-26.04.0.tar.xz"
-  sha256 "b0955163114af96bc0106f68cb24daf973a629462453d8b82775f81b0d4e0693"
+  url "https://poppler.freedesktop.org/poppler-26.08.0.tar.xz"
+  sha256 "dc906e68cea698109706ac6aa3d2c9d4512fcfcac42d90b8afcda486d1b9abd0"
   license "GPL-2.0-only"
-  revision 1
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
   livecheck do
@@ -31,7 +30,6 @@ class PopplerLite < Formula
   depends_on "openjpeg"
 
   uses_from_macos "gperf" => :build
-  uses_from_macos "curl", since: :catalina # 7.55.0 required by poppler
   uses_from_macos "zlib"
 
   conflicts_with "pdftohtml", "pdf2image", "xpdf",
@@ -61,6 +59,7 @@ class PopplerLite < Formula
       -DENABLE_GPGME=OFF
       -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF
       -DENABLE_NSS3=OFF
+      -DENABLE_LIBCURL=OFF
       -DWITH_GObjectIntrospection=OFF
     ]
 
