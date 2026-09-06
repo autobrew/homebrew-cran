@@ -12,6 +12,10 @@ jobs:
         arch: [intel, arm]
         sdk: ['14.0']
     runs-on: ${{ matrix.arch == 'arm' && 'macos-15' || 'macos-15-intel' }}
+    env:
+      HOMEBREW_CORE_GIT_REMOTE: "https://github.com/autobrew/homebrew-sonoma"
+      HOMEBREW_NO_INSTALL_FROM_API: 1
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
 
       - name: Install MacOS SDK
@@ -31,10 +35,28 @@ jobs:
       - name: Prepare fake MacOS environment
         if: github.event_name == 'pull_request'
         run: |
+          brew trust homebrew/core
+          brew trust autobrew/sonoma
           brew list --formula | xargs brew remove
           echo "HOMEBREW_FAKE_MACOS=14.8.4" >> "$GITHUB_ENV"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
+
+      # Must run after "Prepare fake MacOS environment" so that HOMEBREW_FAKE_MACOS
+      # is already active once we (re)install anything - otherwise bottles get poured
+      # for the real host OS (sequoia) and brew's automatic pkgconf SDK-mismatch
+      # repair later refetches pkgconf from the real Homebrew/homebrew-core upstream,
+      # bypassing this pin entirely.
+      - id: reset
+        if: matrix.sdk == '14.0'
+        name: Reset homebrew to Sonoma
+        run: |
+          cd $(brew --repo homebrew/core)
+          git clean -fxd
+          git remote set-url origin https://github.com/autobrew/homebrew-sonoma
+          git fetch origin main
+          git reset --hard origin/main
+          brew upgrade
 
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -52,7 +74,7 @@ jobs:
       - run: brew test-bot --only-setup || true
 
       - run: brew test-bot --only-tap-syntax || true
-        if: matrix.sdk == '14.0'
+        if: matrix.arch == 'arm'
 
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
