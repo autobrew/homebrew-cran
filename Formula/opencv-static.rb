@@ -43,7 +43,7 @@ class OpencvStatic < Formula
     resource("contrib").stage buildpath/"opencv_contrib"
 
     # Avoid Accelerate.framework
-    ENV["OpenBLAS_HOME"] = Formula["openblas"].opt_prefix
+    ENV["OpenBLAS_HOME"] = formula_opt_prefix("openblas")
 
     # Reset PYTHONPATH, workaround for https://github.com/Homebrew/homebrew-science/pull/4885
     ENV.delete("PYTHONPATH")

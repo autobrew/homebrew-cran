@@ -21,7 +21,7 @@ class Hdf4 < Formula
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
-      --with-szlib=#{Formula["libaec"].opt_prefix}
+      --with-szlib=#{formula_opt_prefix("libaec")}
       --enable-build-mode=production
       --enable-fortran
       --disable-netcdf

@@ -77,7 +77,7 @@ class GlibLite < Formula
     if OS.mac?
       # `pkg-config --libs glib-2.0` includes -lintl, and gettext itself does not
       # have a pkgconfig file, so we add gettext lib and include paths here.
-      gettext = Formula["gettext"].opt_prefix
+      gettext = formula_opt_prefix("gettext")
       inreplace lib/"pkgconfig/glib-2.0.pc" do |s|
         s.gsub! "Libs: -L${libdir} -lglib-2.0 -lintl",
                 "Libs: -L${libdir} -lglib-2.0 -L#{gettext}/lib -lintl"
@@ -90,7 +90,7 @@ class GlibLite < Formula
       # `pkg-config --print-requires-private gobject-2.0` includes libffi,
       # but that package is keg-only so it needs to look for the pkgconfig file
       # in libffi's opt path.
-      libffi = Formula["libffi"].opt_prefix
+      libffi = formula_opt_prefix("libffi")
       inreplace lib/"pkgconfig/gobject-2.0.pc" do |s|
         s.gsub! "Requires.private: libffi",
                 "Requires.private: #{libffi}/lib/pkgconfig/libffi.pc"
@@ -102,8 +102,8 @@ class GlibLite < Formula
     rewrite_shebang detected_python_shebang(use_python_from_path: true), *bin.children
   end
 
-  def post_install
-    (HOMEBREW_PREFIX/"lib/gio/modules").mkpath
+  post_install_steps do
+    mkdir_p "lib/gio/modules", base: :homebrew_prefix
   end
 
   test do

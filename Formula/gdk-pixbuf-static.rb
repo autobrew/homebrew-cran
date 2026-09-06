@@ -78,9 +78,9 @@ class GdkPixbufStatic < Formula
     "#{HOMEBREW_PREFIX}/lib/gdk-pixbuf-#{gdk_so_ver}/#{gdk_module_ver}"
   end
 
-  def post_install
-    ENV["GDK_PIXBUF_MODULEDIR"] = "#{module_dir}/loaders"
-    system bin/"gdk-pixbuf-query-loaders", "--update-cache"
+  post_install_steps do
+    run "gdk-pixbuf-query-loaders", args: ["--update-cache"], base: :bin,
+        env: { "GDK_PIXBUF_MODULEDIR" => "{{HOMEBREW_PREFIX}}/lib/gdk-pixbuf-2.0/2.10.0/loaders" }
   end
 
   test do

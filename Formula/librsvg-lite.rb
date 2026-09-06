@@ -65,11 +65,8 @@ class LibrsvgLite < Formula
     end
   end
 
-  def post_install
-    # librsvg is not aware GDK_PIXBUF_MODULEDIR must be set
-    # set GDK_PIXBUF_MODULEDIR and update loader cache
-    ENV["GDK_PIXBUF_MODULEDIR"] = "#{HOMEBREW_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders"
-    system "#{Formula["gdk-pixbuf"].opt_bin}/gdk-pixbuf-query-loaders", "--update-cache"
+  post_install_steps do
+    update_gdk_pixbuf_loaders_cache
   end
 
   test do

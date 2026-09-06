@@ -58,8 +58,8 @@ class CurlMacos < Formula
     # cf https://github.com/apple-oss-distributions/curl/blob/HEAD/config_mac/curl_config.h
     args = %W[
       --disable-silent-rules
-      --with-ssl=#{Formula["libressl3"].opt_prefix}
-      --with-nghttp2=#{Formula["libnghttp2-static"].opt_prefix}
+      --with-ssl=#{formula_opt_prefix("libressl3")}
+      --with-nghttp2=#{formula_opt_prefix("libnghttp2-static")}
       --with-ca-bundle=/etc/ssl/cert.pem
       --without-ca-path
       --without-ca-fallback
@@ -78,7 +78,7 @@ class CurlMacos < Formula
     args << if OS.mac?
       "--with-gssapi"
     else
-      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+      "--with-gssapi=#{formula_opt_prefix("krb5")}"
     end
 
     args += if OS.mac? && MacOS.version >= :ventura

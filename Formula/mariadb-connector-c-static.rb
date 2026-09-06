@@ -39,14 +39,14 @@ class MariadbConnectorCStatic < Formula
     args << "-DCLIENT_PLUGIN_REMOTE_IO=OFF"
     args << "-DWITH_OPENSSL=On"
     args << "-DWITH_EXTERNAL_ZLIB=On"
-    args << "-DOPENSSL_INCLUDE_DIR=#{Formula["openssl@3"].opt_include}"
+    args << "-DOPENSSL_INCLUDE_DIR=#{formula_opt_include("openssl@3")}"
     args << "-DINSTALL_MANDIR=#{share}"
     args << "-DCOMPILATION_COMMENT=Homebrew"
 
     # Fixes static plugin build
     ENV["CFLAGS"] = "-DMYSQL_CLIENT=1"
 
-    system "cmake", ".", *args
+    system "cmake", "-S", ".", "-B", ".", *args
     system "make", "install"
   end
 

@@ -51,7 +51,7 @@ class CurlLite < Formula
     # cf https://github.com/apple-oss-distributions/curl/blob/HEAD/config_mac/curl_config.h
     args = %W[
       --disable-silent-rules
-      --with-ssl=#{Formula["openssl-static"].opt_prefix}
+      --with-ssl=#{formula_opt_prefix("openssl-static")}
       --with-ca-bundle=/etc/ssl/cert.pem
       --without-ca-path
       --without-ca-fallback
@@ -68,7 +68,7 @@ class CurlLite < Formula
     args << if OS.mac?
       "--with-gssapi"
     else
-      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+      "--with-gssapi=#{formula_opt_prefix("krb5")}"
     end
 
     args += if OS.mac? && MacOS.version >= :ventura

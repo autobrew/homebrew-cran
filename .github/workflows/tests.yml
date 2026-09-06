@@ -19,20 +19,20 @@ jobs:
         run: |
           sdk=${{matrix.sdk}}
           cd /Library/Developer/CommandLineTools/SDKs/
-          sudo rm -Rf *
+          sudo rm -Rf -- *
           sudo curl -OL https://github.com/joseluisq/macosx-sdks/releases/download/${sdk}/MacOSX${sdk}.sdk.tar.xz
           sudo tar xf MacOSX${sdk}.sdk.tar.xz
           sudo rm -f MacOSX${sdk}.sdk.tar.xz
           sudo ln -sf MacOSX${sdk}.sdk MacOSX.sdk
           ls -l
           sudo xcode-select -s /Library/Developer/CommandLineTools
-          echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> $GITHUB_ENV
+          echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> "$GITHUB_ENV"
 
       - name: Prepare fake MacOS environment
         if: github.event_name == 'pull_request'
         run: |
-          brew remove $(brew list --formula)
-          echo "HOMEBREW_FAKE_MACOS=14.8.4" >> $GITHUB_ENV
+          brew list --formula | xargs brew remove
+          echo "HOMEBREW_FAKE_MACOS=14.8.4" >> "$GITHUB_ENV"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
 

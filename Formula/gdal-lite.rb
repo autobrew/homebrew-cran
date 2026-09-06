@@ -70,27 +70,27 @@ class GdalLite < Formula
 
       # Homebrew backends
       "--with-expat=#{Formula["expat"].prefix}",
-      "--with-freexl=#{Formula["freexl"].opt_prefix}",
-      "--with-geos=#{Formula["geos"].opt_prefix}/bin/geos-config",
-      "--with-geotiff=#{Formula["libgeotiff"].opt_prefix}",
-      "--with-gif=#{Formula["giflib"].opt_prefix}",
-      "--with-jpeg=#{Formula["jpeg"].opt_prefix}",
-      "--with-libjson-c=#{Formula["json-c"].opt_prefix}",
+      "--with-freexl=#{formula_opt_prefix("freexl")}",
+      "--with-geos=#{formula_opt_prefix("geos")}/bin/geos-config",
+      "--with-geotiff=#{formula_opt_prefix("libgeotiff")}",
+      "--with-gif=#{formula_opt_prefix("giflib")}",
+      "--with-jpeg=#{formula_opt_prefix("jpeg")}",
+      "--with-libjson-c=#{formula_opt_prefix("json-c")}",
       "--with-libtiff=internal",
       "--with-pg=yes",
-      "--with-png=#{Formula["libpng"].opt_prefix}",
-      "--with-spatialite=#{Formula["libspatialite"].opt_prefix}",
-      "--with-sqlite3=#{Formula["sqlite"].opt_prefix}",
-      "--with-proj=#{Formula["proj"].opt_prefix}",
-      "--with-zstd=#{Formula["zstd"].opt_prefix}",
+      "--with-png=#{formula_opt_prefix("libpng")}",
+      "--with-spatialite=#{formula_opt_prefix("libspatialite")}",
+      "--with-sqlite3=#{formula_opt_prefix("sqlite")}",
+      "--with-proj=#{formula_opt_prefix("proj")}",
+      "--with-zstd=#{formula_opt_prefix("zstd")}",
       "--with-liblzma=yes",
-      "--with-hdf4=#{Formula["hdf4"].opt_prefix}",
-      "--with-hdf5=#{Formula["hdf5"].opt_prefix}",
-      "--with-netcdf=#{Formula["netcdf"].opt_prefix}",
+      "--with-hdf4=#{formula_opt_prefix("hdf4")}",
+      "--with-hdf5=#{formula_opt_prefix("hdf5")}",
+      "--with-netcdf=#{formula_opt_prefix("netcdf")}",
       "--with-openjpeg",
-      "--with-odbc=#{Formula["unixodbc"].opt_prefix}",
-      "--with-dods-root=#{Formula["libdap"].opt_prefix}",
-      "--with-webp=#{Formula["webp"].opt_prefix}",
+      "--with-odbc=#{formula_opt_prefix("unixodbc")}",
+      "--with-dods-root=#{formula_opt_prefix("libdap")}",
+      "--with-webp=#{formula_opt_prefix("webp")}",
 
       # Explicitly disable some features
       "--with-armadillo=no",
@@ -131,7 +131,7 @@ class GdalLite < Formula
     # Work around "Symbol not found: _curl_mime_addpart"
     # due to mismatched SDK version in Mojave.
     args << if MacOS.version == :mojave
-      "--with-curl=#{Formula["curl"].opt_prefix}/bin/curl-config"
+      "--with-curl=#{formula_opt_prefix("curl")}/bin/curl-config"
     else
       "--with-curl=/usr/bin/curl-config"
     end

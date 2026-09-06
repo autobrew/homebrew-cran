@@ -40,7 +40,7 @@ class ImagemagickStatic < Formula
 
   def install
     # Avoid references to shim
-    inreplace Dir["**/*-config.in"], "@PKG_CONFIG@", Formula["pkg-config"].opt_bin/"pkg-config"
+    inreplace Dir["**/*-config.in"], "@PKG_CONFIG@", formula_opt_bin("pkg-config")/"pkg-config"
 
     args = %W[
       --enable-osx-universal-binary=no
