@@ -1,8 +1,8 @@
 class OpencvStatic < Formula
   desc "Open source computer vision library"
   homepage "https://opencv.org/"
-  url "https://github.com/opencv/opencv/archive/refs/tags/4.13.0.tar.gz"
-  sha256 "1d40ca017ea51c533cf9fd5cbde5b5fe7ae248291ddf2af99d4c17cf8e13017d"
+  url "https://github.com/opencv/opencv/archive/refs/tags/4.14.0.tar.gz"
+  sha256 "ee8fb9b30eb60850431b4656447080e3737b56e45719c92b67f245950609f86e"
   license "Apache-2.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class OpencvStatic < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/opencv-static-4.13.0"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/opencv-static-4.14.0"
     sha256 arm64_sonoma: "4ec245bd33435517e1529517eb9e090a536ac660856570d5ab71564fe5412fc5"
     sha256 sonoma:       "5da7b75c5f5f3e3b2337a0209b764cebc858be3e84e2214fabc9aced03140e56"
   end
@@ -31,12 +31,12 @@ class OpencvStatic < Formula
   fails_with gcc: "5" # ffmpeg is compiled with GCC
 
   resource "contrib" do
-    url "https://github.com/opencv/opencv_contrib/archive/refs/tags/4.13.0.tar.gz"
-    sha256 "1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b"
+    url "https://github.com/opencv/opencv_contrib/archive/refs/tags/4.14.0.tar.gz"
+    sha256 "4f17abd1bc7f88e19c3380c8de7cbf2d863aced5b5ee8d8934cc7902b67d42c9"
   end
 
   def python3
-    "python3.12"
+    "python3.14"
   end
 
   def install
