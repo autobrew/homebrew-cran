@@ -92,3 +92,5 @@ jobs:
         with:
           name: bottles_${{ matrix.arch }}_${{ matrix.sdk }}
           path: '*.bottle.*'
+          # Workflow-only PRs build no bottles; don't warn about that.
+          if-no-files-found: ignore
