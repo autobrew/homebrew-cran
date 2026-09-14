@@ -4,6 +4,13 @@ on:
     branches:
       - main
   pull_request:
+env:
+  HOMEBREW_CORE_GIT_REMOTE: "https://github.com/autobrew/homebrew-sonoma"
+  HOMEBREW_NO_INSTALL_FROM_API: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  HOMEBREW_FAKE_MACOS: "14.8.4"
+  HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+  MACOSX_DEPLOYMENT_TARGET: '11.0'
 jobs:
   test-bot:
     strategy:
@@ -13,6 +20,18 @@ jobs:
         sdk: ['14.0']
     runs-on: ${{ matrix.arch == 'arm' && 'macos-15' || 'macos-15-intel' }}
     steps:
+
+      # Must run before any brew command that loads a core formula: with
+      # HOMEBREW_CORE_GIT_REMOTE set, brew only treats homebrew/core as trusted
+      # while the checkout origin matches that remote, and `brew trust
+      # homebrew/core` refuses to record official taps.
+      - name: Reset homebrew-core to sonoma snapshot
+        run: |
+          cd "$(brew --repo homebrew/core)"
+          git remote set-url origin "$HOMEBREW_CORE_GIT_REMOTE"
+          git clean -fxd
+          git fetch origin main
+          git reset --hard origin/main
 
       - name: Install MacOS SDK
         if: github.event_name == 'pull_request'
@@ -26,26 +45,28 @@ jobs:
           sudo ln -sf MacOSX${sdk}.sdk MacOSX.sdk
           ls -l
           sudo xcode-select -s /Library/Developer/CommandLineTools
-          echo "MACOSX_DEPLOYMENT_TARGET=${sdk}" >> "$GITHUB_ENV"
 
       - name: Prepare fake MacOS environment
         if: github.event_name == 'pull_request'
         run: |
           brew list --formula | xargs brew remove
-          echo "HOMEBREW_FAKE_MACOS=14.8.4" >> "$GITHUB_ENV"
-          sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/build_environment.rb"
+          # Brew deletes MACOSX_DEPLOYMENT_TARGET from the build environment
+          # (SANITIZED_VARS in shared.rb); removing it from that list lets our
+          # job-level value reach the compilers, so formulae build for macOS
+          # ${{ matrix.sdk }} unless they override it in their install method.
           sed -i.bak 's|MACOSX_DEPLOYMENT_TARGET||g' "$(brew --repo)/Library/Homebrew/extend/ENV/shared.rb"
 
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@main
-
-      - name: Cache Homebrew Bundler RubyGems
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ matrix.arch }}-${{ matrix.sdk }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ matrix.arch }}-${{ matrix.sdk }}-rubygems-
+      # Replaces Homebrew/actions/setup-homebrew: we use the runner's preinstalled
+      # brew instead of updating to latest Homebrew/brew main, which keeps the brew
+      # version as frozen as the pinned core tap. The action also blanked
+      # HOMEBREW_NO_INSTALL_FROM_API via GITHUB_ENV (overriding the job env),
+      # silently re-enabling the JSON API and bypassing the pin.
+      - name: Set up taps
+        run: |
+          brew tap autobrew/cran
+          brew trust autobrew/cran || true
+          git -C "$(brew --repo autobrew/cran)" fetch origin "$GITHUB_SHA"
+          git -C "$(brew --repo autobrew/cran)" checkout --force "$GITHUB_SHA"
 
       - run: brew test-bot --only-cleanup-before
 
