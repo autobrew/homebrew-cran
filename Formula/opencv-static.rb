@@ -4,6 +4,7 @@ class OpencvStatic < Formula
   url "https://github.com/opencv/opencv/archive/refs/tags/4.14.0.tar.gz"
   sha256 "ee8fb9b30eb60850431b4656447080e3737b56e45719c92b67f245950609f86e"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url :stable
@@ -88,6 +89,7 @@ class OpencvStatic < Formula
       -DWITH_IPP=OFF
       -DWITH_QUIRC=ON
       -DWITH_CAROTENE=OFF
+      -DWITH_KLEIDICV=OFF
       -DBUILD_opencv_python2=OFF
       -DBUILD_opencv_python3=OFF
     ]
