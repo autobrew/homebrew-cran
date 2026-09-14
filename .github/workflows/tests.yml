@@ -49,7 +49,10 @@ jobs:
       - name: Prepare fake MacOS environment
         if: github.event_name == 'pull_request'
         run: |
-          brew list --formula | xargs brew remove
+          # Unset GITHUB_ACTIONS so brew's "configuration files have not been
+          # removed" notes print as plain warnings instead of ::warning::
+          # annotations cluttering the run summary.
+          brew list --formula | xargs env -u GITHUB_ACTIONS brew remove
           # Brew deletes MACOSX_DEPLOYMENT_TARGET from the build environment
           # (SANITIZED_VARS in shared.rb); removing it from that list lets our
           # job-level value reach the compilers, so formulae build for macOS
@@ -63,6 +66,11 @@ jobs:
       # silently re-enabling the JSON API and bypassing the pin.
       - name: Set up taps
         run: |
+          # The intel runner image preinstalls third-party taps (aws/tap,
+          # hashicorp/tap) whose formulae fail to load on current brew and spam
+          # the run with warning/error annotations; drop them before brew scans
+          # taps. All their packages were already uninstalled above.
+          find "$(brew --repo)/Library/Taps" -mindepth 1 -maxdepth 1 -type d ! -name homebrew -exec rm -rf {} +
           brew tap autobrew/cran
           brew trust autobrew/cran || true
           git -C "$(brew --repo autobrew/cran)" fetch origin "$GITHUB_SHA"
@@ -80,7 +88,7 @@ jobs:
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bottles_${{ matrix.arch }}_${{ matrix.sdk }}
           path: '*.bottle.*'
