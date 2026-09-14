@@ -12,8 +12,8 @@ class OpencvStatic < Formula
 
   bottle do
     root_url "https://github.com/autobrew/homebrew-cran/releases/download/opencv-static-4.14.0"
-    sha256 arm64_sonoma: "4ec245bd33435517e1529517eb9e090a536ac660856570d5ab71564fe5412fc5"
-    sha256 sonoma:       "5da7b75c5f5f3e3b2337a0209b764cebc858be3e84e2214fabc9aced03140e56"
+    sha256 arm64_sonoma: "a13e96871b33dcaa476c194a1f1977e484c57ac86ab080b17d5b17d44b04a278"
+    sha256 sonoma:       "785950a254216386ebc006e9647e67bf02a3c6c215a8802f0a3eb83ccb2fff8a"
   end
 
   depends_on "cmake" => :build
