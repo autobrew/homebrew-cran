@@ -4,7 +4,7 @@ class OpencvStatic < Formula
   url "https://github.com/opencv/opencv/archive/refs/tags/4.14.0.tar.gz"
   sha256 "ee8fb9b30eb60850431b4656447080e3737b56e45719c92b67f245950609f86e"
   license "Apache-2.0"
-  revision 1
+  revision 2
 
   livecheck do
     url :stable
@@ -20,7 +20,7 @@ class OpencvStatic < Formula
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "eigen"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "protobuf"
