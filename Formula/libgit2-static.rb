@@ -12,9 +12,9 @@ class Libgit2Static < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.9.3"
-    sha256 cellar: :any, arm64_sonoma: "1706588afdf0c2ca5c4572cfd4ea7145764aad9a09a756cc5d66ad250985dbfe"
-    sha256 cellar: :any, sonoma:       "01d369a20275da45e5d5065ffc83dc0e78d75672ebbf5eb2a809c779e6f25d47"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-static-1.9.7"
+    sha256 cellar: :any, arm64_sonoma: "8d14de715d9892746bba31865a2f6a06d20c4ec7d39d4f515dfc5be48bece69e"
+    sha256 cellar: :any, sonoma:       "42e38e71a5c7b163b89b1aa382a188ac6b7ace7dc3dec73bd4b82a65701d32da"
   end
 
   # NB: do not use openssl-static here bc libssh2 also depends on openssl@3
