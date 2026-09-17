@@ -1,14 +1,15 @@
 class OpensslStatic < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl-library.org"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.5.5/openssl-3.5.5.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/openssl-3.5.5.tar.gz"
-  sha256 "b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.5.8/openssl-3.5.8.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/openssl-3.5.8.tar.gz"
+  sha256 "a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2"
   license "Apache-2.0"
 
   livecheck do
     url "https://openssl-library.org/source/"
-    regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
+    # Stick to the 3.5.x LTS series
+    regex(/href=.*?openssl[._-]v?(3\.5(?:\.\d+)+)\.t/i)
   end
 
   bottle do
@@ -17,9 +18,9 @@ class OpensslStatic < Formula
     sha256 cellar: :any_skip_relocation, sonoma:       "8822e8bdb458fb4d277dc46dc0411486a05bbe670dc5ae67b3cb80529285b5f7"
   end
 
-  depends_on "ca-certificates"
-
   on_linux do
+    depends_on "ca-certificates"
+
     resource "Test::Harness" do
       url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.50.tar.gz"
       mirror "http://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.50.tar.gz"
@@ -99,35 +100,53 @@ class OpensslStatic < Formula
       arch_args << (Hardware::CPU.is_64_bit? ? "linux-aarch64" : "linux-armv4")
     end
 
-    openssldir.mkpath
+    openssldir.mkpath if OS.linux?
     system "perl", "./Configure", *(configure_args + arch_args)
     system "make"
-    system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
+    if OS.mac?
+      # Skip the install_ssldirs target: OPENSSLDIR is the OS-owned /private/etc/ssl
+      system "make", "install_sw", "install_docs", "MANDIR=#{man}", "MANSUFFIX=ssl"
+    else
+      system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
+    end
     # AF_ALG support isn't always enabled (e.g. some containers), which breaks the tests.
     # AF_ALG is a kernel feature and failures are unlikely to be issues with the formula.
     system "make", "test", "TESTS=-test_afalg"
 
     # Prevent `brew` from pruning the `certs` and `private` directories.
-    touch %w[certs private].map { |subdir| openssldir/subdir/".keepme" }
+    touch %w[certs private].map { |subdir| openssldir/subdir/".keepme" } if OS.linux?
   end
 
   def openssldir
-    etc/"openssl@3"
+    # On macOS we point OPENSSLDIR to the CA bundle that ships with the OS,
+    # such that certificate verification also works for (static) builds on
+    # machines without Homebrew. This matches CRAN's openssl recipe.
+    OS.mac? ? Pathname("/private/etc/ssl") : etc/"openssl@3"
   end
 
-  post_install_steps do
-    symlink "{{etc}}/ca-certificates/cert.pem", "{{etc}}/openssl@3/cert.pem", overwrite: true
+  if OS.linux?
+    post_install_steps do
+      symlink "{{etc}}/ca-certificates/cert.pem", "{{etc}}/openssl@3/cert.pem", overwrite: true
+    end
   end
 
   def caveats
-    <<~EOS
-      A CA file has been bootstrapped using certificates from the system
-      keychain. To add additional certificates, place .pem files in
-        #{openssldir}/certs
+    if OS.mac?
+      <<~EOS
+        Certificates are verified against the CA bundle that ships with macOS
+        at #{openssldir}/cert.pem. Set SSL_CERT_FILE or SSL_CERT_DIR to
+        override this with a custom CA bundle.
+      EOS
+    else
+      <<~EOS
+        A CA file has been bootstrapped using certificates from the system
+        keychain. To add additional certificates, place .pem files in
+          #{openssldir}/certs
 
-      and run
-        #{opt_bin}/c_rehash
-    EOS
+        and run
+          #{opt_bin}/c_rehash
+      EOS
+    end
   end
 
   test do
