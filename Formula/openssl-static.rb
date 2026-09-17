@@ -14,9 +14,9 @@ class OpensslStatic < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.5.8"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "ab641c964bfc8fcea9c4e78bd58b6854a010648a5b6dc70d6a68e4d654906c41"
-    sha256 cellar: :any_skip_relocation, sonoma:       "513a877192a43ac232c021264f3bd4993538afbb2d5035fb7825327a575350d7"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/openssl-static-3.5.8_1"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "72cae5801da56a2affcc9a7331c46314e7fec70a1a5516f918e1c51f220acf3c"
+    sha256 cellar: :any_skip_relocation, sonoma:       "a5fc9d7140b2555327b2a5d586b58a99e298d94a71e90ed2291d56714de28fbf"
   end
 
   # Linking this keg into the prefix conflicts file-by-file with the linked
