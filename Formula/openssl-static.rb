@@ -5,6 +5,7 @@ class OpensslStatic < Formula
   mirror "http://fresh-center.net/linux/misc/openssl-3.5.8.tar.gz"
   sha256 "a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://openssl-library.org/source/"
@@ -17,6 +18,13 @@ class OpensslStatic < Formula
     sha256 cellar: :any_skip_relocation, arm64_sonoma: "ab641c964bfc8fcea9c4e78bd58b6854a010648a5b6dc70d6a68e4d654906c41"
     sha256 cellar: :any_skip_relocation, sonoma:       "513a877192a43ac232c021264f3bd4993538afbb2d5035fb7825327a575350d7"
   end
+
+  # Linking this keg into the prefix conflicts file-by-file with the linked
+  # openssl@3 (pulled in by core formulae such as libssh2), which sends brew's
+  # link conflict resolution into an hours-long spin when both are installed.
+  # Dependents find this keg through superenv instead, which also guarantees
+  # they compile against these headers rather than the linked openssl@3 ones.
+  keg_only "it conflicts with openssl@3"
 
   on_linux do
     depends_on "ca-certificates"
@@ -39,11 +47,6 @@ class OpensslStatic < Formula
       sha256 "f108bd46420d2f00d242825f865b0f68851084924924f92261d684c49e3e7a74"
     end
   end
-
-  link_overwrite "bin/c_rehash", "bin/openssl", "include/openssl/*"
-  link_overwrite "lib/libcrypto*", "lib/libssl*"
-  link_overwrite "lib/pkgconfig/libcrypto.pc", "lib/pkgconfig/libssl.pc", "lib/pkgconfig/openssl.pc"
-  link_overwrite "share/doc/openssl/*", "share/man/man*/*ssl"
 
   # SSLv2 died with 1.1.0, so no-ssl2 no longer required.
   # SSLv3 & zlib are off by default with 1.1.0 but this may not
