@@ -1,12 +1,11 @@
 class CurlMacos < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  # Don't forget to update both instances of the version in the GitHub mirror URL.
-  # `url` goes below this comment when the `stable` block is removed.
-  url "https://curl.se/download/curl-8.14.1.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-8_14_1/curl-8.14.1.tar.bz2"
-  sha256 "5760ed3c1a6aac68793fc502114f35c3e088e8cd5c084c2d044abdf646ee48fb"
+  # Rock-solid LTS releases have no release tarball, so we build from the git tag.
+  url "https://github.com/curl/curl/archive/refs/tags/rocksolid-8.14.2.tar.gz"
+  sha256 "9d525ca5517586133ff656124a83e577a4dc4d269be3b087e50d82f97cdd2f68"
   license "curl"
+  head "https://github.com/curl/curl.git", branch: "master"
 
   livecheck do
     url "https://curl.se/download/"
@@ -21,17 +20,13 @@ class CurlMacos < Formula
     sha256 cellar: :any, big_sur:       "351ffdcd968e1ab89dcff02c549f80f7ee4f3df64f94af42dc71a2607beab1bf"
   end
 
-  head do
-    url "https://github.com/curl/curl.git", branch: "master"
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "libtool" => :build
-  end
-
   keg_only "it conflicts with `curl`"
 
-  depends_on "autobrew/cran/pkgconf" => [:build, :test]
+  # autotools needed because the git sources have no pre-generated configure script
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "libtool" => :build
+  depends_on "pkgconf" => [:build, :test]
   depends_on "libnghttp2-static"
   depends_on "libressl3"
 
@@ -45,15 +40,14 @@ class CurlMacos < Formula
     sha256 "73970e167a59675c3e1ce6c127153fc863869761937a25097f5ee08322e204be"
   end
 
+  # The CVE-2026-8932 backport in rocksolid-8.14.2 moved cert_type/key/key_passwd
+  # into ssl_primary_config but did not update sectransp.c (already removed on
+  # master), breaking --with-secure-transport builds.
+  patch :DATA
+
   def install
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
-    tag_name = "curl-#{version.to_s.tr(".", "_")}"
-    if build.stable? && stable.mirrors.grep(/github\.com/).first.exclude?(tag_name)
-      odie "Tag name #{tag_name} is not found in the GitHub mirror URL! " \
-           "Please make sure the URL is correct."
-    end
-
-    system "./buildconf" if build.head?
+    system "autoreconf", "--force", "--install"
 
     # cf https://github.com/apple-oss-distributions/curl/blob/HEAD/config_mac/curl_config.h
     args = %W[
@@ -70,6 +64,7 @@ class CurlMacos < Formula
       --without-libpsl
       --without-libidn2
       --enable-threaded-resolver
+      --disable-unit-tests
       --with-gssapi
       --with-zsh-functions-dir=#{zsh_completion}
       --with-fish-functions-dir=#{fish_completion}
@@ -119,3 +114,36 @@ class CurlMacos < Formula
     # end
   end
 end
+
+__END__
+--- a/lib/vtls/sectransp.c
++++ b/lib/vtls/sectransp.c
+@@ -1122,7 +1122,7 @@
+ #endif /* CURL_BUILD_MAC_10_13 || CURL_BUILD_IOS_11 */
+   }
+
+-  if(ssl_config->key) {
++  if(ssl_config->primary.key) {
+     infof(data, "WARNING: SSL: CURLOPT_SSLKEY is ignored by Secure "
+           "Transport. The private key must be in the Keychain.");
+   }
+@@ -1141,17 +1141,17 @@
+     else
+       err = !noErr;
+     if((err != noErr) && (is_cert_file || is_cert_data)) {
+-      if(!ssl_config->cert_type)
++      if(!ssl_config->primary.cert_type)
+         infof(data, "SSL: Certificate type not set, assuming "
+               "PKCS#12 format.");
+-      else if(!strcasecompare(ssl_config->cert_type, "P12")) {
++      else if(!strcasecompare(ssl_config->primary.cert_type, "P12")) {
+         failf(data, "SSL: The Security framework only supports "
+               "loading identities that are in PKCS#12 format.");
+         return CURLE_SSL_CERTPROBLEM;
+       }
+
+       err = CopyIdentityFromPKCS12File(ssl_cert, ssl_cert_blob,
+-                                       ssl_config->key_passwd,
++                                       ssl_config->primary.key_passwd,
+                                        &cert_and_key);
+     }
