@@ -13,11 +13,9 @@ class CurlMacos < Formula
   end
 
   bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-macos-8.14.1"
-    sha256 cellar: :any, arm64_ventura: "c0b1fe1241d48183e5fcec041d01d611fbbd3039d66afaf0fa71a102c0b61d88"
-    sha256 cellar: :any, arm64_big_sur: "e390ac521ade65c46ac9660cf29fbfbedbbdc731448a2731ccfb8db23af32b52"
-    sha256 cellar: :any, ventura:       "6f45e93ba4cedc64d605f874d75ddb67d3792bf41f9b0745e847d7a80dbdf20a"
-    sha256 cellar: :any, big_sur:       "351ffdcd968e1ab89dcff02c549f80f7ee4f3df64f94af42dc71a2607beab1bf"
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/curl-macos-8.14.2"
+    sha256 cellar: :any, arm64_sonoma: "3ceabd468dbf29f68600f65c0c8a01999c2256f43fb17f4d5b277229b3602f6f"
+    sha256 cellar: :any, sonoma:       "fc1c5cc27fc79c40b7101a18c6847bfe296b0acff380ad02b6288f4049c11e21"
   end
 
   keg_only "it conflicts with `curl`"
