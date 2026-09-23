@@ -12,14 +12,6 @@ class Libressl3 < Formula
     regex(/latest stable release is (\d+(?:\.\d+)+)/i)
   end
 
-  bottle do
-    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libressl3-3.3.5"
-    sha256 arm64_ventura: "bccbff07e6f36747adfa5554e7a4cb86b9c3bab8c02fe381bc6a87e50ea8a36d"
-    sha256 arm64_big_sur: "89c9d3f5f3b724c063ef60bbde6a37daedf32018fa552fa4f1477094cd490950"
-    sha256 ventura:       "9c085da6b919badfabdf10c3f7749ebf577af2af663888b2a9925c70b845a61d"
-    sha256 big_sur:       "7792c1b0995384fe8212dd1898694ff7ceb6d5e6fb9b74394f417e76cf930481"
-  end
-
   head do
     url "https://github.com/libressl/portable.git", branch: "master"
 

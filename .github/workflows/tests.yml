@@ -76,8 +76,31 @@ jobs:
       - run: brew test-bot --only-tap-syntax || true
         if: matrix.sdk == '14.0'
 
+      - name: Detect formulae to test
+        id: formulae-detect
+        if: github.event_name == 'pull_request'
+        run: brew test-bot --only-formulae-detect
+
       - run: brew test-bot --only-formulae --skip-dependents
         if: github.event_name == 'pull_request'
+
+      # test-bot only emits a warning (and stays green) when it skips a formula
+      # because a dependency has no bottle for this platform; fail loudly instead.
+      - name: Require a bottle for every tested formula
+        if: github.event_name == 'pull_request' && steps.formulae-detect.outputs.testing_formulae != ''
+        env:
+          TESTING_FORMULAE: ${{ steps.formulae-detect.outputs.testing_formulae }}
+        run: |
+          missing=0
+          IFS=',' read -ra formulae <<< "$TESTING_FORMULAE"
+          for formula in "${formulae[@]}"; do
+            name="${formula##*/}"
+            if ! ls "${name}--"*.bottle*.tar.gz >/dev/null 2>&1; then
+              echo "::error::No bottle was built for ${formula}"
+              missing=1
+            fi
+          done
+          exit "$missing"
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'

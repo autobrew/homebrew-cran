@@ -1,12 +1,11 @@
 class CurlMacos < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  # Don't forget to update both instances of the version in the GitHub mirror URL.
-  # `url` goes below this comment when the `stable` block is removed.
-  url "https://curl.se/download/curl-8.14.1.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-8_14_1/curl-8.14.1.tar.bz2"
-  sha256 "5760ed3c1a6aac68793fc502114f35c3e088e8cd5c084c2d044abdf646ee48fb"
+  # Rock-solid LTS releases have no release tarball, so we build from the git tag.
+  url "https://github.com/curl/curl/archive/refs/tags/rocksolid-8.14.2.tar.gz"
+  sha256 "9d525ca5517586133ff656124a83e577a4dc4d269be3b087e50d82f97cdd2f68"
   license "curl"
+  head "https://github.com/curl/curl.git", branch: "master"
 
   livecheck do
     url "https://curl.se/download/"
@@ -21,17 +20,13 @@ class CurlMacos < Formula
     sha256 cellar: :any, big_sur:       "351ffdcd968e1ab89dcff02c549f80f7ee4f3df64f94af42dc71a2607beab1bf"
   end
 
-  head do
-    url "https://github.com/curl/curl.git", branch: "master"
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "libtool" => :build
-  end
-
   keg_only "it conflicts with `curl`"
 
-  depends_on "autobrew/cran/pkgconf" => [:build, :test]
+  # autotools needed because the git sources have no pre-generated configure script
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "libtool" => :build
+  depends_on "pkgconf" => [:build, :test]
   depends_on "libnghttp2-static"
   depends_on "libressl3"
 
@@ -47,13 +42,7 @@ class CurlMacos < Formula
 
   def install
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
-    tag_name = "curl-#{version.to_s.tr(".", "_")}"
-    if build.stable? && stable.mirrors.grep(/github\.com/).first.exclude?(tag_name)
-      odie "Tag name #{tag_name} is not found in the GitHub mirror URL! " \
-           "Please make sure the URL is correct."
-    end
-
-    system "./buildconf" if build.head?
+    system "autoreconf", "--force", "--install"
 
     # cf https://github.com/apple-oss-distributions/curl/blob/HEAD/config_mac/curl_config.h
     args = %W[
