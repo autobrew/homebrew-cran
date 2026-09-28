@@ -1,9 +1,9 @@
 class CurlMacos < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  # Rock-solid LTS releases have no release tarball, so we build from the git tag.
-  url "https://github.com/curl/curl/archive/refs/tags/rocksolid-8.14.2.tar.gz"
-  sha256 "9d525ca5517586133ff656124a83e577a4dc4d269be3b087e50d82f97cdd2f68"
+  url "https://github.com/autobrew/libcurl.git",
+      revision: "f2ba0d0b1bf03644d680e1d5c451b6ba39d6ecc7"
+  version "8.14.2"
   license "curl"
   head "https://github.com/curl/curl.git", branch: "master"
 
@@ -37,11 +37,6 @@ class CurlMacos < Formula
     url "https://github.com/curl/curl/commit/360099340d5a3086ca87c4d344ef40d317efc45c.patch?full_index=1"
     sha256 "73970e167a59675c3e1ce6c127153fc863869761937a25097f5ee08322e204be"
   end
-
-  # The CVE-2026-8932 backport in rocksolid-8.14.2 moved cert_type/key/key_passwd
-  # into ssl_primary_config but did not update sectransp.c (already removed on
-  # master), breaking --with-secure-transport builds.
-  patch :DATA
 
   def install
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
@@ -91,11 +86,13 @@ class CurlMacos < Formula
   end
 
   test do
-    # Fetch the curl tarball and see that the checksum matches.
+    # Fetch a file from the pinned source revision over HTTPS.
     # This requires a network connection, but so does Homebrew in general.
-    filename = testpath/"test.tar.gz"
-    system bin/"curl", "-L", stable.url, "-o", filename
-    filename.verify_checksum stable.checksum
+    filename = testpath/"sectransp.c"
+    revision = stable.specs[:revision]
+    url = "https://raw.githubusercontent.com/autobrew/libcurl/#{revision}/lib/vtls/sectransp.c"
+    system bin/"curl", "-L", url, "-o", filename
+    assert_match "Secure Transport", filename.read
 
     # Check dependencies linked correctly
     curl_features = shell_output("#{bin}/curl-config --features").split("\n")
@@ -112,36 +109,3 @@ class CurlMacos < Formula
     # end
   end
 end
-
-__END__
---- a/lib/vtls/sectransp.c
-+++ b/lib/vtls/sectransp.c
-@@ -1122,7 +1122,7 @@
- #endif /* CURL_BUILD_MAC_10_13 || CURL_BUILD_IOS_11 */
-   }
-
--  if(ssl_config->key) {
-+  if(ssl_config->primary.key) {
-     infof(data, "WARNING: SSL: CURLOPT_SSLKEY is ignored by Secure "
-           "Transport. The private key must be in the Keychain.");
-   }
-@@ -1141,17 +1141,17 @@
-     else
-       err = !noErr;
-     if((err != noErr) && (is_cert_file || is_cert_data)) {
--      if(!ssl_config->cert_type)
-+      if(!ssl_config->primary.cert_type)
-         infof(data, "SSL: Certificate type not set, assuming "
-               "PKCS#12 format.");
--      else if(!strcasecompare(ssl_config->cert_type, "P12")) {
-+      else if(!strcasecompare(ssl_config->primary.cert_type, "P12")) {
-         failf(data, "SSL: The Security framework only supports "
-               "loading identities that are in PKCS#12 format.");
-         return CURLE_SSL_CERTPROBLEM;
-       }
-
-       err = CopyIdentityFromPKCS12File(ssl_cert, ssl_cert_blob,
--                                       ssl_config->key_passwd,
-+                                       ssl_config->primary.key_passwd,
-                                        &cert_and_key);
-     }
