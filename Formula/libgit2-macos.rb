@@ -11,6 +11,12 @@ class Libgit2Macos < Formula
     strategy :github_latest
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libgit2-macos-1.9.7"
+    sha256                               arm64_sonoma: "e7358f0ef1f475e5975f0510c951dccc8a825981ff7a32c758ac280ebc695d4e"
+    sha256 cellar: :any_skip_relocation, sonoma:       "bd58693cdc7b8a85f979b911e7bf46bc8c347c9bb68cd79a45264d04b1827c71"
+  end
+
   keg_only "it conflicts with `libgit2-static`"
 
   depends_on "cmake" => :build
