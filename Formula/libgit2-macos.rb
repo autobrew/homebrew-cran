@@ -26,7 +26,8 @@ class Libgit2Macos < Formula
 
     # HTTPS in libgit2 uses libressl (which is also in MacOS), but libssh2 uses openssl@3.
     # To avoid symbol conflicts we prelink libssh2 with a private copy of openssl@3
-    # into a single object that only exports the libssh2 API.
+    # into a single object that only exports the libssh2 API. The static libs get
+    # custom names to make clear that they are not the regular libgit2 and libssh2.
     (buildpath/"libssh2_exports.txt").write "_libssh2_*\n"
     system ENV.cc, "-r", "-nostdlib", "-o", "libssh2_openssl.o",
            "-Wl,-exported_symbols_list,libssh2_exports.txt",
@@ -34,13 +35,13 @@ class Libgit2Macos < Formula
            "#{formula_opt_lib("openssl@3")}/libcrypto.a"
     lib.mkpath
     include.mkpath
-    system "ar", "rcs", lib/"libssh2.a", "libssh2_openssl.o"
+    system "ar", "rcs", lib/"libssh2-openssl3.a", "libssh2_openssl.o"
     cp Dir["#{formula_opt_include("libssh2")}/libssh2*.h"], include
     (lib/"pkgconfig/libssh2.pc").write <<~EOS
       Name: libssh2
       Description: Library for SSH-based communication (with private openssl@3)
       Version: #{Formula["libssh2"].version}
-      Libs: -L#{opt_lib} -lssh2
+      Libs: -L#{opt_lib} -lssh2-openssl3
       Libs.private: -lz
       Cflags: -I#{opt_include}
     EOS
@@ -59,10 +60,14 @@ class Libgit2Macos < Formula
       -DUSE_SHA256=CommonCrypto
       -DOPENSSL_ROOT_DIR=#{formula_opt_prefix("libressl3")}
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      -DCMAKE_REQUIRED_LIBRARIES=z
     ]
+    # NB: CMAKE_REQUIRED_LIBRARIES is needed for libgit2 to detect libssh2 memory credentials
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
+    mv lib/"libgit2.a", lib/"libgit2-macos.a"
+    inreplace lib/"pkgconfig/libgit2.pc", "-lgit2", "-lgit2-macos"
   end
 
   test do
@@ -72,6 +77,9 @@ class Libgit2Macos < Formula
       #include <string.h>
 
       int main(int argc, char *argv[]) {
+        git_credential *cred = NULL;
+        git_libgit2_init();
+        assert(git_credential_ssh_key_memory_new(&cred, "git", NULL, "dummy", NULL) == 0);
         int options = git_libgit2_features();
         assert(options & GIT_FEATURE_SSH);
         assert(options & GIT_FEATURE_HTTPS);
@@ -85,8 +93,8 @@ class Libgit2Macos < Formula
       -I#{include}
       -L#{lib}
       -L#{libressl.opt_lib}
-      -lgit2
-      -lssh2
+      -lgit2-macos
+      -lssh2-openssl3
       -lssl
       -lcrypto
       -lz
@@ -98,7 +106,7 @@ class Libgit2Macos < Formula
     system "./test"
 
     # Only the libssh2 API may be exported, not the private openssl@3 symbols
-    exported = shell_output("nm -gU #{lib}/libssh2.a").lines.grep(/ [TDS] /)
+    exported = shell_output("nm -gU #{lib}/libssh2-openssl3.a").lines.grep(/ [TDS] /)
     assert_empty exported.grep(/ _(EVP|SSL|OPENSSL|CRYPTO|BN|RSA)_/)
   end
 end
