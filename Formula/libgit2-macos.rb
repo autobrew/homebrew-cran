@@ -14,47 +14,41 @@ class Libgit2Macos < Formula
   keg_only "it conflicts with `libgit2-static`"
 
   depends_on "cmake" => :build
+  depends_on "libssh2" => :build
+  depends_on "openssl@3" => :build
   depends_on "pkgconf" => :build
   depends_on "libressl3"
 
   uses_from_macos "zlib"
 
-  # Bundle a static libssh2 built against libressl3, because the core libssh2
-  # links to openssl@3. We use libssh2 master which has the recent CVE fixes.
-  resource "libssh2" do
-    url "https://github.com/libssh2/libssh2.git",
-        revision: "18aebe08962c1878d84c373ad85caff25ec67771"
-  end
-
   def install
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
-    libressl = formula_opt_prefix("libressl3")
 
-    resource("libssh2").stage do
-      # libssh2 requires LibreSSL >= 3.7 but works with 3.3 (as shipped by MacOS)
-      # if we disable ed25519 and alias the GCM ctrl that was renamed in 1.1.
-      inreplace "src/openssl.h" do |s|
-        s.gsub! "#  if LIBRESSL_VERSION_NUMBER < 0x3070000fL\n#    error \"LibreSSL 3.7.0 or greater required\"",
-                "#ifndef EVP_CTRL_AEAD_SET_IV_FIXED\n#define EVP_CTRL_AEAD_SET_IV_FIXED EVP_CTRL_GCM_SET_IV_FIXED"
-        s.gsub! "#ifdef LIBSSH2_WOLFSSL\n# define LIBSSH2_ED25519 0",
-                "#if defined(LIBSSH2_WOLFSSL) || defined(LIBRESSL_VERSION_NUMBER)\n# define LIBSSH2_ED25519 0"
-      end
+    # HTTPS in libgit2 uses libressl (which is also in MacOS), but libssh2 uses openssl@3.
+    # To avoid symbol conflicts we prelink libssh2 with a private copy of openssl@3
+    # into a single object that only exports the libssh2 API.
+    (buildpath/"libssh2_exports.txt").write "_libssh2_*\n"
+    system ENV.cc, "-r", "-nostdlib", "-o", "libssh2_openssl.o",
+           "-Wl,-exported_symbols_list,libssh2_exports.txt",
+           "-Wl,-force_load,#{formula_opt_lib("libssh2")}/libssh2.a",
+           "#{formula_opt_lib("openssl@3")}/libcrypto.a"
+    lib.mkpath
+    include.mkpath
+    system "ar", "rcs", lib/"libssh2.a", "libssh2_openssl.o"
+    cp Dir["#{formula_opt_include("libssh2")}/libssh2*.h"], include
+    (lib/"pkgconfig/libssh2.pc").write <<~EOS
+      Name: libssh2
+      Description: Library for SSH-based communication (with private openssl@3)
+      Version: #{Formula["libssh2"].version}
+      Libs: -L#{opt_lib} -lssh2
+      Libs.private: -lz
+      Cflags: -I#{opt_include}
+    EOS
 
-      args = %W[
-        -DBUILD_SHARED_LIBS=OFF
-        -DBUILD_STATIC_LIBS=ON
-        -DBUILD_EXAMPLES=OFF
-        -DBUILD_TESTING=OFF
-        -DCRYPTO_BACKEND=OpenSSL
-        -DOPENSSL_ROOT_DIR=#{libressl}
-        -DENABLE_ZLIB_COMPRESSION=ON
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-      ]
-      system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
-      system "cmake", "--build", "build"
-      system "cmake", "--install", "build"
+    # Make sure libgit2 does not pick up openssl@3 headers or libs from superenv
+    %w[HOMEBREW_INCLUDE_PATHS HOMEBREW_LIBRARY_PATHS].each do |var|
+      ENV[var] = ENV[var].split(File::PATH_SEPARATOR).grep_v(/openssl@3/).join(File::PATH_SEPARATOR)
     end
-
     ENV.prepend_path "PKG_CONFIG_PATH", lib/"pkgconfig"
     args = %W[
       -DBUILD_SHARED_LIBS=OFF
@@ -63,7 +57,7 @@ class Libgit2Macos < Formula
       -DUSE_SSH=libssh2
       -DUSE_HTTPS=OpenSSL
       -DUSE_SHA256=CommonCrypto
-      -DOPENSSL_ROOT_DIR=#{libressl}
+      -DOPENSSL_ROOT_DIR=#{formula_opt_prefix("libressl3")}
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     ]
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
@@ -102,5 +96,9 @@ class Libgit2Macos < Formula
     ]
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
+
+    # Only the libssh2 API may be exported, not the private openssl@3 symbols
+    exported = shell_output("nm -gU #{lib}/libssh2.a").lines.grep(/ [TDS] /)
+    assert_empty exported.grep(/ _(EVP|SSL|OPENSSL|CRYPTO|BN|RSA)_/)
   end
 end
