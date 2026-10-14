@@ -3,7 +3,7 @@ class CurlMacos < Formula
   homepage "https://curl.se"
   url "https://github.com/autobrew/libcurl.git",
       revision: "f2ba0d0b1bf03644d680e1d5c451b6ba39d6ecc7"
-  version "8.14.2"
+  version "8.14.20261014"
   license "curl"
   head "https://github.com/curl/curl.git", branch: "master"
 
