@@ -49,7 +49,7 @@ jobs:
       - name: Prepare fake MacOS environment
         if: github.event_name == 'pull_request'
         run: |
-          brew list --formula | xargs env -u GITHUB_ACTIONS brew remove
+          brew list --formula | xargs env -u GITHUB_ACTIONS brew remove --ignore-dependencies
           # Brew deletes MACOSX_DEPLOYMENT_TARGET from the build environment
           # (SANITIZED_VARS in shared.rb); removing it from that list lets our
           # job-level value reach the compilers, so formulae build for macOS
