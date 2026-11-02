@@ -10,6 +10,12 @@ class Libclang < Formula
     regex(/^llvmorg[._-]v?(\d+(?:\.\d+)+)$/i)
   end
 
+  bottle do
+    root_url "https://github.com/autobrew/homebrew-cran/releases/download/libclang-23.1.2"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "72649fd9b8b896f541f6043e6b0b8d331bf12896ee7e5a6a02ea4487a87e766f"
+    sha256 cellar: :any_skip_relocation, sonoma:       "3ed9071d0917187446dd8eb0554590cb2c19736c4d22aa402e920750b3642bd3"
+  end
+
   keg_only "it conflicts with `llvm`"
 
   depends_on "cmake" => :build
