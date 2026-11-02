@@ -36,4 +36,26 @@ class HarfbuzzLite < Formula
     system "meson", "compile", "-C", "build", "--verbose"
     system "meson", "install", "-C", "build"
   end
+
+  test do
+    (testpath/"test.c").write <<~EOS
+      #include <hb.h>
+      #include <stdio.h>
+
+      int main(void) {
+        hb_buffer_t *buf = hb_buffer_create();
+        hb_buffer_add_utf8(buf, "Hello", -1, 0, -1);
+        hb_buffer_guess_segment_properties(buf);
+        hb_font_t *font = hb_font_create(hb_face_get_empty());
+        hb_shape(font, buf, NULL, 0);
+        printf("%s\\n", hb_version_string());
+        int ok = hb_buffer_get_length(buf) == 5 && hb_buffer_get_direction(buf) == HB_DIRECTION_LTR;
+        hb_font_destroy(font);
+        hb_buffer_destroy(buf);
+        return !ok;
+      }
+    EOS
+    system ENV.cc, "test.c", "-o", "test", "-I#{include}/harfbuzz", "-L#{lib}", "-lharfbuzz"
+    assert_equal version.to_s, shell_output("./test").chomp
+  end
 end
